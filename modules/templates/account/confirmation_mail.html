@@ -1,0 +1,9 @@
+{% block title %}Reset your password{% endblock %}
+{% block content %}
+{% autoescape off %}
+Hi {{ user.username }},
+Please click on the link to confirm your registration,
+http://{{ domain }}{% url 'activation' uidb64=uid token=token %}
+{% endautoescape %}
+
+{% endblock %}

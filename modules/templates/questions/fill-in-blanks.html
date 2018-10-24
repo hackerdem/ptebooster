@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+<div class="container">
+    <div class="container-fluid text-center">    
+        <div class="row content">
+          <div class="col-sm-1 sidenav">
+            
+          </div>
+          <div class="col-sm-10 text-center"> 
+                {% for object in object_list %}
+              <h4 class="card-title">Question</h4>
+              
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                     <p class="text-justify" ><strong> Look at the text below. In 40 seconds, you must read this text aloud as naturally and
+                         clearly as possible. You have 40 seconds to read aloud. </strong></p>
+                    
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                   
+                      <tr>
+                          
+                          {% block timer %}
+                          {% include "timer.html" %}
+                          {% endblock %}
+                         
+                      </tr>
+                      
+                      {% if object.audio %}<tr><audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls="false" controlsList="nodownload" ><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>{% endif %}
+                    <tr><p id="replacewords" class="text-justify"> 
+                        {% for word in object.paragraph %}
+                        {% ifequal word "XXXX" %}<input size="10" name="answer"  class="userData" data-step='3'   spellcheck="false" value="" type="text"> {% else %}{{ word }}{% endifequal %}
+
+                        {% endfor %}
+                    </p></tr>
+                    {% for item in object.answers %}
+                    <input class="lanswer" style="display:none" value="{{item}}">
+                    {% endfor %}
+                    <tr class="answerlist" style="display:none">
+                        <td>
+                          <div class="well answerlist" >
+                          {% for answer in object.answers %}
+                          <label type="text" class="btn btn-info">{{answer}}</label>
+                          
+                         
+                         {% endfor %}
+                         </div>
+                        </td>
+                        </tr>
+                    <tr>
+                     
+                        {% endfor %}
+                        <th scope="col" class="text-right"><button type="button" class="btn btn-success checkButton">Check my Answers</button></th>
+                      </tr>
+                      <tr>
+                         
+                        </tr>
+                  </tbody>
+                  
+
+                </table>
+              
+          </div>
+          <div class="col-sm-1 sidenav">
+          
+        
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div>
+</section>
+      {% endblock %}
+    
+
+
+

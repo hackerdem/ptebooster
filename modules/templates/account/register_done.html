@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+	
+<section id="about-us" class="about-us padd-section">
+
+<main role="main" class="container">
+    <h1 class="mt-5 green">Registration Successful</h1>
+    <p class="lead">{{ user.first_name }}, you have successfully registered for PteKEY. An email with a link to activate your account has been sent to {{ user.email}}</p>
+    <p> To activate your account with PteKEY, click the link contained in the e-mail. Note that it might take a few minutes for the e-mail to reach your inbox.</p>
+    <p> If you haven't receive the email please click<a href="{% url 'account_forgot_password' %}" class="card-link" data-toggle="tooltip" title="Request new password">Resent</a> button.</p>
+    
+  </main>
+
+  {% endblock %}

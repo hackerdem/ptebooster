@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+<div class="container">
+    <div class="container-fluid text-center">    
+        <div class="row content">
+          <div class="col-sm-2 sidenav">
+            
+          </div>
+          <div class="col-sm-8 text-center"> 
+                {% for object in object_list %}
+              <h4 class="card-title">Question</h4>
+              
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                     <p class="text-justify" ><strong> Look at the text below. In 40 seconds, you must read this text aloud as naturally and
+                         clearly as possible. You have 40 seconds to read aloud. </strong></p>
+                    
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                   
+                      <tr>
+                            
+                      </tr>
+                      
+                      <br>
+                      <br>
+                    <tr><p class="text-justify"> {{ object.paragraph}}</p></tr>
+                    <br>
+                    {% if object.audio %}<tr><audio controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>{% endif %}
+                    {% endfor %}
+                    <tr>
+                     
+                        
+                        <th scope="col" class="text-right"><button type="button" class="btn btn-success getvalue">Check my Answers</button></th>
+                      </tr>
+                      <tr>
+                         
+                        </tr>
+                  </tbody>
+                  
+
+                </table>
+              
+          </div>
+          <div class="col-sm-2 sidenav">
+          
+        
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+</div>
+      {% endblock %}
+    
+
+    </section>
+

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load custom_tags %}
+
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+<div class="container">
+    <div class="container-fluid text-center">    
+        <div class="row content">
+          <div class="col-sm-2 sidenav">
+            
+          </div>
+          <div class="col-sm-8 text-center"> 
+              <h4 class="card-title">Question</h4>
+              
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                     <p class="text-justify" ><strong> You will hear a recording. Below is a transcription of the recording. Some words
+                    in the transcription differ from what the speaker(s) said. Please click on the words that are different. </strong></p>
+                    
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                   
+                      <tr>
+                        
+                          {% block timer %}
+                          {% include "timer.html" %}
+                          {% endblock %}
+                      </tr>
+                      {% for sentence in object_list %}
+   
+                      <tr><audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls="false" controlsList="nodownload"  controls controlsList="nodownload"><source src="{{ sentence.audio.url }}" type="audio/mpeg"></audio></tr>
+                    <tr>
+                       
+                            <p id='clikable' class="text-justify">
+
+                              {% for item in sentence.paragraph %}
+                              
+                              {% if not item|strip in sentence.answers %}
+                              <span  class='clickable default' id='{{item}}-{{forloop.counter}}'>{{item}} </span>
+                              {% else %}
+                              <span  class='clickable default crr' id='{{item}}-{{forloop.counter}}'>{{item}} </span>
+                              {% endif %}
+                              {% endfor %}</p>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                     
+                        
+                        <th scope="col" class="text-right checkhighlight"><button type="button" class="btn btn-success">Check my Answers</button></th>
+                      </tr>
+                  </tbody>
+                  
+
+                </table>
+                
+          
+          
+      
+          
+      
+          </div>
+          <div class="col-sm-2 sidenav">
+          
+        
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div>
+</section>
+      {% endblock %}
+    
+
+
+

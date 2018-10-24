@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+<div class="container">
+        <div class="col-sm-12 text-center"> 
+                <h4 class="card-title">Question</h4>
+                <p class="text-justify"><strong> You will hear a lecture. After listening to the lecture, in 10 seconds, please speak into the microphone and retell what you have 
+                    have just heard from the lecture in your own words. You will have 40 seconds to give your response.
+                </strong></p></div>
+        {% for paragraph in object_list %}
+        <div class="row " align="center">
+                <div class="col-12 col-md-6">
+                        <div style="width:700px;height:500px">
+                                <img src="{{ paragraph.image.url }}" class="rounded mx-auto d-block " style="max-width:60%;max-height:100%;"  alt="...">
+                                </div>
+
+                </div>
+                <div class="col-6 col-md-6">
+                        {% block timer %}
+                        {% include "timer.html" %}
+                        {% endblock %}
+                        <div>
+                           
+                          
+                                <audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls controlsList="nodownload"><source src="{{ paragraph.audio.url }}" type="audio/mpeg"></audio>
+                                </div>
+                </div>
+              </div>
+              <div class="row">
+                    
+                    
+                            <div class="col-sm-12 text-center"> 
+                                
+                                    <button type="button" class="btn btn-success checkRecord">Check my Answers</button>
+                           
+                          </div>
+                    
+                  </div>
+              
+              
+              <!-- Columns are always 50% wide, on mobile and desktop -->
+              
+                   
+
+      </div>
+      {% endfor %}
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div>
+</section>
+      {% endblock %}
+    
+
+
+

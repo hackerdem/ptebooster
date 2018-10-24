@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+{% block content %}
+<!--==========================
+    Hero Section
+  ============================-->
+  <section id="hero" class="wow fadeIn">
+    <div class="hero-container">
+      <h1>Welcome to keyPTE  </h1>
+      <h2> Free Study material for PTE Exam</h2>
+      
+      <img src="{% static 'img/hero-img.png' %}" alt="Hero Imgs">
+      <a href="#get-started" class="btn-get-started scrollto">Get Started</a>
+      <div class="btns">
+        <a href="#"><i class="fa fa-assistive-listening-systems"></i> Listening</a>
+        <a href="#"><i class="fa fa-book fa-3x"></i> Reading</a>
+        <a href="#"><i class="fa  fa-file-text fa-3x"></i> Writing</a>
+		<a href="#"><i class="fa  fa-user fa-3x"></i> Speaking</a>
+      </div>
+    </div>
+  </section><!-- #hero -->
+
+  
+  <!--==========================
+    Get Started Section
+  ============================-->
+  <section id="get-started" class="padd-section text-center wow fadeInUp">
+
+    <div class="container">
+      <div class="section-title text-center">
+
+        <h2>All sections of PTE exam </h2>
+        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+
+        {% for module in object_list %}
+
+        <div class="col-md-6 col-lg-4 mb-3">
+          <div class="feature-block">
+
+            <a href="{{module.question_class}}/"><img src="{{ module.module_image.url }}" alt="img" class="img-fluid"></a>
+            <h4>{{module.module_name}}</h4>
+            <p>{{module.description}}</p>
+            <a href="{{module.question_class}}/">Exercise!</a>
+
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+      {% block pagination %}
+    {% include "pagination.html" %}
+    {% endblock %}
+    </div>
+    
+  </section>
+ <!--==========================
+    Pricing Table Section
+  ============================-->
+  <section id="pricing" class="padd-section text-center wow fadeInUp">
+
+      <div class="container">
+        <div class="section-title text-center">
+  
+          <h2>Meet With Price</h2>
+          <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+  
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+  
+          <div class="col-md-6 col-lg-3">
+            <div class="block-pricing">
+              <div class="table">
+                <h4>basic</h4>
+                <h2>Free</h2>
+                <ul class="list-unstyled">
+                  <li><b>4 GB</b> Ram</li>
+                  <li><b>7/24</b> Tech Support</li>
+                  <li><b>40 GB</b> SSD Cloud Storage</li>
+                  <li>Monthly Backups</li>
+                  <li>Palo Protection</li>
+                </ul>
+                <div class="table_btn">
+                  <a href="#" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 col-lg-3">
+            <div class="block-pricing">
+              <div class="table">
+                <h4>PERSONAL</h4>
+                <h2>$10</h2>
+                <ul class="list-unstyled">
+                  <li><b>4 GB</b> Ram</li>
+                  <li><b>7/24</b> Tech Support</li>
+                  <li><b>40 GB</b> SSD Cloud Storage</li>
+                  <li>Monthly Backups</li>
+                  <li>Palo Protection</li>
+                </ul>
+                <div class="table_btn">
+                  <a href="#" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 col-lg-3">
+            <div class="block-pricing">
+              <div class="table">
+                <h4>BUSINESS</h4>
+                <h2>$20</h2>
+                <ul class="list-unstyled">
+                  <li><b>4 GB</b> Ram</li>
+                  <li><b>7/24</b> Tech Support</li>
+                  <li><b>40 GB</b> SSD Cloud Storage</li>
+                  <li>Monthly Backups</li>
+                  <li>Palo Protection</li>
+                </ul>
+                <div class="table_btn">
+                  <a href="#" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 col-lg-3">
+            <div class="block-pricing">
+              <div class="table">
+                <h4>profeesional</h4>
+                <h2>$30</h2>
+                <ul class="list-unstyled">
+                  <li><b>4 GB</b> Ram</li>
+                  <li><b>7/24</b> Tech Support</li>
+                  <li><b>40 GB</b> SSD Cloud Storage</li>
+                  <li>Monthly Backups</li>
+                  <li>Palo Protection</li>
+                </ul>
+                <div class="table_btn">
+                  <a href="#" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <!--==========================
+    Contact Section
+  ============================-->
+  <section id="contact" class="padd-section wow fadeInUp">
+
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Contact</h2>
+        <p class="separator">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row justify-content-center">
+
+        <div class="col-lg-3 col-md-4">
+
+          <div class="info">
+            <div>
+              <i class="fa fa-map-marker"></i>
+              <p>A108 Adam Street<br>New York, NY 535022</p>
+            </div>
+
+            <div class="email">
+              <i class="fa fa-envelope"></i>
+              <p>info@example.com</p>
+            </div>
+
+            <div>
+              <i class="fa fa-phone"></i>
+              <p>+1 5589 55488 55s</p>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+          </div>
+
+        </div>
+
+        <div class="col-lg-5 col-md-8">
+          <div class="form">
+            <div id="sendmessage">Your message has been sent. Thank you!</div>
+            <div id="errormessage"></div>
+            <form action="" method="post" role="form" class="contactForm">
+              <div class="form-group">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                <div class="validation"></div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- #contact -->
+
+    
+</div>
+      {% endblock %}
+    
+    

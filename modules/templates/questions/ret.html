@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="container-fluid text-center">    
+        <div class="row content">
+          <div class="col-sm-2 sidenav">
+            
+          </div>
+          <div class="col-sm-8 text-center"> 
+              <h4 class="card-title">Question</h4>
+              <p class="text-justify"><strong> You will hear a lecture. After listening to the lecture, in 10 seconds, please speak into the microphone and retell what you have 
+                  have just heard from the lecture in your own words. You will have 40 seconds to give your response.
+              </strong></p>
+              <table class="table table-hover">
+                 
+                  <tbody>
+                      {% for paragraph in object_list %}
+                    <tr>
+                      
+                      <td><audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls controlsList="nodownload"><source src="{{ paragraph.audio.url }}" type="audio/mpeg"></audio></td>
+                      <td><input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
+                      <td>
+                         
+                          {% block timer %}
+                          {% include "timer.html" %}
+                          {% endblock %}
+                           
+                          
+                        </td>
+                    </tr>
+                    <tr>
+                       
+                        <div style="width:700px;height:500px">
+                            <img src="{{ paragraph.image.url }}" class="rounded mx-auto d-block " style="max-width:80%;max-height:100%;"  alt="...">
+                            </div>
+                    
+                    </tr>
+                        {% endfor %}
+                    <tr>
+                     
+                        <th scope="col text-right"></th>
+                        <th scope="col"></th>
+                        <th scope="col"><button type="button" class="btn btn-success spellCheck">Check my Answers</button></th>
+                      </tr>
+                  </tbody>
+                  
+
+                </table>
+                
+          
+          
+      
+          
+      
+          </div>
+          <div class="col-sm-2 sidenav">
+          
+        
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div>
+      {% endblock %}
+    
+
+
+

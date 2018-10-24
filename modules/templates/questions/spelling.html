@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+<div class="container">
+    <div class="container-fluid text-center">    
+        <div class="row content">
+          <div class="col-sm-2 sidenav">
+            
+          </div>
+          <div class="col-sm-8 text-center"> 
+              <h4 class="card-title">Question</h4>
+              <p ><strong> You will hear a word. Please write down as you hear.</strong></p>
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                     
+                      <th scope="col">Listen</th>
+                      <th scope="col">Your Answer</th>
+                      <th scope="col">The Word</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for object in object_list %}
+                    <tr>
+                      
+                      <td><audio controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></td>
+                      <td class="col-md-5"><input id="object{{ forloop.counter0 }}" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
+                      
+                        <td>
+                          <div class="alert" id="hidden{{ forloop.counter0 }}" style="display:none"  >{{object.item}}</div>
+                          
+                        </td>
+                        
+                    </tr>
+                    
+                    {% endfor %}
+                    <tr>
+                     
+                        <th scope="col text-right"></th>
+                        <th scope="col"></th>
+                        <th scope="col"><button type="button" class="btn btn-success " onclick="checkWords()">Check my Answers</button></th>
+                      </tr>
+                  </tbody>
+                  
+
+                </table>
+                
+          
+          
+      
+          
+      
+          </div>
+          <div class="col-sm-2 sidenav">
+          
+        
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div></section>
+      {% endblock %}
+    
+
+
+
