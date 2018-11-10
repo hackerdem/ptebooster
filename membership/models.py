@@ -4,10 +4,10 @@ from django.db import models
 class Membership(models.Model):
 
     MEMBERSHIP_TYPES = (
-                        ('B','Basic'),
-                        ('S','Silver'),
-                        ('G','Gold'),
-                        ('D','Diamond'),
+                        ('Basic','Basic'),
+                        ('Silver','Silver'),
+                        ('Gold','Gold'),
+                        ('Diamond','Diamond'),
                         )
     member_type = models.CharField(primary_key=True,max_length=100, unique=True, choices=MEMBERSHIP_TYPES,default='Basic')
     #slug = models.SlugField(max_length=100, unique=True)

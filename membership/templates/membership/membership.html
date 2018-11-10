@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+	
+<!--==========================
+    Pricing Table Section
+  ============================-->
+  <section id="pricing" class="padd-section text-center wow fadeInUp">
+
+    <div class="container">
+      <div class="section-title text-center">
+
+        <h2>Meet With Price</h2>
+        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        {% for membership_type in object_list %}
+        <div class="col-md-6 col-lg-3">
+          <div class="block-pricing">
+            <div class="table">
+              <h4>{{ membership_type.member_type}}</h4>
+              {% if membership_type.price == 0.0 %}
+              <h2>Free</h2>
+              {% else %}
+              <h2>{{ membership_type.price}}</h2>
+              {% endif %}
+              <ul class="list-unstyled">
+                <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
+                <li><b>Reading </b> {{ membership_type.total_reading_question}}</li>
+                <li><b>Writing </b> {{ membership_type.total_writing_question}}</li>
+                <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
+                <li>{{ membership_type.duration}} months</li>
+              </ul>
+              <div class="table_btn">
+                {% if membership_type.price == 0.0 %}
+          
+                <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-shopping-cart"></i> Signup Now</a>
+                {% else %}
+                <a href="#" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

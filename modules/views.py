@@ -59,7 +59,6 @@ class HighlightListView(AbstractListView):
                 item.paragraph = paragraph.split()
                 answers = item.answers
                 item.answers = [ i.strip() for i in answers.split(',')]
-                print(item.answers )
             return queryset
 class SelectMissingWordView(AbstractListView):
     model = SelectMissingWord
@@ -144,8 +143,6 @@ class FillBlanksReadingView(AbstractListView):
             item.option_3 = (item.option_3).split(',')
             item.option_4 = (item.option_4).split(',')
             item.option_5 = (item.option_5).split(',')
-            print(item.answers)
-            print(pr)
             for i in pr:
                 if i in item.answers:
                     pr[pr.index(i)]=i.upper()

@@ -81,7 +81,7 @@ class RegisterView(FormView):
                 token = account_activation_token.make_token(data)
                 verify_time_limit = datetime.now() + timedelta(days=1) 
                 new_user = User.objects.register(data['first_name'],data['username'],data['password'],data['email'],data['last_name'],token,verify_time_limit )
-                print(new_user.pk)
+                
                 # send activation mail to non-active user
                 uid=urlsafe_base64_encode(force_bytes(new_user.pk)).decode()
                 current_site = get_current_site(request)
@@ -106,8 +106,7 @@ class RegisterView(FormView):
                 
             except ValidationError as e:
                 error = e.message
-        print('form is invalid')
-        print(form)
+        
         return super(RegisterView, self).get(request, form=form, error=error, success=success)
 
 class ActivationView(CreateView):
