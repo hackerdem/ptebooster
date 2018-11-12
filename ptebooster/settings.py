@@ -33,9 +33,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 INSTALLED_APPS = [
     'account',
     'modules',
+    'order',
     'membership',
     'purchase',
-    'order',
     #'memcache_status',
     'django.contrib.admin',
     'django.contrib.auth',
