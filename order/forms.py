@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class OrderForm(forms.ModelForm):
-    member_type = forms.ModelChoiceField(queryset=Membership.objects.all().order_by('is_active'),initial=0)
+    member_type = forms.ModelChoiceField(queryset=Membership.objects.all().order_by('is_active'))
     class Meta:
         model = Membership
         fields = (

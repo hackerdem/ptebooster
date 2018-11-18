@@ -24,8 +24,8 @@ SECRET_KEY = SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+# change this later
+ALLOWED_HOSTS = ['192.168.0.16','127.0.0.1']
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
 # Application definition

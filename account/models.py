@@ -5,12 +5,13 @@ from membership.models import Membership
 class UserManager(_UserManager):
 
 
-    def register(self, first_name, username, password, email,last_name='',verify_code='xxxx',verify_time_limit='',user_type='Free',):
+    def register(self,membership_start_date, first_name, username, password, email,user_type,last_name='',verify_code='xxxx',verify_time_limit='',):
         if self.filter(email__iexact=email).count()>0:
             raise ValidationError("User with this Email account already exists.")
 
         if self.count()==0:
-            user = self.create_superuser(username=username,
+            user = self.create_superuser(membership_start_date=membership_start_date,
+                                        username=username,
                                         first_name=first_name,
                                         email=email,
                                         password=password,
@@ -20,7 +21,8 @@ class UserManager(_UserManager):
                                         user_type=user_type)
 
         else:
-            user = self.create_user(username=username,
+            user = self.create_user(membership_start_date=membership_start_date,
+                                        username=username,
                                         first_name=first_name,
                                         email=email,
                                         password=password,
@@ -33,7 +35,8 @@ class UserManager(_UserManager):
 
 
 class AbstractUser(_AbstractUser):
-    user_type = models.CharField(max_length=100,default='Free')
+    user_type = models.ForeignKey(Membership,default='Basic',on_delete=models.PROTECT)
+    membership_start_date = models.DateTimeField(blank=True, null=True,)
     is_active = models.BooleanField(default=False)
     verify_code = models.CharField(max_length=512, blank=True, null=True, help_text='Account verification code', editable=False)
     verify_time_limit = models.DateTimeField(blank=True, null=True, editable=False)

@@ -15,7 +15,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.template.loader import render_to_string
 from django.views.generic import CreateView
 from datetime import datetime, timedelta
-
+from membership.models import Membership
+import pytz
 User = get_user_model()
 class LoginView(_LoginView):
     template_name = 'account/login.html'
@@ -36,7 +37,16 @@ class LoginView(_LoginView):
             except User.DoesNotExist:
                 pass
 
-            
+        # Check user membership type and duration before autherntication
+        if user.user_type != Membership.objects.get(member_type='Basic') and not user.is_staff:
+            utc = pytz.UTC
+            time_1 = user.membership_start_date+timedelta(days=91)
+            time_2 = utc.localize(datetime.now())
+            if time_1 <= time_2:
+                user.user_type=Membership.objects.get(member_type='Basic')
+                user.membership_start_date=datetime.now()
+                user.save()
+                # if this is the case send notification
         user = authenticate(username=username,password=password)
         if user is not None:
             if user.is_active:
@@ -79,8 +89,9 @@ class RegisterView(FormView):
             try:
                 data = form.cleaned_data
                 token = account_activation_token.make_token(data)
-                verify_time_limit = datetime.now() + timedelta(days=1) 
-                new_user = User.objects.register(data['first_name'],data['username'],data['password'],data['email'],data['last_name'],token,verify_time_limit )
+                verify_time_limit = datetime.now() + timedelta(days=1)
+                usertype = Membership.objects.get(member_type='Basic')
+                new_user = User.objects.register(datetime.now(),data['first_name'],data['username'],data['password'],data['email'],usertype, data['last_name'],token,verify_time_limit )
                 
                 # send activation mail to non-active user
                 uid=urlsafe_base64_encode(force_bytes(new_user.pk)).decode()

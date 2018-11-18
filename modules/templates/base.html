@@ -59,6 +59,8 @@
       <li class="menu-has-children"><a href="#team">Hello {{ request.user.first_name }}</a>
         <ul>
       <li><a href="{% url 'account_logout' %}">Logout</a></li> 
+      <li><a href="{% url 'account_logout' %}">Dashboard</a></li>
+      <li><a href="{% url 'account_logout' %}">Notifications</a></li>
     </ul>
       {% else %}
       <li><a href="{% url 'account_login' %}">Login</a></li>
