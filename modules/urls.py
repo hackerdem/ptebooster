@@ -4,11 +4,11 @@ Template404View, RepeatListView, AcademicVocabularyListView, DictationListView, 
 HighlightListView, SelectMissingWordView, HighlightCorrectSummaryView, ReadAloudView, \
 RetellLectureView, EssayView, FillInBlanksView, AnswerShortQuestionsView, ReorderParagraphView, \
 MultipleSelectionView, MultipleSelectionReadingView, FillBlanksReadingView, SummarizeSpokenTextView,\
-SummarizeWrittenTextView
+SummarizeWrittenTextView,QuestionSectionView, HomePageListView
 
 urlpatterns = [
     
-    path('', ModuleListView.as_view(),name='home'),
+    path('',HomePageListView.as_view(),name='home'),
     path('describe-image/', ImagesListView.as_view()),
     path('spelling/', SpellingListView.as_view()),
     path('repeat-sentence/', RepeatListView.as_view()),

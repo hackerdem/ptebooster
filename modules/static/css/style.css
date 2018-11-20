@@ -1460,3 +1460,10 @@ footer a:hover, footer a:focus { color: #fff; border: 0; }
 
 }
 
+.link-color{
+  color : #71c55d;
+}
+
+.link-color:hover {
+  color: #004d00;
+}

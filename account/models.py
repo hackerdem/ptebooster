@@ -2,12 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser as _AbstractUser, UserManager as _UserManager
 from django.core.exceptions import ValidationError
 from membership.models import Membership
+from django.urls import reverse
+from django.utils.html import format_html
+
 class UserManager(_UserManager):
 
 
     def register(self,membership_start_date, first_name, username, password, email,user_type,last_name='',verify_code='xxxx',verify_time_limit='',):
         if self.filter(email__iexact=email).count()>0:
-            raise ValidationError("User with this Email account already exists.")
+            message = format_html('User with this Email account already exists.Please click <a href="{}">here</a>', reverse('account:account_forgot_password'))
+            raise ValidationError(message)
 
         if self.count()==0:
             user = self.create_superuser(membership_start_date=membership_start_date,

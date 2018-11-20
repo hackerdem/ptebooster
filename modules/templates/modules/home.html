@@ -24,6 +24,7 @@
   <!--==========================
     Get Started Section
   ============================-->
+  <!--
   <section id="get-started" class="padd-section text-center wow fadeInUp">
 
     <div class="container">
@@ -38,7 +39,7 @@
     <div class="container">
       <div class="row">
 
-        {% for module in object_list %}
+        {% for membership in object_list %}
 
         <div class="col-md-6 col-lg-4 mb-3">
           <div class="feature-block">
@@ -58,8 +59,92 @@
     {% endblock %}
     </div>
     
-  </section>
- 
+  </section> -->
+ <!--==========================
+    Features Section
+  ============================-->
+
+  <section id="features" class="padd-section text-center wow fadeInUp">
+
+      <div class="container">
+        <div class="section-title text-center">
+        <h2>All sections of PTE exam </h2>
+        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+            {% for item in question_section_list %}
+          <div class="col-md-6 col-lg-3">
+            <div class="feature-block">
+              <img src="{{ item.module_image.url }}" alt="img" class="img-fluid">
+              <h4>{{item.question_type}}</h4>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+            </div>
+          </div>
+  {% endfor %}
+         
+
+
+        </div>
+      </div>
+    </section>
+  <!--==========================
+    Pricing Table Section
+  ============================-->
+  <section id="pricing" class="padd-section text-center wow fadeInUp">
+
+      <div class="container">
+        <div class="section-title text-center">
+  
+          <h2>Meet With Price</h2>
+          <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+  
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row">
+          {% for membership_type in membership_list %}
+          <div class="col-md-6 col-lg-3">
+            <div class="block-pricing">
+              <div class="table">
+                <h4>{{ membership_type.member_type}}</h4>
+                {% if membership_type.price == 0.0 %}
+                <h2>Free</h2>
+                {% else %}
+                <h2>{{ membership_type.price}} AUD</h2>
+                {% endif %}
+                <ul class="list-unstyled">
+                  <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
+                  <li><b>Reading </b> {{ membership_type.total_reading_question}}</li>
+                  <li><b>Writing </b> {{ membership_type.total_writing_question}}</li>
+                  <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
+                  <li>{{ membership_type.duration}} months</li>
+                </ul>
+                <div class="table_btn">
+                  {% if membership_type.price == 0.0 %}
+                  {% if request.user.is_authenticated %}
+                  <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-graduation-cap"></i> Practice</a>
+                  {% else %}
+                  <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-shopping-cart"></i> Signup Now</a>
+                  {% endif %}
+                  {% else %}
+                  {% if request.user.is_authenticated %}
+                  <a href="{% url 'new_order'  membership_type.member_type %}" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                  {% else %}
+                  <a href="{% url 'new_order' membership_type.member_type %}"  class="btn"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
+                  {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
   <!--==========================
     Contact Section
   ============================-->

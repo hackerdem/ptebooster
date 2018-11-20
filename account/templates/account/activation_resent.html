@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<section id="about-us" class="about-us padd-section">
+<div class="row no-gutters">
+	<div class="card bg-light col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+		<div class="card-header">Activation Link Resend</div>
+		{% if success %}
+		<div class="card-body">
+			<p class="text-success">{{ success|safe }}</p>
+		</div>
+		{% else %}
+		<form method="post" action="{% url 'resend_activation_link' %}">
+			{% csrf_token %}
+			<input type="hidden" name="next" value="{{ next_url }}" />
+			<div class="card-body">
+				<div class="form-group">
+					<input id="id_email" name="email" type="email" value="{{ email }}" class="form-control {% if error %}is-invalid{% endif %}" placeholder="Email" required="" />
+					{% if error %}
+					<div class="invalid-feedback">
+						{{ error|safe }}
+					</div>
+					{% endif %}
+				</div>
+				<div>
+					<a href="{% url 'account_login' %}" class="card-link link-color" data-toggle="tooltip" data-tooltip="Log In to our shop and explore quickly">Log In</a>
+					<a href="{% url 'account_register' %}" class="card-link link-color" data-toggle="tooltip" data-tooltip="Sign Up to our shop faster and better!">Sign Up</a>
+                    <div class="text-right">
+                        <button href="#" class="btn btn-success btn-lg"><span class="fa fa-link"></span> Request Activation Link</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		{% endif %}
+	</div>
+</div>
+</section>
+{% endblock %}

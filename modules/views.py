@@ -1,17 +1,37 @@
-from django.views.generic import ListView,TemplateView
+from django.views.generic import ListView,TemplateView, FormView
 import re
 from modules.models import Module, Images, Spelling, \
 RepeatSentence, AcademicVocabulary, Dictation, HighlightWords, \
 SelectMissingWord, HighlightCorrectSummary, ReadTAloud, RetellLecture, Essay,\
 FillInBlanks, AnswerShortQuestions, ReorderParagraph, MultipleSelection, MultipleSelectionReading,\
-FillBlanksReading, SummarizeSpokenText,SummarizeWrittenText
+FillBlanksReading, SummarizeSpokenText,SummarizeWrittenText, QuestionSection
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ForgottenPasswordForm
+from membership.models import Membership
+
+class HomePageListView(ListView,FormView):
+    form_class= ForgottenPasswordForm
+    template_name='modules/home.html'
+    context_object_name = 'question_section_list'
+    model = QuestionSection
+    def get_context_data(self, **kwargs):
+        context = super(HomePageListView, self).get_context_data(**kwargs)
+        context.update({
+            'membership_list': Membership.objects.all()
+        })
+        return context
+    def get_queryset(self):
+        return QuestionSection.objects.all()
+
+    def get(self,request):
+        form = ForgottenPasswordForm()
+        return super(HomePageListView, self).get(request, form=form)
 
 class AbstractListView(ListView):
     
     def get_queryset(self):    
         qs = super().get_queryset() 
-        queryset = qs.filter(active=True,free=True)
+        queryset = qs.filter(active=True)
         return queryset
     class Meta:
         abstract = True
@@ -20,7 +40,11 @@ class ModuleListView(AbstractListView):
     model = Module
     template_name='modules/home.html'
     #paginate_by = 6
-    
+
+class QuestionSectionView(ListView):
+    model = QuestionSection
+    template_name='modules/home.html'
+    #paginate_by = 6 
 
 class ImagesListView(LoginRequiredMixin,AbstractListView):
     login_url = 'account_login'

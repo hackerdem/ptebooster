@@ -1,12 +1,19 @@
 from django.db import models
 
-class StatusAbstract(models.Model):
+class QuestionSection(models.Model):
+    SECTIONS = (('L', 'Listening'),
+                ('R', 'Reading'),
+                ('S', 'Speaking'),
+                ('W', 'Writing'),
+                ('G', 'General Practice'))
+
+    question_type = models.CharField(primary_key=True,max_length=15)
+    module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
+
+class Module(models.Model):
     active = models.BooleanField(default=False)
-    free = models.BooleanField(default=True)
-    class Meta:
-        abstract = True
-class Module(StatusAbstract):
     module_name = models.CharField(max_length=80)
+    question_type = models.ForeignKey(QuestionSection,on_delete=models.PROTECT,null=False,blank=False)
     question_class = models.CharField(max_length=80, blank=True)
     module_image=models.ImageField(upload_to='ptebooster/media/images',default='ptebooster/media/images/module_default.png')
     slug = models.SlugField(max_length=80, unique=True) 
@@ -18,7 +25,12 @@ class Module(StatusAbstract):
     def __str__(self):
         return self.module_name
 
-
+class StatusAbstract(models.Model):
+    #related_module = models.ForeignKey(Module,null=True,blank=True,on_delete=models.PROTECT)
+    active = models.BooleanField(default=False)
+    free = models.BooleanField(default=True)
+    class Meta:
+        abstract = True
 
 class Images(StatusAbstract):
     image_question=models.ImageField(upload_to='ptebooster/media/images',verbose_name='Image')

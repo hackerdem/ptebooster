@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.contrib.auth import get_user_model, login, logout, authenticate
-from .forms import RegisterForm, PasswordResetForm, ForgottenPasswordForm
+from .forms import RegisterForm, PasswordResetForm, ForgottenPasswordForm, ResendActivationForm
 from .token import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
@@ -91,7 +91,7 @@ class RegisterView(FormView):
                 token = account_activation_token.make_token(data)
                 verify_time_limit = datetime.now() + timedelta(days=1)
                 usertype = Membership.objects.get(member_type='Basic')
-                new_user = User.objects.register(datetime.now(),data['first_name'],data['username'],data['password'],data['email'],usertype, data['last_name'],token,verify_time_limit )
+                new_user = User.objects.register(datetime.now(),data['first_name'],data['email'],data['password'],data['email'],usertype, data['last_name'],token,verify_time_limit )
                 
                 # send activation mail to non-active user
                 uid=urlsafe_base64_encode(force_bytes(new_user.pk)).decode()
@@ -119,6 +119,61 @@ class RegisterView(FormView):
                 error = e.message
         
         return super(RegisterView, self).get(request, form=form, error=error, success=success)
+
+
+class ResendActivationView(FormView):
+    form_class = ResendActivationForm
+    page_title = 'Resend Link'
+    template_name = 'account/activation_resent.html'
+    def get_context_data(self, **kwargs):
+        next_url = self.request.GET.get('next', '')
+        return super(ResendActivationView, self).get_context_data(next_url=next_url, **kwargs)
+
+    def get(self, request):
+        form = ResendActivationForm()
+        return super(ResendActivationView, self).get(request, form=form)
+
+    def post(self, request, *args, **kwargs):
+        error = None
+        success = None
+        form = ResendActivationForm(request.POST)
+        if  form.is_valid():
+            
+            try:
+                data = form.cleaned_data
+                user = User.objects.get(email=data['email'])
+                data['first_name'] = user.first_name
+                
+                token = account_activation_token.make_token(data)
+                verify_time_limit = datetime.now() + timedelta(days=1)
+                
+                user.verify_code, user.verify_time_limit = token, verify_time_limit
+                user.save()
+
+                uid=urlsafe_base64_encode(force_bytes(user.pk)).decode()
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your keypte account.'
+                message = render_to_string('account/confirmation_mail.html', {
+                                            'user': user,
+                                            'domain': current_site.domain,
+                                            'uid':uid,
+                                            'token':token,
+                                            })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+                         )
+                email.send()
+                next_url = request.POST.get('next',None)
+                if next_url:
+                    return HttpResponseRedirect(next_url)
+                else:
+                    return render(request, 'account/register_done.html',{'user':user})
+                
+            except ValidationError as e:
+                error = e.message
+
+        return super(ResendActivationView, self).get(request, form=form, error=error, success=success)
 
 class ActivationView(CreateView):
     success_url = 'account:login'
