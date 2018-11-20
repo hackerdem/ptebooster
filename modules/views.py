@@ -6,11 +6,15 @@ SelectMissingWord, HighlightCorrectSummary, ReadTAloud, RetellLecture, Essay,\
 FillInBlanks, AnswerShortQuestions, ReorderParagraph, MultipleSelection, MultipleSelectionReading,\
 FillBlanksReading, SummarizeSpokenText,SummarizeWrittenText, QuestionSection
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ForgottenPasswordForm
+from contact.forms import ContactDataForm
+from contact.models import ContactData
 from membership.models import Membership
+from django.http import HttpResponse
+from django.utils.crypto import get_random_string
+from django.contrib.auth import get_user_model
 
 class HomePageListView(ListView,FormView):
-    form_class= ForgottenPasswordForm
+    form_class= ContactDataForm
     template_name='modules/home.html'
     context_object_name = 'question_section_list'
     model = QuestionSection
@@ -24,9 +28,49 @@ class HomePageListView(ListView,FormView):
         return QuestionSection.objects.all()
 
     def get(self,request):
-        form = ForgottenPasswordForm()
+        form = ContactDataForm()
+       
         return super(HomePageListView, self).get(request, form=form)
 
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            try:
+                is_registered = False
+                is_paid_member = False
+                email = request.POST['email']
+                User = get_user_model()
+                if User.objects.filter(email=email).exists():
+                    user = User.objects.get(email=email)
+                else:
+                    user = None
+                if user:
+                    is_registered = True
+                    if user.user_type != 'Basic':is_paid_member = True
+                request_number = get_random_string(8)
+                new_request = ContactData.objects.create_request(
+                                                                request_number,
+                                                                is_registered,
+                                                                is_paid_member,
+                                                                request.POST['name'],
+                                                                email,
+                                                                request.POST['subject'],
+                                                                request.POST['message'])
+                new_request.save()
+            except Exception as e:
+                print(e)
+
+            return HttpResponse('ok')
+        else:
+            return HttpResponse('ko')
+        """error = None
+        success =None
+        form = ContactDataForm(request.POST)
+        if form.is_valid():
+            a='Form is valid'
+
+        else:
+            a='haydeee'"""
+        
 class AbstractListView(ListView):
     
     def get_queryset(self):    

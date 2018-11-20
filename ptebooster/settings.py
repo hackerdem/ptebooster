@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'order',
     'membership',
     'purchase',
+    'contact',
     #'memcache_status',
     'django.contrib.admin',
     'django.contrib.auth',
