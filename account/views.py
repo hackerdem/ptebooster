@@ -52,7 +52,7 @@ class LoginView(_LoginView):
             if user.is_active:
                 login(request, user)
                 #return HttpResponseRedirect(request.POST.get('next', reverse('home')))
-                return HttpResponseRedirect(reverse('home'))
+                return HttpResponseRedirect(reverse('dashboard'))
             else:
                 error = ('Aplogize we will update this message later')
         

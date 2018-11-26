@@ -1,24 +1,29 @@
 from django.db import models
+from django.urls import reverse
 
 class QuestionSection(models.Model):
-    SECTIONS = (('L', 'Listening'),
-                ('R', 'Reading'),
-                ('S', 'Speaking'),
-                ('W', 'Writing'),
-                ('G', 'General Practice'))
+    SECTIONS = (('Listening', 'Listening'),
+                ('Reading', 'Reading'),
+                ('Speaking', 'Speaking'),
+                ('Writing', 'Writing'),
+                )
 
-    question_type = models.CharField(primary_key=True,max_length=15)
+    question_type = models.CharField(primary_key=True, choices=SECTIONS ,max_length=15)
     module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
 
 class Module(models.Model):
     active = models.BooleanField(default=False)
     module_name = models.CharField(max_length=80)
-    question_type = models.ForeignKey(QuestionSection,on_delete=models.PROTECT,null=False,blank=False)
-    question_class = models.CharField(max_length=80, blank=True)
+    question_type = models.ForeignKey(QuestionSection, on_delete=models.PROTECT,null=True,blank=True,related_name='modules')
     module_image=models.ImageField(upload_to='ptebooster/media/images',default='ptebooster/media/images/module_default.png')
     slug = models.SlugField(max_length=80, unique=True) 
     description = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        url= str(self.slug)
+        return reverse(url)
+
     class Meta:
         ordering = ["-created",]
 
@@ -26,11 +31,17 @@ class Module(models.Model):
         return self.module_name
 
 class StatusAbstract(models.Model):
-    #related_module = models.ForeignKey(Module,null=True,blank=True,on_delete=models.PROTECT)
+    QUESTION_TYPES = (('Basic', 'Basic'),
+                ('Silver', 'Silver'),
+                ('Gold', 'Gold'),
+                ('Diamond', 'Diamond'),
+                )
+    related_module = models.ForeignKey(Module,null=True,blank=True,on_delete=models.PROTECT)
     active = models.BooleanField(default=False)
-    free = models.BooleanField(default=True)
+    free = models.CharField(blank=True,null=True, choices=QUESTION_TYPES ,max_length=15)
     class Meta:
         abstract = True
+
 
 class Images(StatusAbstract):
     image_question=models.ImageField(upload_to='ptebooster/media/images',verbose_name='Image')

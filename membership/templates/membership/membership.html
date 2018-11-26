@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load custom_tags %}
 {% block content %}
 <br>
 <br>
@@ -20,33 +20,39 @@
 
     <div class="container">
       <div class="row">
-        {% for membership_type in object_list %}
+        {% for item in object_list %}
         <div class="col-md-6 col-lg-3">
           <div class="block-pricing">
             <div class="table">
-              <h4>{{ membership_type.member_type}}</h4>
-              {% if membership_type.price == 0.0 %}
+              <h4>{{ item.member_type}}</h4>
+              {% if item.price == 0.0 %}
               <h2>Free</h2>
               {% else %}
-              <h2>{{ membership_type.price}}</h2>
+              <h2>{{ item.price}}</h2>
               {% endif %}
               <ul class="list-unstyled">
-                <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
-                <li><b>Reading </b> {{ membership_type.total_reading_question}}</li>
-                <li><b>Writing </b> {{ membership_type.total_writing_question}}</li>
-                <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
-                <li>{{ membership_type.duration}} months</li>
+                <li><b>Listening </b> {{ item.total_listening_question}}</li>
+                <li><b>Reading </b> {{ item.total_reading_question}}</li>
+                <li><b>Writing </b> {{ item.total_writing_question}}</li>
+                <li><b>Listening </b> {{ item.total_listening_question}}</li>
+                <li>{{ item.duration}} months</li>
               </ul>
               <div class="table_btn">
                 {% if membership_type.price == 0.0 %}
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-graduation-cap"></i> Practice</a>
+                <a href="{% url 'account_register' %}" class="btn" ><i class="fa fa-graduation-cap"></i> Practice</a>
                 {% else %}
                 <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-shopping-cart"></i> Signup Now</a>
                 {% endif %}
                 {% else %}
                 {% if request.user.is_authenticated %}
+                {% if request.user|id_check > membership_type.presedence%}
+                <button href="#prising" class="btn btn-danger"><i class="fa fa-window-close-o"></i> Nop!</button>
+                {% elif request.user|id_check == membership_type.presedence %}
+                <a href="#prising" class="btn"><i class="fa fa-shopping-cart"></i> Extend</a>
+                {%else%}
                 <a href="{% url 'new_order'  membership_type.member_type %}" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                {%endif%}
                 {% else %}
                 <a href="{% url 'new_order' membership_type.member_type %}"  class="btn"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
                 {% endif %}

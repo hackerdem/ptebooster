@@ -10,6 +10,7 @@ class Membership(models.Model):
                         ('Diamond','Diamond'),
                         )
     member_type = models.CharField(primary_key=True,max_length=100, unique=True, choices=MEMBERSHIP_TYPES,default='Basic')
+    presedence = models.IntegerField(default=0)
     #slug = models.SlugField(max_length=100, unique=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, default=0.0)
     is_active = models.CharField(max_length=100, default=True)

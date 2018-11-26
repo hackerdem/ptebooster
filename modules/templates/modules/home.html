@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles%}
+
+{% load custom_tags %}
 {% block content %}
 <!--==========================
     Hero Section
@@ -107,6 +109,8 @@
       <div class="container">
         <div class="row">
           {% for membership_type in membership_list %}
+        
+              
           <div class="col-md-6 col-lg-3">
             <div class="block-pricing">
               <div class="table">
@@ -126,13 +130,19 @@
                 <div class="table_btn">
                   {% if membership_type.price == 0.0 %}
                   {% if request.user.is_authenticated %}
-                  <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-graduation-cap"></i> Practice</a>
+                  <a href="{% url 'account_register' %}" class="btn" ><i class="fa fa-graduation-cap"></i> Practice</a>
                   {% else %}
                   <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-shopping-cart"></i> Signup Now</a>
                   {% endif %}
                   {% else %}
                   {% if request.user.is_authenticated %}
+                  {% if request.user|id_check > membership_type.presedence%}
+                  <button href="#prising" class="btn btn-danger"><i class="fa fa-window-close-o"></i> Nop!</button>
+                  {% elif request.user|id_check == membership_type.presedence %}
+                  <a href="#prising" class="btn"><i class="fa fa-shopping-cart"></i> Extend</a>
+                  {%else%}
                   <a href="{% url 'new_order'  membership_type.member_type %}" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</a>
+                  {%endif%}
                   {% else %}
                   <a href="{% url 'new_order' membership_type.member_type %}"  class="btn"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
                   {% endif %}

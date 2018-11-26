@@ -13,6 +13,8 @@ from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 
+
+User = get_user_model()
 class HomePageListView(ListView,FormView):
     form_class= ContactDataForm
     template_name='modules/home.html'
@@ -38,7 +40,7 @@ class HomePageListView(ListView,FormView):
                 is_registered = False
                 is_paid_member = False
                 email = request.POST['email']
-                User = get_user_model()
+                
                 if User.objects.filter(email=email).exists():
                     user = User.objects.get(email=email)
                 else:

@@ -26,6 +26,7 @@ urlpatterns = [
     path('membership/', include('membership.urls')),
     path('purchase/', include('purchase.urls')),
     path('order/', include('order.urls')),
+    path('dashboard/', include('dashboard.urls')),
     #path('contact/', include('contact.urls')),
 ]+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 if settings.DEBUG is True:

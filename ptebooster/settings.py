@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'membership',
     'purchase',
     'contact',
+    'dashboard',
     #'memcache_status',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -135,7 +136,7 @@ MEDIA_ROOT =os.path.join(BASE_DIR, 'ptebooster/')
 MEDIA_URL ='/'
 
 AUTH_USER_MODEL = 'account.User'
-LOGIN_REDIRECT_URL = '/modules'
+LOGIN_REDIRECT_URL = '/dashboard'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

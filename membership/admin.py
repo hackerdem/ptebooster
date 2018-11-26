@@ -4,4 +4,4 @@ from .models import Membership
 
 @admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):
-    list_display = ['member_type','duration','price','is_active']
+    list_display = ['member_type','duration','presedence','price','is_active']

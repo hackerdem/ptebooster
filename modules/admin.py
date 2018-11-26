@@ -13,7 +13,7 @@ class QuestionSectionAdmin(admin.ModelAdmin):
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ['module_name', 'slug', 'description','question_class','active']
+    list_display = ['module_name','question_type', 'slug', 'description','active']
     prepopulated_fields = {'slug':('module_name',)}
 
 @admin.register(Images)

@@ -13,7 +13,7 @@
   <link href="{% static "img/apple-touch-icon.png" %}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="{% static "https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" %}" rel="stylesheet">
+  <link href=https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
 
   <!-- Bootstrap css -->
   <!-- <link rel="stylesheet" href="{% static "css/bootstrap.css"> -->
@@ -25,10 +25,14 @@
   <link href="{% static "lib/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
   <link href="{% static "lib/animate/animate.min.css" %}" rel="stylesheet">
   <link href="{% static "lib/modal-video/css/modal-video.min.css" %}" rel="stylesheet">
+  
+
 
   <!-- Main Stylesheet File -->
   <link href="{% static "css/style.css" %}" rel="stylesheet">
- 
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+  <link href="{% static "css/mail.css" %}" rel="stylesheet">
+  
   <!-- =======================================================
     Theme Name: eStartup
     Theme URL: https://bootstrapmade.com/estartup-bootstrap-landing-page-template/
@@ -59,7 +63,7 @@
       <li class="menu-has-children"><a href="#team">Hello {{ request.user.first_name }}</a>
         <ul>
       <li><a href="{% url 'account_logout' %}">Logout</a></li> 
-      <li><a href="{% url 'account_logout' %}">Dashboard</a></li>
+      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
       <li><a href="{% url 'account_logout' %}">Notifications</a></li>
     </ul>
       {% else %}
@@ -79,7 +83,8 @@
 
 
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
+  
+      
   <!-- JavaScript Libraries -->
    <script src="{% static "lib/jquery/jquery.min.js"  %}" ></script>
    <script src="{% static "lib/jquery/jquery-migrate.min.js"  %}" ></script>
@@ -90,17 +95,35 @@
    <script src="{% static "lib/modal-video/js/modal-video.js"  %}" ></script>
    <script src="{% static "lib/owlcarousel/owl.carousel.min.js"  %}" ></script>
    <script src="{% static "lib/wow/wow.min.js"  %}" ></script>
-  <!-- Contact Form JavaScript File -->
-   <script src="{% static "contactform/contactform.js"  %}" ></script>
-
+ 
   <!-- Template Main Javascript File -->
    <script src="{% static "js/main.js"  %}" ></script>
  <!-- Bootstrap core JavaScript -->
     
  <script src="{% static "vendor/jquery/jquery.min.js" %}" ></script>
  <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+  <!--Dashborad scripts starts here -->
+  <script>
+$(document).ready(
+        function () {
+            $('.hidden').hide();
+        });
 
+  function myFunction(section) {
+    var id = "#"+section;
+    if ($(id).is(":visible")) {
+      $(id).hide("slow");
+    } else {
+      $(id).show("slow");
+    }
+}
+  
+  
+  </script>
+
+   <!--Dashborad scripts ends here -->
   <!-- Script for contact form starts -->
+
 <script>
 
 $(".contactForm").on('submit',function(event){
