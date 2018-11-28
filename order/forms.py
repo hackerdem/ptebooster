@@ -30,3 +30,7 @@ class OrderForm(forms.ModelForm):
     def clean_member_type(self):
         member_type = self.cleaned_data['member_type']
         return member_type
+
+
+class InitialOrderForm(forms.Form):
+    member_type = forms.CharField(label='member_type', max_length=100)

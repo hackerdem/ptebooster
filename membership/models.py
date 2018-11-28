@@ -15,6 +15,7 @@ class Membership(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=2, default=0.0)
     is_active = models.CharField(max_length=100, default=True)
     duration = models.IntegerField(default=3)
+    image=models.ImageField(upload_to='ptebooster/media/membership',default='ptebooster/media/images/module_default.png')
     total_listening_question = models.IntegerField(default=50)
     total_reading_question = models.IntegerField(default=50)
     total_speaking_question = models.IntegerField(default=50)

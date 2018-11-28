@@ -3,11 +3,13 @@ from order.models import Order
 # Create your models here.
 
 class Gateway(models.Model):
-
+    PAYPAL = 'PP'
+    STRIPE = 'ST'
+    AMAZON_PAYMENTS = 'AP'
     PAYMENT_CHOICES = (
-                        ('PP','Paypal'),
-                        ('ST','Stripe'),
-                        ('AM','Amazon')
+                        (PAYPAL,'Paypal'),
+                        (STRIPE,'Stripe'),
+                        (AMAZON_PAYMENTS,'Amazon')
 
     )
     name = models.CharField(primary_key=True, max_length=15, choices=PAYMENT_CHOICES)
@@ -65,7 +67,7 @@ class Transaction(models.Model):
 
     def add_param(self, name, value):
         param = TransactionParam(name=name, value=value)
-        self.params.add(param)
+        self.params.add(param,bulk=False)
         return param
 
     def get_param(self,name):
@@ -84,4 +86,4 @@ class TransactionParam(models.Model):
         unique_together = ('transaction', 'name',)
 
     def __str__(self):
-        return self.name
+        return self.value

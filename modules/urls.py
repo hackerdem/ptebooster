@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from modules.views import ModuleListView,ImagesListView,SpellingListView, \
-Template404View, RepeatListView, AcademicVocabularyListView, DictationListView, \
+RepeatListView, AcademicVocabularyListView, DictationListView, \
 HighlightListView, SelectMissingWordView, HighlightCorrectSummaryView, ReadAloudView, \
 RetellLectureView, EssayView, FillInBlanksView, AnswerShortQuestionsView, ReorderParagraphView, \
 MultipleSelectionView, MultipleSelectionReadingView, FillBlanksReadingView, SummarizeSpokenTextView,\
@@ -28,5 +28,5 @@ urlpatterns = [
     path('listening-fill-blanks/',FillBlanksReadingView.as_view(),name='reading-fill-blanks'),
     path('speaking-summarize-spoken-text/',SummarizeSpokenTextView.as_view(),name='summarize-spoken-text'),
     path('writing-summarize-written-text/',SummarizeWrittenTextView.as_view(),name='summarize-written-text'),
-    re_path('^$',Template404View.as_view()),
+    
 ]

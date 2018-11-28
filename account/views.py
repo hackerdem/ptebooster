@@ -38,13 +38,14 @@ class LoginView(_LoginView):
                 pass
 
         # Check user membership type and duration before autherntication
-        if user.user_type != Membership.objects.get(member_type='Basic') and not user.is_staff:
+        if user.user_type != Membership.objects.get(member_type='Basic'):
             utc = pytz.UTC
-            time_1 = user.membership_start_date+timedelta(days=91)
+            time_1 = user.membership_end_date
             time_2 = utc.localize(datetime.now())
             if time_1 <= time_2:
                 user.user_type=Membership.objects.get(member_type='Basic')
-                user.membership_start_date=datetime.now()
+                user.membership_start_date = datetime.now()
+                user.membership_end_date = datetime.now() + timedelta(days=91)
                 user.save()
                 # if this is the case send notification
         user = authenticate(username=username,password=password)

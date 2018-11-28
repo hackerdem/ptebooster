@@ -10,7 +10,7 @@ class GatewayAdmin(admin.ModelAdmin):
 
 @admin.register(GatewayParameters)
 class GatewayParametersAdmin(admin.ModelAdmin):
-    list_display = ('name', 'value', 'gateway')
+    list_display = ('id','name', 'value', 'gateway')
     list_filter = ('gateway__name', 'name',)
     search_fields = ('gateway', 'name',)
     

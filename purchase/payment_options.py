@@ -1,5 +1,6 @@
 import stripe
 import paypalrestsdk
+from django.urls import reverse
 from django.shortcuts import redirect, HttpResponseRedirect
 import logging,sysconfig
 from django.core.exceptions import ImproperlyConfigured
@@ -9,6 +10,7 @@ from django.db import transaction
 from .models import GatewayParameters,Transaction
 from order.models import Order
 from membership.models import Membership
+from datetime import datetime, timedelta
 logger = logging.getLogger('django.request')
 
 class Paypal:
@@ -43,24 +45,29 @@ class Paypal:
      
     def create_account_payment(self,user):
         access_token = get_random_string(20)
-        order = Order.objects.get(customer=user)
+        
+        order = Order.objects.filter(customer=user).order_by('-created_on')[0]
 
-        """with transaction.atomic():
+        try:
             payment_txn = Transaction.objects.create(gateway=self.gateway,
                                                      order=order,
                                                      description='Transaction for order {}'.format(order.id),
                                                      amount=order.total,
                                                      status=Transaction.STATUS_PROCESSING
                                                         )
+            
+
             payment_txn.add_param('access_token',access_token)
             payment_txn.save()
-            print('gqqqq')"""
+            print('gqqqq')
+        except Exception as e:
+            print ('tansaction save error',e)
         try:
             payment = {
                 'intent':'sale',
                 'redirect_urls':{
-                'return_url':'http://192.168.0.16:8000/purchase/payment',
-                'cancel_url':'http://192.168.0.16/purchase/cancel',
+                'return_url':'http://127.0.0.1:8000{}'.format(reverse('payment_process_success',args=[payment_txn.id,access_token])),
+                'cancel_url':'http://127.0.0.1:8000{}'.format(reverse('payment_process_cancel',args=[payment_txn.id,access_token])),
                 },
                 'payer':{'payment_method':'paypal',
                 },
@@ -105,10 +112,7 @@ class Paypal:
                 order.order_status = Order.ORDER_COMPLETE
                 order.payment_status = Order.PAYMENT_AUTHORIZED
                 order.save()
-                User = get_user_model()
-                user = User.objects.get(email__iexact=user)
-                user.user_type = Membership.objects.get(member_type=order.membership_type)
-                user.save()
+                
             except Exception as e:
                 print(e)
                     
@@ -121,5 +125,32 @@ class Paypal:
             raise('upps')
         return approval_url      
 
+    def execute_account_payment(self,payment_id, payer_id, payment_txn, user):
+        order = payment_txn.order
+       
+        payment = paypalrestsdk.Payment.find(payment_id,api=self.api)   
+      
+        if payment.execute({'payer_id':payer_id}):
+            payment_txn.status = Transaction.STATUS_APPROVED
+            payment_txn.save() 
+
+            order.payment_status = Order.PAYMENT_PAID
+            order.save()
+            User = get_user_model()
+            user = User.objects.get(email__iexact=user)
             
+            if user.user_type == order.membership_type:
+                user.membership_end_date+=timedelta(days=90)
+                print(user.membership_end_date)
+            else:
+                user.membership_start_date = datetime.now()
+                user.membership_end_date=datetime.now()+timedelta(days=91)
+            user.user_type = Membership.objects.get(member_type=order.membership_type)
+            user.save()
+            
+        else:
+          
+            payment_txn.status = Transaction.STATUS_FAILED
+            payment_txn.error_message = payment.error['message']
+            payment_txn.save()
     

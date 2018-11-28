@@ -12,12 +12,12 @@ from membership.models import Membership
 from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
-
+from .forms import BuyForm
 
 User = get_user_model()
 class HomePageListView(ListView,FormView):
     form_class= ContactDataForm
-    template_name='modules/home.html'
+    template_name='home.html'
     context_object_name = 'question_section_list'
     model = QuestionSection
     def get_context_data(self, **kwargs):
@@ -31,8 +31,8 @@ class HomePageListView(ListView,FormView):
 
     def get(self,request):
         form = ContactDataForm()
-       
-        return super(HomePageListView, self).get(request, form=form)
+        buy_form = BuyForm()
+        return super(HomePageListView, self).get(request, form=form, buyform=buy_form)
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -232,5 +232,6 @@ class SummarizeWrittenTextView(AbstractListView):
 # this is not working tke care of it later not urgent
 
 
-class Template404View(TemplateView):
+class PageNotFoundView(TemplateView):
     template_name='modules/404.html'
+

@@ -41,6 +41,7 @@ class UserManager(_UserManager):
 class AbstractUser(_AbstractUser):
     user_type = models.ForeignKey(Membership,default='Basic',on_delete=models.PROTECT)
     membership_start_date = models.DateTimeField(blank=True, null=True,)
+    membership_end_date = models.DateTimeField(blank=True, null=True,)
     is_active = models.BooleanField(default=False)
     verify_code = models.CharField(max_length=512, blank=True, null=True, help_text='Account verification code', editable=False)
     verify_time_limit = models.DateTimeField(blank=True, null=True, editable=False)

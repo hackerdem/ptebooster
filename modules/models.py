@@ -38,7 +38,7 @@ class StatusAbstract(models.Model):
                 )
     related_module = models.ForeignKey(Module,null=True,blank=True,on_delete=models.PROTECT)
     active = models.BooleanField(default=False)
-    free = models.CharField(blank=True,null=True, choices=QUESTION_TYPES ,max_length=15)
+    question_group = models.CharField(blank=True,null=True, choices=QUESTION_TYPES ,max_length=15)
     class Meta:
         abstract = True
 
@@ -155,3 +155,6 @@ class SummarizeSpokenText(StatusAbstract):
 class SummarizeWrittenText(StatusAbstract):
     paragraph = models.TextField(max_length=1000,blank=False)
     model_answer = models.TextField(max_length=1000,blank=True)
+
+
+

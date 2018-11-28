@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
+from modules.views import HomePageListView
+from modules.views import PageNotFoundView
+from django.conf.urls import  handler404
 
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('',HomePageListView.as_view(),name='index'),
     path('admin/', admin.site.urls),
     path('modules/', include('modules.urls')),
     path('account/', include('account.urls')),
@@ -28,6 +32,10 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('dashboard/', include('dashboard.urls')),
     #path('contact/', include('contact.urls')),
+
 ]+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+
+handler404 = PageNotFoundView.as_view()
+
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
