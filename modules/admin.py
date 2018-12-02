@@ -4,91 +4,102 @@ RepeatSentence, AcademicVocabulary, Dictation, HighlightWords,FillInBlanks, \
 SelectMissingWord, HighlightCorrectSummary, ReadTAloud, RetellLecture, Essay, \
 AnswerShortQuestions, ReorderParagraph, MultipleSelection, MultipleSelectionReading, \
 FillBlanksReading, SummarizeSpokenText, SummarizeWrittenText, QuestionSection
-
+from .models import QuestionStatistics
 # add related module field when migrating to new  database
+
+class ModelAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change): 
+        super(ModelAdmin, self).save_model(request, obj, form, change)
+        QuestionStatistics.objects.create(question_id=obj.id, membership_type=obj.question_group, related_module=obj.related_module, question_section=obj.related_module.question_type, is_active=obj.active)
+
+
+@admin.register(QuestionStatistics)
+class QuestionStatisticsAdmin(admin.ModelAdmin):
+    list_display = ['question_id', 'related_module','membership_type','question_section','is_active']
+
 @admin.register(QuestionSection)
 class QuestionSectionAdmin(admin.ModelAdmin):
     list_display = ['question_type']
     
-
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
     list_display = ['module_name','question_type', 'slug', 'description','active']
     prepopulated_fields = {'slug':('module_name',)}
 
 @admin.register(Images)
-class ImagesAdmin(admin.ModelAdmin):
+class ImagesAdmin(ModelAdmin):
     list_display = ['related_module','id','image_question']
 
 
 @admin.register(Spelling)
-class SpellingAdmin(admin.ModelAdmin):
+class SpellingAdmin(ModelAdmin):
     list_display = ['related_module','item','audio']
 
 @admin.register(RepeatSentence)
-class RepeatSentenceAdmin(admin.ModelAdmin):
+class RepeatSentenceAdmin(ModelAdmin):
     list_display = ['related_module','item','audio'] #,'main_section'
 
 @admin.register(Dictation)
-class DictationAdmin(admin.ModelAdmin):
+class DictationAdmin(ModelAdmin):
     list_display = ['related_module','item','audio'] #,'main_section'
 
 @admin.register(AcademicVocabulary)
-class AcademicVocabularyAdmin(admin.ModelAdmin):
+class AcademicVocabularyAdmin(ModelAdmin):
     list_display = ['related_module','word','academic_in_sentence']
 
+
 @admin.register(HighlightWords)
-class HighlightAdmin(admin.ModelAdmin):
+class HighlightAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','audio','answers']
 
 @admin.register(SelectMissingWord)
-class SelectMissingWordAdmin(admin.ModelAdmin):
+class SelectMissingWordAdmin(ModelAdmin):
     list_display = ['related_module','audio_topic','audio','option_1', 'option_2','option_3','option_4','answer']
 
 @admin.register(HighlightCorrectSummary)
-class HighlightCorrectSummaryAdmin(admin.ModelAdmin):
+class HighlightCorrectSummaryAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','audio','option_1', 'option_2','option_3','option_4','answer']
 
 @admin.register(ReadTAloud)
-class ReadAloudAdmin(admin.ModelAdmin):
+class ReadAloudAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','audio']
 
 @admin.register(RetellLecture)
-class RetellLectureAdmin(admin.ModelAdmin):
+class RetellLectureAdmin(ModelAdmin):
     list_display = ['related_module','lecture','audio','video','image']
     
 @admin.register(Essay)
-class EssayAdmin(admin.ModelAdmin):
+class EssayAdmin(ModelAdmin):
     list_display = ['related_module','topic']
 
 @admin.register(FillInBlanks)
-class FillinBlanksAdmin(admin.ModelAdmin):
+class FillinBlanksAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','audio','answers']
 
 @admin.register(AnswerShortQuestions)
-class AnswerShortQuestions(admin.ModelAdmin):
+class AnswerShortQuestions(ModelAdmin):
     list_display = ['related_module','audio','item']
 
 @admin.register(ReorderParagraph)
-class ReorderParagraphAdmin(admin.ModelAdmin):
+class ReorderParagraphAdmin(ModelAdmin):
     list_display = ['related_module','option_1','option_2','option_3','option_4','option_5','answer']
 
 @admin.register(MultipleSelection)
-class MultipleSelectionAdmin(admin.ModelAdmin):
+class MultipleSelectionAdmin(ModelAdmin):
     list_display = ['related_module','audio','option_1','option_2','option_3','option_4','option_5','option_6','answers']
 
 @admin.register(MultipleSelectionReading)
-class MultipleSelectionReadingAdmin(admin.ModelAdmin):
+class MultipleSelectionReadingAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','option_1','option_2','option_3','option_4','option_5','option_6','answers']
 
 @admin.register(FillBlanksReading)
-class FillBlanksReadingAdmin(admin.ModelAdmin):
+class FillBlanksReadingAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','option_1','option_2','option_3','option_4','option_5','option_6','answers']
 
 @admin.register(SummarizeWrittenText)
-class SummarizeWrittenTextAdmin(admin.ModelAdmin):
+class SummarizeWrittenTextAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','model_answer']
 
 @admin.register(SummarizeSpokenText)
-class SummarizeSpokenTextAdmin(admin.ModelAdmin):
+class SummarizeSpokenTextAdmin(ModelAdmin):
     list_display = ['related_module','paragraph','audio','model_answer']

@@ -73,11 +73,12 @@ class HomePageListView(ListView,FormView):
         else:
             a='haydeee'"""
         
-class AbstractListView(ListView):
+class AbstractListView(LoginRequiredMixin,ListView):
     
     def get_queryset(self):    
         qs = super().get_queryset() 
-        queryset = qs.filter(active=True)
+        
+        queryset = qs.filter(active=True, question_group__presedence__lte=self.request.user.user_type.presedence )
         return queryset
     class Meta:
         abstract = True
@@ -86,13 +87,17 @@ class ModuleListView(AbstractListView):
     model = Module
     template_name='modules/home.html'
     #paginate_by = 6
+    def get_queryset(self):    
+        qs = super().get_queryset() 
+        queryset = qs.filter(active=True)
+        return queryset
 
 class QuestionSectionView(ListView):
     model = QuestionSection
     template_name='modules/home.html'
     #paginate_by = 6 
 
-class ImagesListView(LoginRequiredMixin,AbstractListView):
+class ImagesListView(AbstractListView):
     login_url = 'account_login'
     model = Images
     template_name = 'questions/describe-image.html'

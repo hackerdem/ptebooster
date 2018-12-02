@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from membership.models import Membership
+
+
 
 class QuestionSection(models.Model):
     SECTIONS = (('Listening', 'Listening'),
@@ -38,7 +41,7 @@ class StatusAbstract(models.Model):
                 )
     related_module = models.ForeignKey(Module,null=True,blank=True,on_delete=models.PROTECT)
     active = models.BooleanField(default=False)
-    question_group = models.CharField(blank=True,null=True, choices=QUESTION_TYPES ,max_length=15)
+    question_group = models.ForeignKey(Membership, blank=True,null=True, on_delete=models.PROTECT)
     class Meta:
         abstract = True
 
@@ -53,14 +56,9 @@ class Spelling(StatusAbstract):
     item = models.CharField(max_length=100, blank=False)
     audio = models.FileField(upload_to='ptebooster/media/spelling-audio')
 
-"""SENTENCE_CHOICES=[
-    ('L','Listening'),
-    ('S','Speaking'),
-]"""
 class RepeatSentence(StatusAbstract):
     item = models.CharField(max_length=300, blank=False)
     audio = models.FileField(upload_to='ptebooster/media/sentences')
-    #main_section = models.CharField(max_length=100, choices=SENTENCE_CHOICES, default='S')
 
 class Dictation(StatusAbstract):   
     item = models.CharField(max_length=300, blank=False)
@@ -158,3 +156,12 @@ class SummarizeWrittenText(StatusAbstract):
 
 
 
+class QuestionStatistics(models.Model):
+    question_id = models.IntegerField(null=False, blank=False)
+    membership_type = models.ForeignKey(Membership,on_delete=models.CASCADE)
+    question_section = models.ForeignKey(QuestionSection,on_delete=models.CASCADE)
+    related_module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    is_active = models.BooleanField()
+
+    class Meta:
+        unique_together = ("question_id","question_section")
