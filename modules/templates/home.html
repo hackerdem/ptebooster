@@ -117,17 +117,18 @@
             <div class="block-pricing">
               <div class="table">
                 <h4>{{ membership_type.member_type}}</h4>
+                <img src="{{ membership_type.image.url }}" alt="img" class="img-fluid">
                 {% if membership_type.price == 0.0 %}
                 <h2>Free</h2>
                 {% else %}
                 <h2>{{ membership_type.price}} AUD</h2>
                 {% endif %}
                 <ul class="list-unstyled">
-                  <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
-                  <li><b>Reading </b> {{ membership_type.total_reading_question}}</li>
-                  <li><b>Writing </b> {{ membership_type.total_writing_question}}</li>
-                  <li><b>Listening </b> {{ membership_type.total_listening_question}}</li>
+                    {% for item in question_section_list %}
+                  <li><b>{{item.question_type}} </b> {% count_question section=item.question_type user_type=membership_type.member_type %}</li>
+                  {% endfor %}
                   <li>{{ membership_type.duration}} months</li>
+                  
                 </ul>
                 <div class="table_btn">
                   {% if membership_type.price == 0.0 %}
@@ -145,17 +146,17 @@
                     
                   <input type="hidden" class="form-control" name="member_type" id="id_member_type" value="{{ membership_type.member_type}}"/>
                 
-                  <button type="submit" class="btn"><i class="fa fa-shopping-cart"></i> Extend</button>
+                  <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Extend</button>
                 </form>
                   {%else%}
                   <form  action="{% url 'new_order' %}" method="get">
                   
                   <input type="hidden" class="form-control" name="member_type" id="id_member_type" value="{{ membership_type.member_type}}"/>
-                  <button type="submit" class="btn"><i class="fa fa-shopping-cart"></i> Buy Now</button>
+                  <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Buy Now</button>
                   </form>
                   {%endif%}
                   {% else %}
-                  <a href="{% url 'account_register' %}"  class="btn"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
+                  <a href="{% url 'account_register' %}"  class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
                   {% endif %}
                   {% endif %}
                   </form>

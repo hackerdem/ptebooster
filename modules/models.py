@@ -164,4 +164,4 @@ class QuestionStatistics(models.Model):
     is_active = models.BooleanField()
 
     class Meta:
-        unique_together = ("question_id","question_section")
+        unique_together = ("question_id","related_module","question_section")

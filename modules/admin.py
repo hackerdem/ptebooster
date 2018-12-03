@@ -10,8 +10,21 @@ from .models import QuestionStatistics
 class ModelAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change): 
         super(ModelAdmin, self).save_model(request, obj, form, change)
+        # temporary solution ,define a unique identifier for every question and modify related question later
+        if change:
+            QuestionStatistics.objects.get(question_id=obj.id, related_module=obj.related_module).delete()
+
         QuestionStatistics.objects.create(question_id=obj.id, membership_type=obj.question_group, related_module=obj.related_module, question_section=obj.related_module.question_type, is_active=obj.active)
 
+    def delete_queryset(self, request, queryset):
+        """Given a queryset, delete it from the database."""
+
+        for object in queryset:
+            try:
+                QuestionStatistics.objects.get(question_id=object.id, related_module=object.related_module).delete()
+            except:
+                pass
+        queryset.delete()
 
 @admin.register(QuestionStatistics)
 class QuestionStatisticsAdmin(admin.ModelAdmin):

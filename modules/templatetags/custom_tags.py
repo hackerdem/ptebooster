@@ -1,7 +1,7 @@
 from django import template
 from random import shuffle
 from membership.models import Membership
-from modules.models import Module,QuestionSection
+from modules.models import Module,QuestionSection,QuestionStatistics
 from django.contrib.auth import get_user_model
 register = template.Library()
 User = get_user_model()
@@ -26,9 +26,9 @@ def id_check(user):
     user_membership = Membership.objects.get(member_type__iexact=user_type)
     return int(user_membership.presedence)
 
-@register.filter
+@register.simple_tag
 def count_question(section, user_type):
-    list1 = Module.objects.filter(question_type=section)
-    print (list1)
+    number_of_question = QuestionStatistics.objects.filter(is_active=True, question_section=section, membership_type=user_type).count()
+    return number_of_question
     
         

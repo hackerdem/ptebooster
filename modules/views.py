@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from .forms import BuyForm
-
+from .models import QuestionStatistics,QuestionSection
 User = get_user_model()
 class HomePageListView(ListView,FormView):
     form_class= ContactDataForm
@@ -23,7 +23,7 @@ class HomePageListView(ListView,FormView):
     def get_context_data(self, **kwargs):
         context = super(HomePageListView, self).get_context_data(**kwargs)
         context.update({
-            'membership_list': Membership.objects.all()
+            'membership_list': Membership.objects.all(),
         })
         return context
     def get_queryset(self):
