@@ -27,8 +27,9 @@ def id_check(user):
     return int(user_membership.presedence)
 
 @register.simple_tag
-def count_question(section, user_type):
-    number_of_question = QuestionStatistics.objects.filter(is_active=True, question_section=section, membership_type=user_type).count()
+def count_question(section, user_type, presedence):
+    objects = Membership.objects.filter(presedence__lte=int(presedence))
+    number_of_question = QuestionStatistics.objects.filter(is_active=True, question_section=section, membership_type__in=objects).count()
     return number_of_question
     
         

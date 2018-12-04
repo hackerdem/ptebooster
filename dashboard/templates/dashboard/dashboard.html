@@ -8,59 +8,66 @@
     <div class="container">
         <br>
         <br>
-        <div class="row">
-            <div class="col">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-subtitle mb-2 ">Dashboard</h4>
-                  <p class="card-text">This is your dashboard which you can do everything on one page.</p>
-                 
-                </div>
-              </div>
-            </div>
-          </div>
+        
+                
+                <div class="row panel">
+                        
+                        <div class="col-md-12  col-xs-12 text-center">
+                                <img src="{{ request.user.user_type.image.url}}" alt="Avatar" class="avatar-large">
+                           
+                           <div class="header text-center">
+                                <h1>Dashboard</h1>
+                                
+                                <!--<p align='justify'>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>-->
+                           </div>
+                        </div>
+                       
+                    </div>  
+          
             <div class="row">
-                <div class="col text-center">
-          <div class="card">
-            <div class="card-body">
-              
-                <a class="modules" onclick="myFunction('statistics')" href="#">
-              <h6 class="card-subtitle mb-2 text-muted">Statistics</h6></a>
-              <span class="glyphicon glyphicon-stats"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col text-center">
-          <div class="card">
-            <div class="card-body">
-                <a class="modules" onclick="myFunction('membership')" href="#">
-              <h6 class="card-subtitle mb-2 text-muted">Membership</h6></a>
-              <span class="glyphicon glyphicon-user"></span>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col text-center">
-          <div class="card">
-            <div class="card-body">
-              
-              <a class="modules" onclick="myFunction('modules')" href="#"><h6 class="card-subtitle mb-2 text-muted">Modules</h6></a>
-              <span class="glyphicon glyphicon-tasks"></span>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col text-center">
-          <div class="card">
-            <div class="card-body">
-                <a class="modules" onclick="myFunction('communication')" href="#">
-              <h6 class="card-subtitle mb-2 text-muted">Recommendation</h6></a>
-              <span class="glyphicon glyphicon-facetime-video"></span>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col text-center">
+                    <div class="col-md-3">
+                            <a class="modules" onclick="myFunction('statistics')" href="#">
+                            <div class="card-counter primary">
+                              <i class="fa fa-bar-chart"></i>
+                              <span class="count-numbers">12</span>
+                              <span class="count-name">Statistics</span>
+                            </div></a>
+                          </div>
+                          <div class="col-md-3">
+                                <a class="modules" onclick="myFunction('membership')" href="#">
+                                <div class="card-counter danger">
+                                  <i class="fa fa-user"></i>
+                                  <span class="count-numbers">{{ profile.remaining_days }}</span>
+                                  <span class="count-name">Membership</span>
+                                </div></a>
+                              </div>
+                              <div class="col-md-3">
+                                    <a class="modules" onclick="myFunction('modules')" href="#">
+                                    <div class="card-counter success">
+                                    <i class="fa fa-graduation-cap"></i>
+                                      <span class="count-numbers">{{ modules.count }}</span>
+                                      <span class="count-name">Modules</span>
+                                    </div></a>
+                                  </div>
+                                  
+                                     <!--<div class="col-md-3">
+                                            <a class="modules" onclick="myFunction('communication')" href="#">
+                                            <div class="card-counter primary">
+                                            <i class="fa fa-video"></i>
+                                              <span class="count-numbers">12</span>
+                                              <span class="count-name">Recommendation</span>
+                                            </div></a>
+                                          </div>--> 
+                                          <div class="col-md-3">
+                                                <a class="modules" onclick="myFunction('notifications')" href="#">
+                                                <div class="card-counter info">
+                                                <i class="fa fa-comments"></i>
+                                                  <span class="count-numbers">12</span>
+                                                  <span class="count-name">Notifications</span>
+                                                </div></a>
+                                              </div>
+        <!--<div class="col text-center">
           <div class="card">
             <div class="card-body">
                 <a class="modules" onclick="myFunction('notifications')" href="#">
@@ -69,9 +76,10 @@
               
             </div>
           </div>
-        </div>
+        </div>--> 
       </div>
-     
+      <br>
+      <br>   
 <div id="membership" class="row hidden">
         
           
@@ -149,15 +157,17 @@
       <div class="row hidden" id="modules">
         
             {% for item in section %}
+            
                     <div class="col text-center">
+                            <a class="modules" onclick="myFunction('{{item.question_type}}')">
                       <div class="card">
                         <div class="card-body ">
-                            <a class="modules" onclick="myFunction('{{item.question_type}}')" href="#">
-                          <h5 class="card-subtitle mb-3 text-muted">{{item.question_type}}</h5>
-                         
+                            
+                          <h5 class="card-subtitle mb-3 text-muted">{{item.question_type|slugify}}</h5>
+                          <img src="{{ item.module_image.url }}" alt="img" class="img-fluid">
                         </div>
                       </div>
-                    </div>
+                    </div></a>
                     {#{% for a in item.modules.all %} {{a.module_name}}{% endfor %}#}
             
                    
@@ -168,44 +178,61 @@
         <div class="row hidden" id="Listening">
         
           {% for a in listening %}
-                    <div class="col text-center">
-                      <div class="card">
-                        <div class="card-body ">
-                          <a href="{{a.get_absolute_url}}">
-                          <p class="card-subtitle mb-3 text-muted">{{a.module_name}}</p></a>                        
-                        </div>
-                      </div>
-                    </div>
                     
+                    <div class="col-md-3 text-center">
+                            <a href="{{a.get_absolute_url}}">  
+                            <div class="card mb-4 shadow-sm">
+                                   
+                              <div class="card-body">
+                                <p class="card-text">{{a.module_name}}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                            <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                                
+                                </div>
+                              </div>
+                            </div>
+                         </a>
+                          </div>
             {% endfor %}
                   
         </div>
         <div class="row hidden" id="Reading">
         
           {% for a in reading %}
-                    <div class="col text-center">
-                      <div class="card">
-                        <div class="card-body ">
-                          <a href="{{a.get_absolute_url}}">
-                          <p class="card-subtitle mb-3 text-muted">{{a.module_name}}</p></a>                        
-                        </div>
-                      </div>
-                    </div>
+          <div class="col-md-3 text-center">
+                <a href="{{a.get_absolute_url}}">  
+                <div class="card mb-4 shadow-sm">
+                       
+                  <div class="card-body">
+                    <p class="card-text">{{a.module_name}}
+                        <div class="d-flex justify-content-between align-items-center">
+                                <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
                     
+                    </div>
+                  </div>
+                </div>
+             </a>
+              </div>
             {% endfor %}
                   
         </div>
         <div class="row hidden" id="Writing">
         
           {% for a in writing %}
-                    <div class="col text-center">
-                      <div class="card">
-                        <div class="card-body ">
-                          <a href="{{a.get_absolute_url}}">
-                          <p class="card-subtitle mb-3 text-muted">{{a.module_name}}</p></a>                        
-                        </div>
-                      </div>
+          <div class="col-md-3 text-center">
+                <a href="{{a.get_absolute_url}}">  
+                <div class="card mb-4 shadow-sm">
+                       
+                  <div class="card-body">
+                    <p class="card-text">{{a.module_name}}
+                        <div class="d-flex justify-content-between align-items-center">
+                                <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                    
                     </div>
+                  </div>
+                </div>
+             </a>
+              </div>
                     
             {% endfor %}
                   
@@ -213,15 +240,20 @@
         <div class="row hidden" id="Speaking">
         
           {% for a in speaking %}
-                    <div class="col text-center">
-                      <div class="card">
-                        <div class="card-body ">
-                          <a href="{{a.get_absolute_url}}">
-                          <p class="card-subtitle mb-3 text-muted">{{a.module_name}}</p></a>                        
-                        </div>
-                      </div>
-                    </div>
+          <div class="col-md-3 text-center">
+                <a href="{{a.get_absolute_url}}">  
+                <div class="card mb-4 shadow-sm">
+                       
+                  <div class="card-body">
+                    <p class="card-text">{{a.module_name}}
+                        <div class="d-flex justify-content-between align-items-center">
+                                <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
                     
+                    </div>
+                  </div>
+                </div>
+             </a>
+              </div>
             {% endfor %}
                   
         </div>

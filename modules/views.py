@@ -116,7 +116,7 @@ class RepeatListView(AbstractListView):
 class AcademicVocabularyListView(AbstractListView):
     model = AcademicVocabulary
     template_name = 'questions/academic-vocabulary.html'
-    paginate_by = 10
+    paginate_by = 5
 
 class DictationListView(AbstractListView):
     model = Dictation

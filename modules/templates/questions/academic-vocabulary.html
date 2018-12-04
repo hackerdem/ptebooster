@@ -1,44 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<section id="get-started" class="padd-section text-center">
+<section id="get-started" class="padd-section">
 <br>
 <br>
 <br>
 <div class="container">
-    <div class="container-fluid text-center">    
+    <div class="container-fluid">    
         <div class="row content">
         
-          <div class="col-sm-12 text-center"> 
-              <h4 class="card-title">List of Academic words with Examples</h4>
+          <div class="col-sm-12 "> 
+              <h1 class="card-title text-center">List of Academic words with Examples</h1>
               
-              <table class="table table-striped text-left">
-                  <thead>
-                    <tr>
-                     
-                    
-                      <th scope="col">The word</th>
-                      <th scope="col">Example Sentence</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {% for word in object_list %}
-                    <tr>
-                      
-                      <td>{{word.word}}</td>
-                      <td>{{word.academic_in_sentence}}</td>
-                      
-                      <td><h4 class="card-title"></h4></td>
-                    </tr>
-                    {% endfor %}
-                    
-                  </tbody>
+              <div class="col-md-12">
+                  {% for word in object_list %}
+                  <h1>{{word.word}}</h1>
+                  <p align="justify">{{word.academic_in_sentence}}</p>
+                  <div>
+              <div class="pull-right"><a href="#" class="badge badge-primary">Don't ask again</a> <a href="#" class="badge badge-success">I have no idea</a> <a href="#" class="badge badge-info">Another Example</a> <a href="#" class="badge badge-warning">Warning</a>
+              <a href="#" class="badge badge-danger">Danger</a></div>         
+                   </div>
+                  <hr>
                   
-
-                </table>
-                
-          
-          
-      
+                  {% endfor %}
+              </div>
           
       
           </div>

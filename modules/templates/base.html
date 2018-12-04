@@ -29,6 +29,7 @@
 
 
   <!-- Main Stylesheet File -->
+  <link href="{% static "css/card.css" %}" rel="stylesheet">
   <link href="{% static "css/style.css" %}" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
   <link href="{% static "css/mail.css" %}" rel="stylesheet">
@@ -60,15 +61,14 @@
           <!--<li><a href="{% url 'membership' %}">Pricing</a></li>-->
           <li><a href="{% url 'home' %}#pricing">Pricing</a></li>
       {% if request.user.is_authenticated %}
-      
-      <li class="menu-has-children"><a href="#team">Hello {{ request.user.first_name }}</a>
+      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+      <li class="menu-has-children"><a href="#team">{{ request.user.first_name }}  <img src="{{ request.user.user_type.image.url}}" alt="Avatar" class="avatar"> </a>
        
     
         <ul>
-      <li><img src="{{ request.user.user_type.image.url}}" alt="Avatar" class="avatar"> </li>
+      
       <li><a href="{% url 'account_logout' %}">Logout</a></li> 
-      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-      <li><a href="{% url 'account_logout' %}">Notifications</a></li>
+   
     </ul>
       {% else %}
       <li><a href="{% url 'account_login' %}">Login</a></li>

@@ -125,7 +125,7 @@
                 {% endif %}
                 <ul class="list-unstyled">
                     {% for item in question_section_list %}
-                  <li><b>{{item.question_type}} </b> {% count_question section=item.question_type user_type=membership_type.member_type %}</li>
+                  <li><b>{{item.question_type}} </b> {% count_question section=item.question_type user_type=membership_type.member_type presedence=membership_type.presedence %}</li>
                   {% endfor %}
                   <li>{{ membership_type.duration}} months</li>
                   
