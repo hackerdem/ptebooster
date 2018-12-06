@@ -18,7 +18,7 @@ class Module(models.Model):
     active = models.BooleanField(default=False)
     module_name = models.CharField(max_length=80)
     question_type = models.ForeignKey(QuestionSection, on_delete=models.PROTECT,null=True,blank=True,related_name='modules')
-    module_image=models.ImageField(upload_to='ptebooster/media/images',default='ptebooster/media/images/module_default.png')
+    module_image=models.ImageField(upload_to='ptebooster/media/icons',default='ptebooster/media/icons/module_default.png')
     slug = models.SlugField(max_length=80, unique=True) 
     description = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
@@ -156,12 +156,3 @@ class SummarizeWrittenText(StatusAbstract):
 
 
 
-class QuestionStatistics(models.Model):
-    question_id = models.IntegerField(null=False, blank=False)
-    membership_type = models.ForeignKey(Membership,on_delete=models.CASCADE)
-    question_section = models.ForeignKey(QuestionSection,on_delete=models.CASCADE)
-    related_module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    is_active = models.BooleanField()
-
-    class Meta:
-        unique_together = ("question_id","related_module","question_section")

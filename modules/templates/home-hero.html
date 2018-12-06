@@ -1,0 +1,18 @@
+{% load static %}
+<section id="hero" class="wow fadeIn">
+    <div class="hero-container">
+      <h1>Welcome to keyPTE  </h1>
+      <h2> Free Study material for PTE Exam</h2>
+      
+      <img src="{% static 'img/hero-img.png' %}" alt="Hero Imgs">
+      {% if request.user.is_authenticated %}
+      <a href= "{% url 'dashboard' %}"class="btn-get-started scrollto">
+          {% else %}<a href= "{% url 'account_register' %}" class="btn-get-started scrollto">{% endif %} Get Started</a>
+      <div class="btns">
+        <a href="#"><i class="fa fa-assistive-listening-systems"></i> Listening</a>
+        <a href="#"><i class="fa fa-book fa-3x"></i> Reading</a>
+        <a href="#"><i class="fa  fa-file-text fa-3x"></i> Writing</a>
+		<a href="#"><i class="fa  fa-user fa-3x"></i> Speaking</a>
+      </div>
+    </div>
+  </section>

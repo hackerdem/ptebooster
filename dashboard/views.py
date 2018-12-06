@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from order.models import Order
@@ -8,6 +7,7 @@ from membership.models import Membership
 from django.contrib.auth import get_user_model
 import pytz
 from datetime import timedelta, datetime
+from recommendation.models import Video
 
 User = get_user_model()
 class DashboardView(LoginRequiredMixin,ListView):
@@ -37,6 +37,8 @@ class DashboardView(LoginRequiredMixin,ListView):
             'writing' : Module.objects.filter(active=True,question_type='Writing'),
             'profile' : profile,
             'membership_list' : Membership.objects.all(),
+            'video' : Video.objects.all(),
+
 
 
         })

@@ -1,0 +1,531 @@
+  {% load static %}   
+  <!-- JavaScript Libraries -->
+  <script src="{% static "lib/jquery/jquery.min.js"  %}" ></script>
+  <script src="{% static "lib/jquery/jquery-migrate.min.js"  %}" ></script>
+  <script src="{% static "lib/bootstrap/js/bootstrap.bundle.min.js"  %}" ></script>
+  <script src="{% static "lib/superfish/hoverIntent.js"  %}" ></script>
+  <script src="{% static "lib/superfish/superfish.min.js"  %}" ></script>
+  <script src="{% static "lib/easing/easing.min.js"  %}" ></script>
+  <script src="{% static "lib/modal-video/js/modal-video.js"  %}" ></script>
+  <script src="{% static "lib/owlcarousel/owl.carousel.min.js"  %}" ></script>
+  <script src="{% static "lib/wow/wow.min.js"  %}" ></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+ <!-- Template Main Javascript File -->
+  <script src="{% static "js/main.js"  %}" ></script>
+<!-- Bootstrap core JavaScript -->
+   
+<script src="{% static "vendor/jquery/jquery.min.js" %}" ></script>
+<script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+ <!--Dashborad scripts starts here -->
+ <script>
+$(document).ready(
+       function () {
+           $('.hidden').hide();
+       });
+
+ function myFunction(section) {
+   var id = "#"+section;
+   if ($(id).is(":visible")) {
+     $(id).hide("slow");
+   } else {
+     $(id).show("slow");
+   }
+}
+ 
+ 
+ </script>
+
+  <!--Dashborad scripts ends here -->
+<!--Payment scripts starts here -->
+
+<script>
+
+   $("#paymentCreate").on('submit',function(event){
+     event.preventDefault();
+     function getCookie(name)
+   {
+       var cookieValue = null;
+       if (document.cookie && document.cookie != '') {
+           var cookies = document.cookie.split(';');
+           for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+               // Does this cookie string begin with the name we want?
+   
+               if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                   break;
+               }
+           }
+       }
+       return cookieValue;
+   }
+     
+     $.ajax({
+             type : "POST",
+             url : '{% url "process_payment" %}',
+             data : {
+               csrfmiddlewaretoken : getCookie('csrftoken'),
+             },
+             success : function(){
+               $('.paymentCr').hide();
+               $('.paymentEx').show();
+             }
+     })
+   
+   
+   })
+   </script>
+   
+      <!--Payment scripts ends here -->
+
+ <!-- Script for contact form starts -->
+
+<script>
+
+$(".contactForm").on('submit',function(event){
+ event.preventDefault();
+ function getCookie(name)
+{
+   var cookieValue = null;
+   if (document.cookie && document.cookie != '') {
+       var cookies = document.cookie.split(';');
+       for (var i = 0; i < cookies.length; i++) {
+           var cookie = jQuery.trim(cookies[i]);
+           // Does this cookie string begin with the name we want?
+
+           if (cookie.substring(0, name.length + 1) == (name + '=')) {
+               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+               break;
+           }
+       }
+   }
+   return cookieValue;
+}
+ var name = $("#id_name").val();
+ var email = $("#id_email").val();
+ var subject = $("#id_subject").val();
+ var message = $("#id_message").val();
+ if ([name,email,subject,message].every(x => x.length>0)){
+ $.ajax({
+         type : "POST",
+         url : '{% url "home" %}',
+         data : {
+           csrfmiddlewaretoken : getCookie('csrftoken'),
+           'name' : name,
+           'email' : email,
+           'subject' : subject, 
+           'message' : message,
+         },
+         success : function(){
+           $(".contactformalert").show();
+           $(".contactForm").hide();
+         }
+ })}
+
+
+})
+</script>
+ <!-- Script for contact form ends -->
+<script>
+    var timeleft = 8;
+    var downloadTimer = setInterval(function(){
+      document.getElementById("progressBar").value = 8 - --timeleft;
+      document.getElementById("countdowntimer").textContent = timeleft;
+      if(timeleft <= 0)
+        clearInterval(downloadTimer);
+    },1000);
+    document.getElementById("audioContent").autoplay;
+</script>
+<script>
+   function checkWords(){
+     
+     for (var i=0; i < 10;i++){
+       var userInput = document.getElementById('object'+i).value;
+       var word = document.getElementById('hidden'+i).innerHTML;
+       
+       document.getElementById('hidden'+i).style.display = 'inline'
+       var hiddenclass = document.getElementById('hidden'+i)
+       if (userInput===""){
+        hiddenclass.classList.add("alert-warning")
+       }
+       else if ($.trim(word)!==$.trim(userInput)) {
+        alert(userInput,word);
+        hiddenclass.classList.add("alert-danger")
+       }
+       else{
+        hiddenclass.classList.add("alert-success")
+       }
+     }
+   }
+</script>
+<script>
+  $('#replacewords').each(function() {
+    var text = $(this).text();
+    $(this).text(text.replaceWith('XXXX', '<div class="col-xs-2"><input class="form-control" id="ex1" type="text"></div>')); 
+});
+
+
+</script>
+<script>
+  function copy() {
+    var VAL = $("#selection").select();
+    var DTA = $(this).text();
+    document.execCommand("copy");
+  
+}
+function cut() {
+  var VAL = $("#selection").select();
+  var DTA = $(this).text();
+  document.execCommand("copy");
+  document.execCommand("delete");
+}
+function cut() {
+var VAL = $("#selection").select();
+var DTA = $(this).text();
+document.execCommand("copy");
+document.execCommand("paste");
+}
+  $(document).ready(function() {
+    $("#word_count").on('keyup', function() {
+        var words = this.value.match(/\S+/g).length;
+        if (words > 300) {
+            // Split the string on first 200 words and rejoin on spaces
+            var trimmed = $(this).val().split(/\s+/, 300).join(" ");
+            // Add a space at the end to keep new typing making new words
+            $(this).val(trimmed + " ");
+        }
+        else {
+            $('#display_count').text(words);
+            
+        }
+    });
+ }); 
+</script>
+
+<script>
+  $(".checkParagraph").click(function(){
+    var answers = new Array();
+    $(".answerlist").each(function(){
+      
+      answers.push($(this).val());
+    })
+   
+    $("#list2 li").each(function(i){
+      
+      if ($(this).attr('value')===answers[i]){
+        
+        $(this).css('background-color','green');
+      }else{
+        $(this).css('background-color','red');
+      }
+      i+=1
+    });
+    
+  });
+
+</script>
+<script>
+$(".checkRecord").click(function(){
+var vid = document.getElementById("audioContent");
+alert(vid.duration);
+});
+</script>
+<!-- Fill in the blanks listening starts -->
+<script>
+  $(".checkButton").click(function(){
+    var answers = new Array();
+    $(".answerlist").show();
+    $(".lanswer").each(function(){
+      
+      answers.push($(this).val().trim());
+    })
+    console.log(answers);
+   $(".userData").each(function(){
+      console.log($(this).val().trim())
+      if (jQuery.inArray($(this).val().trim(),answers)>-1){
+  
+        $(this).addClass('alert-success');
+      }else{
+        $(this).addClass('alert-danger');;
+      }
+     
+  }) 
+  
+  
+  });
+
+</script>
+<!-- spelling section starts-->
+<script>
+  function checkSentences(){
+    var InputId = $("#object0").val();
+    var Answer = $( "div.demo-container" ).text();
+    if(InputId.is(Answer)){
+      
+    }else{
+      $( "div.demo-container" ).show();
+    }
+    
+    
+
+}
+</script>
+<!-- spelling section ends-->
+<!--$(".essayArea").attr('readonly','readonly');-->
+ <script>
+    function startTimer(duration, display) {
+      var timer = duration, minutes, seconds;
+      setInterval(function () {
+          minutes = parseInt(timer / 60, 10)
+          seconds = parseInt(timer % 60, 10);
+  
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+  
+          display.text(minutes + ":" + seconds);
+  
+          if (--timer < 0) {
+              timer = duration;
+              $(".essayArea").attr('readonly','readonly');
+          }
+         
+      }, 1000);
+  }
+  
+  jQuery(function ($) {
+    
+      var givenMinutes = 60 * 1,
+          display = $('#time');
+      startTimer(givenMinutes, display);
+  });
+   </script>
+
+
+ <!-- Fill in the blanks listening ends -->
+<!-- Fill in the blanks reading starts -->
+<script>
+  $(".fillReading").click(function(){
+    var answers = new Array();
+    $(".lanswer").each(function(){
+      
+      answers.push($(this).val().trim());
+    })
+    console.log(answers);
+    
+    $(".introleadin").each(function(){
+      var a = $(this).find("option:selected").text();
+     
+      if (jQuery.inArray(a,answers) == -1){
+  
+      
+        $(this).addClass('border border-danger');
+      }else{
+        $(this).addClass('border border-success');
+      }
+    });
+    $('.answerlist').show();
+  });
+  </script>
+<!-- Fill in the blanks ends-->
+<!-- Listening mutiple selection start-->
+<script>
+$(".multipleCheck").click(function(){
+  var answers= new Array;
+  answers = $(".answers").val().split(',');
+  
+  $("input:checked").each(function(){
+    var p = $(this).css('background-color');
+    
+    if (jQuery.inArray($(this).val(),answers) == -1){
+  
+      
+      $('.answers').addClass('alert-danger');
+    }else{
+      $('.answers').addClass('alert-success');
+    }
+  });
+  $('.answers').show();
+});
+</script>
+<!-- Listening mutiple selection ends-->
+<!--highligh incorrect words section start-->
+<script>
+  $(".checkhighlight").click(function() {
+    
+    $(".clickable").each(function(){
+      if ($(this).hasClass('crr')){
+        $(this).css('background-color',"rgb(51, 153, 0)");
+
+      }else{
+       
+        if($(this).css('background-color') == 'rgb(255, 255, 0)'){
+          $(this).css('background-color',"rgb(204, 51, 0)");
+        }
+      }
+      $(this).off('click');
+    });
+
+  });
+  
+</script>
+<script>
+    $(".clickable").click(function() {
+      
+      var $el = $(this);
+
+      
+
+      if ( $el.data('highlight') ) {
+        $el.css('background-color', "");
+        $el.data('highlight', false);
+      }
+      else {
+        $el.css('background-color', "yellow");
+        $el.data('highlight', true);
+      }
+
+      
+    
+  });
+    
+  </script>
+
+<!--highligh incorrect words section end-->   
+
+<script> 
+    
+$(document).ready(function(){
+
+jQuery('.getvalue').on('click', function(e) {
+$('#message').hide();
+$('#answer').hide();
+if ($('#answer').text()==$("input:radio[name=optradio]:checked").val()){
+  $('#answer').show();
+}else{
+
+$('#message').show().text($("input:radio[name=optradio]:checked").val());
+}
+});
+});
+
+</script>
+<script>
+    (function($) {
+      var dragging, placeholders = $();
+      $.fn.sortable = function(options) {
+        var method = String(options);
+        options = $.extend({
+          connectWith: false
+        }, options);
+        return this.each(function() {
+          if (/^enable|disable|destroy$/.test(method)) {
+            var items = $(this).children($(this).data('items')).attr('draggable', method == 'enable');
+            if (method == 'destroy') {
+              items.add(this).removeData('connectWith items')
+                .off('dragstart.h5s dragend.h5s selectstart.h5s dragover.h5s dragenter.h5s drop.h5s');
+            }
+            return;
+          }
+          var isHandle, index, items = $(this).children(options.items);
+          var placeholder = $('<' + (/^ul|ol$/i.test(this.tagName) ? 'li' : 'div') + ' class="sortable-placeholder">');
+          items.find(options.handle).mousedown(function() {
+            isHandle = true;
+          }).mouseup(function() {
+            isHandle = false;
+          });
+          $(this).data('items', options.items)
+          placeholders = placeholders.add(placeholder);
+          if (options.connectWith) {
+            $(options.connectWith).add(this).data('connectWith', options.connectWith);
+          }
+          items.attr('draggable', 'true').on('dragstart.h5s', function(e) {
+            if (options.handle && !isHandle) {
+              return false;
+            }
+            isHandle = false;
+            var dt = e.originalEvent.dataTransfer;
+            dt.effectAllowed = 'move';
+            dt.setData('Text', 'dummy');
+            index = (dragging = $(this)).addClass('sortable-dragging').index();
+          }).on('dragend.h5s', function() {
+            if (!dragging) {
+              return;
+            }
+            dragging.removeClass('sortable-dragging').show();
+            placeholders.detach();
+            if (index != dragging.index()) {
+              dragging.parent().trigger('sortupdate', {item: dragging});
+            }
+            dragging = null;
+          }).not('a[href], img').on('selectstart.h5s', function() {
+            this.dragDrop && this.dragDrop();
+            return false;
+          }).end().add([this, placeholder]).on('dragover.h5s dragenter.h5s drop.h5s', function(e) {
+            if (!items.is(dragging) && options.connectWith !== $(dragging).parent().data('connectWith')) {
+              return true;
+            }
+            if (e.type == 'drop') {
+              e.stopPropagation();
+              placeholders.filter(':visible').after(dragging);
+              dragging.trigger('dragend.h5s');
+              return false;
+            }
+            e.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'move';
+            if (items.is(this)) {
+              if (options.forcePlaceholderSize) {
+                placeholder.height(dragging.outerHeight());
+              }
+              dragging.hide();
+              $(this)[placeholder.index() < $(this).index() ? 'after' : 'before'](placeholder);
+              placeholders.not(placeholder).detach();
+            } else if (!placeholders.is(this) && !$(this).children(options.items).length) {
+              placeholders.detach();
+              $(this).append(placeholder);
+            }
+            return false;
+          });
+        });
+      };
+      })(jQuery);
+      
+      
+      
+      
+      $(function() {
+            $('.sortable').sortable();
+            $('.handles').sortable({
+              handle: 'span'
+            });
+            $('.connected').sortable({
+              connectWith: '.connected'
+            });
+            $('.exclude').sortable({
+              items: ':not(.disabled)'
+            });
+          });
+</script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+     function initiateChart(){
+      
+      id = Document.getElementById(pie).value
+      console.log(id);
+      drawChart(id);
+    }
+    function drawChart(arr) {
+     console.log(arr);
+      var data = google.visualization.arrayToDataTable(arr);
+     
+      var options = {
+        title: 'Listening Section'
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+      chart.draw(data, options);
+    }
+   
+  </script>

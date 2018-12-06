@@ -6,252 +6,35 @@
 <!--==========================
     Hero Section
   ============================-->
-  <section id="hero" class="wow fadeIn">
-    <div class="hero-container">
-      <h1>Welcome to keyPTE  </h1>
-      <h2> Free Study material for PTE Exam</h2>
-      
-      <img src="{% static 'img/hero-img.png' %}" alt="Hero Imgs">
-      {% if request.user.is_authenticated %}
-      <a href= "{% url 'dashboard' %}"class="btn-get-started scrollto">
-          {% else %}<a href= "{% url 'account_register' %}" class="btn-get-started scrollto">{% endif %} Get Started</a>
-      <div class="btns">
-        <a href="#"><i class="fa fa-assistive-listening-systems"></i> Listening</a>
-        <a href="#"><i class="fa fa-book fa-3x"></i> Reading</a>
-        <a href="#"><i class="fa  fa-file-text fa-3x"></i> Writing</a>
-		<a href="#"><i class="fa  fa-user fa-3x"></i> Speaking</a>
-      </div>
-    </div>
-  </section><!-- #hero -->
-
-  
-  <!--==========================
-    Get Started Section
-  ============================-->
-  <!--
-  <section id="get-started" class="padd-section text-center wow fadeInUp">
-
-    <div class="container">
-      <div class="section-title text-center">
-
-        <h2>All sections of PTE exam </h2>
-        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
-
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-
-        {% for membership in object_list %}
-
-        <div class="col-md-6 col-lg-4 mb-3">
-          <div class="feature-block">
-
-            <a href="{{module.question_class}}/"><img src="{{ module.module_image.url }}" alt="img" class="img-fluid"></a>
-            <h4>{{module.module_name}}</h4>
-            <p>{{module.description}}</p>
-            <a href="{{module.question_class}}/">Exercise!</a>
-
-          </div>
-        </div>
-        {% endfor %}
-
-      </div>
-      {% block pagination %}
-    {% include "pagination.html" %}
-    {% endblock %}
-    </div>
-    
-  </section> -->
+  {% block hero %}
+  {% include "home-hero.html" %}
+  {% endblock %}
  <!--==========================
     Features Section
   ============================-->
-
-  <section id="features" class="padd-section text-center wow fadeInUp">
-
-      <div class="container">
-        <div class="section-title text-center">
-        <h2>All sections of PTE exam </h2>
-        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
-        </div>
-      </div>
-  
-      <div class="container">
-        <div class="row">
-            {% for item in question_section_list %}
-          <div class="col-md-6 col-lg-3">
-            <div class="feature-block">
-              <img src="{{ item.module_image.url }}" alt="img" class="img-fluid">
-              <h4>{{item.question_type}}</h4>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-            </div>
-          </div>
-  {% endfor %}
-         
-
-
-        </div>
-      </div>
-    </section>
+  {% block features %}
+  {% include "home-features.html" %}
+  {% endblock %} 
+ <!--==========================
+    About Us Section
+  ============================-->
+  {% block aboutus %}
+  {% include "home-aboutus.html" %}
+  {% endblock %}
   <!--==========================
     Pricing Table Section
   ============================-->
-  <section id="pricing" class="padd-section text-center wow fadeInUp">
-
-      <div class="container">
-        <div class="section-title text-center">
-  
-          <h2>Meet With Price</h2>
-          <p class="separator">Integer cursus bibendum augue ac cursus .</p>
-  
-        </div>
-      </div>
-  
-      <div class="container">
-        <div class="row">
-          {% for membership_type in membership_list %}
-        
-              
-          <div class="col-md-6 col-lg-3">
-            <div class="block-pricing">
-              <div class="table">
-                <h4>{{ membership_type.member_type}}</h4>
-                <img src="{{ membership_type.image.url }}" alt="img" class="img-fluid">
-                {% if membership_type.price == 0.0 %}
-                <h2>Free</h2>
-                {% else %}
-                <h2>{{ membership_type.price}} AUD</h2>
-                {% endif %}
-                <ul class="list-unstyled">
-                    {% for item in question_section_list %}
-                  <li><b>{{item.question_type}} </b> {% count_question section=item.question_type user_type=membership_type.member_type presedence=membership_type.presedence %}</li>
-                  {% endfor %}
-                  <li>{{ membership_type.duration}} months</li>
-                  
-                </ul>
-                <div class="table_btn">
-                  {% if membership_type.price == 0.0 %}
-                  {% if request.user.is_authenticated %}
-                  <a href="{% url 'dashboard' %}" class="btn" ><i class="fa fa-graduation-cap"></i> Practice</a>
-                  {% else %}
-                  <a href="{% url 'account_register' %}" class="btn"><i class="fa fa-shopping-cart"></i> Signup Now</a>
-                  {% endif %}
-                  {% else %}
-                  {% if request.user.is_authenticated %}
-                  {% if request.user|id_check > membership_type.presedence%}
-                  <button href="#prising" class="btn btn-danger"><i class="fa fa-window-close-o"></i> Nop!</button>
-                  {% elif request.user|id_check == membership_type.presedence %}
-                  <form  action="{% url 'new_order' %}" method="get" >
-                    
-                  <input type="hidden" class="form-control" name="member_type" id="id_member_type" value="{{ membership_type.member_type}}"/>
-                
-                  <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Extend</button>
-                </form>
-                  {%else%}
-                  <form  action="{% url 'new_order' %}" method="get">
-                  
-                  <input type="hidden" class="form-control" name="member_type" id="id_member_type" value="{{ membership_type.member_type}}"/>
-                  <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> Buy Now</button>
-                  </form>
-                  {%endif%}
-                  {% else %}
-                  <a href="{% url 'account_register' %}"  class="btn btn-lg btn-success"><i class="fa fa-shopping-cart"></i> SignUp and Buy</a>
-                  {% endif %}
-                  {% endif %}
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
+  {% block pricing %}
+  {% include "home-pricing.html" %}
+  {% endblock %}
   <!--==========================
     Contact Section
   ============================-->
-  <section id="contact" class="padd-section wow fadeInUp">
-
-    <div class="container">
-      <div class="section-title text-center">
-        <h2>Contact</h2>
-        <p class="separator">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row justify-content-center">
-
-        <div class="col-lg-3 col-md-4">
-
-          <div class="info">
-            <div>
-              <i class="fa fa-map-marker"></i>
-              <p>A108 Adam Street<br>New York, NY 535022</p>
-            </div>
-
-            <div class="email">
-              <i class="fa fa-envelope"></i>
-              <p>info@example.com</p>
-            </div>
-
-            <div>
-              <i class="fa fa-phone"></i>
-              <p>+1 5589 55488 55s</p>
-            </div>
-          </div>
-
-          <div class="social-links">
-            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-          </div>
-
-        </div>
-
-        <div class="col-lg-5 col-md-8">
-            <div style="display:none;" class="contactformalert alert alert-success" role="alert">
-                 
-                <h4 class="alert-heading">Well done!</h4>
-                <p>Your message has been sent. We will get back to you as soon as possible. Thank you!</p>
-                <hr>
-                <p class="mb-0">PTEKey</p>
-              </div>
-          <div class="form">
-            <div id="sendmessage">Your message has been sent. Thank you!</div>
-            <div id="errormessage"></div>
-            
-            <form  method="post" role="form" class="contactForm">
-                {% csrf_token %} 
-              <div class="form-group">
-                <input type="text" name="{{form.name.name}}" class="form-control" id="{{form.name.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.first_name}}{% else %}Your Name{% endif %}" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="email" class="form-control" name="{{form.email.name}}" id="{{form.email.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.email}}{% else %}Your Email{% endif %}" data-rule="email" data-msg="Please enter a valid email" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="{{form.subject.name}}" id="{{form.subject.id_for_label}}" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control" name="{{form.message.name}}" id="{{form.message.id_for_label}}" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                <div class="validation"></div>
-              </div>
-              <div class="text-center"><button class='contactformsubmit' type="submit">Send Message</button></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section><!-- #contact -->
+  {% block contact %}
+  {% include "home-contact.html" %}
+  {% endblock %}
 
     
-</div>
-      {% endblock %}
+{% endblock %}
     
     

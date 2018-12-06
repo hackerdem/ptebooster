@@ -1,7 +1,8 @@
 from django import template
 from random import shuffle
 from membership.models import Membership
-from modules.models import Module,QuestionSection,QuestionStatistics
+from modules.models import Module,QuestionSection
+from stats.models import QuestionStatistics
 from django.contrib.auth import get_user_model
 register = template.Library()
 User = get_user_model()
@@ -32,4 +33,3 @@ def count_question(section, user_type, presedence):
     number_of_question = QuestionStatistics.objects.filter(is_active=True, question_section=section, membership_type__in=objects).count()
     return number_of_question
     
-        

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'purchase',
     'contact',
     'dashboard',
+    'stats',
+    'recommendation',
     #'memcache_status',
     'django.contrib.admin',
     'django.contrib.auth',

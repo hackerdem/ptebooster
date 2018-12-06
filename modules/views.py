@@ -13,8 +13,10 @@ from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from .forms import BuyForm
-from .models import QuestionStatistics,QuestionSection
+from .models import QuestionSection
+from stats.models import QuestionStatistics
 User = get_user_model()
+
 class HomePageListView(ListView,FormView):
     form_class= ContactDataForm
     template_name='home.html'

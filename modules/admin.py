@@ -4,7 +4,7 @@ RepeatSentence, AcademicVocabulary, Dictation, HighlightWords,FillInBlanks, \
 SelectMissingWord, HighlightCorrectSummary, ReadTAloud, RetellLecture, Essay, \
 AnswerShortQuestions, ReorderParagraph, MultipleSelection, MultipleSelectionReading, \
 FillBlanksReading, SummarizeSpokenText, SummarizeWrittenText, QuestionSection
-from .models import QuestionStatistics
+from stats.models import QuestionStatistics
 # add related module field when migrating to new  database
 
 class ModelAdmin(admin.ModelAdmin):
@@ -25,10 +25,6 @@ class ModelAdmin(admin.ModelAdmin):
             except:
                 pass
         queryset.delete()
-
-@admin.register(QuestionStatistics)
-class QuestionStatisticsAdmin(admin.ModelAdmin):
-    list_display = ['question_id', 'related_module','membership_type','question_section','is_active']
 
 @admin.register(QuestionSection)
 class QuestionSectionAdmin(admin.ModelAdmin):
