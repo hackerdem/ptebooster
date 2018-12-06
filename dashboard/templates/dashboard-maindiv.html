@@ -1,0 +1,75 @@
+<br>
+<br>
+
+        
+        <div class="row panel">
+                
+                <div class="col-md-12  col-xs-12 text-center">
+                        <img src="{{ request.user.user_type.image.url}}" alt="Avatar" class="avatar-large">
+                   
+                   <div class="header text-center">
+                        <h1>Dashboard</h1>
+                        
+                        <!--<p align='justify'>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+        "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>-->
+                   </div>
+                </div>
+               
+            </div>  
+  
+    <div class="row">
+         <!--    <div class="col-md-3">
+               
+                    <a class="modules" onclick="myFunction('statistics')" href="#">
+                    <div class="card-counter primary">
+                      <i class="fa fa-bar-chart"></i>
+                      <span class="count-numbers">12</span>
+                      <span class="count-name">Statistics</span>
+                    </div></a>
+                  </div>-->
+                  <div class="col-md-3">
+                        <a class="modules" onclick="myFunction('membership')" href="#">
+                        <div class="card-counter danger">
+                          <i class="fa fa-user"></i>
+                          <span class="count-numbers">{{ profile.remaining_days }}</span>
+                          <span class="count-name">Membership</span>
+                        </div></a>
+                      </div>
+                      <div class="col-md-3">
+                            <a class="modules" onclick="myFunction('modules')" href="#">
+                            <div class="card-counter success">
+                            <i class="fa fa-graduation-cap"></i>
+                              <span class="count-numbers">{{ modules.count }}</span>
+                              <span class="count-name">Modules</span>
+                            </div></a>
+                          </div>
+                          
+                             <div class="col-md-3">
+                                    <a class="modules" onclick="myFunction('communication')" href="#">
+                                    <div class="card-counter primary">
+                                    <i class="fa fa-video-camera"></i>
+                                      <span class="count-numbers">{{ video.count }}</span>
+                                      <span class="count-name">Recommendation</span>
+                                    </div></a>
+                                  </div>
+                                <div class="col-md-3">
+                                        <a class="modules" onclick="myFunction('notifications')" href="#">
+                                        <div class="card-counter info">
+                                        <i class="fa fa-comments"></i>
+                                          <span class="count-numbers">{{ notifications.count }}</span>
+                                          <span class="count-name">Notifications</span>
+                                        </div></a>
+                                      </div>
+<!--<div class="col text-center">
+  <div class="card">
+    <div class="card-body">
+        <a class="modules" onclick="myFunction('notifications')" href="#">
+      <h6 class="card-subtitle mb-2 text-muted">Notifications</h6></a>
+      <span class="glyphicon glyphicon-envelope"></span>
+      
+    </div>
+  </div>
+</div>--> 
+</div>
+<br>
+<br>   

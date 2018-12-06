@@ -1,0 +1,40 @@
+<div id="membership" class="row hidden">
+        
+          
+        <div class="col text-center">
+          <div class="card">
+            <div class="card-body">
+                
+              <h2 class="card-subtitle mb-3 text-muted">Membership Details</h2>
+              
+              
+      <table class="table text-white">
+              <thead>
+                <tr  class="bg-danger">
+                  <th scope="col" colspan="2">Membership Type</th>
+                  
+                  <th scope="col">Days To End</th>
+                  <th scope="col">Ends at</th>
+                  <th scope="col">Upgrade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-secondary">
+                  <th  scope="row"><img src="{{ request.user.user_type.image.url}}" alt="Avatar" class="avatar"></th>
+                  <td>{{ profile.type }}</td>
+                  <td>{{ profile.remaining_days }}</td>
+                  <td>{{ profile.expiary }}</td>
+                  <td><a href="{% url 'home' %}#pricing" class="badge badge-pill badge-success text-warning">Upgrade</a></td>
+                </tr>
+               
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+        
+      
+       
+        
+      
+      </div>

@@ -1,0 +1,103 @@
+<div class="row hidden" id="modules">
+        
+        {% for item in section %}
+        
+                <div class="col text-center">
+                        <a class="modules" onclick="myFunction('{{item.question_type}}')">
+                  <div class="card">
+                    <div class="card-body ">
+                        
+                      <h5 class="card-subtitle mb-3 text-muted">{{item.question_type|slugify}}</h5>
+                      <img src="{{ item.module_image.url }}" alt="img" class="img-fluid">
+                    </div>
+                  </div>
+                </div></a>
+                {#{% for a in item.modules.all %} {{a.module_name}}{% endfor %}#}
+        
+               
+                {% endfor %}   
+       
+    </div>
+   
+    <div class="row hidden" id="Listening">
+    
+      {% for a in listening %}
+                
+                <div class="col-md-3 text-center">
+                        <a href="{{a.get_absolute_url}}">  
+                        <div class="card mb-4 shadow-sm">
+                               
+                          <div class="card-body">
+                            <p class="card-text">{{a.module_name}}
+                                <div class="d-flex justify-content-between align-items-center">
+                                        <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                            
+                            </div>
+                          </div>
+                        </div>
+                     </a>
+                      </div>
+        {% endfor %}
+              
+    </div>
+    <div class="row hidden" id="Reading">
+    
+      {% for a in reading %}
+      <div class="col-md-3 text-center">
+            <a href="{{a.get_absolute_url}}">  
+            <div class="card mb-4 shadow-sm">
+                   
+              <div class="card-body">
+                <p class="card-text">{{a.module_name}}
+                    <div class="d-flex justify-content-between align-items-center">
+                            <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                
+                </div>
+              </div>
+            </div>
+         </a>
+          </div>
+        {% endfor %}
+              
+    </div>
+    <div class="row hidden" id="Writing">
+    
+      {% for a in writing %}
+      <div class="col-md-3 text-center">
+            <a href="{{a.get_absolute_url}}">  
+            <div class="card mb-4 shadow-sm">
+                   
+              <div class="card-body">
+                <p class="card-text">{{a.module_name}}
+                    <div class="d-flex justify-content-between align-items-center">
+                            <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                
+                </div>
+              </div>
+            </div>
+         </a>
+          </div>
+                
+        {% endfor %}
+              
+    </div>
+    <div class="row hidden" id="Speaking">
+    
+      {% for a in speaking %}
+      <div class="col-md-3 text-center">
+            <a href="{{a.get_absolute_url}}">  
+            <div class="card mb-4 shadow-sm">
+                   
+              <div class="card-body">
+                <p class="card-text">{{a.module_name}}
+                    <div class="d-flex justify-content-between align-items-center">
+                            <img src="{{ a.module_image.url }}" class="img-fluid center" alt="img">
+                
+                </div>
+              </div>
+            </div>
+         </a>
+          </div>
+        {% endfor %}
+              
+    </div>

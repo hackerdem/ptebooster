@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% load dashboard_tags %}
+{% block content %}
+
+
+<br>
+<br>
+    <div class="container">
+        
+       {% block maindiv %}
+       {% include "dashboard-maindiv.html" %}
+       {% endblock %}
+
+       {% block membership %}
+       {% include "membership.html" %}
+       {% endblock %}
+
+       {% block statistics %}
+       {% include "statistics.html" %}
+       {% endblock %}
+
+       {% block modules %}      
+       {% include "modules.html" %}  
+       {% endblock %}  
+ 
+       {% block notifications %}      
+       {% include "notifications.html" %}  
+       {% endblock %}   
+       
+       {% block recommendations %}      
+       {% include "recommendations.html" %}  
+       {% endblock %} 
+       
+  
+  {% endblock %}

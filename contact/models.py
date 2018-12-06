@@ -1,6 +1,7 @@
 from django.db import models
-
-
+from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
+User = get_user_model()
 class ContactDataManager(models.Manager):
     def create_request(self,request_number,is_registered, is_paid_member, name, email, subject, message):
         request = self.create(
@@ -27,3 +28,12 @@ class ContactData(models.Model):
 
     def __str__(self):
         return self.request_number
+
+
+
+class Notification(models.Model):
+    subject = models.CharField(max_length=100, blank=False, null=False)
+    body = models.TextField(max_length=1000, blank=False, null=False)
+    receiver_id = models.IntegerField(null=True, default=0,validators=[MinValueValidator(0)],help_text="Enter user ID for a specific user. For bulk notification leave as it is.")
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User,on_delete=models.PROTECT ,limit_choices_to={'is_staff':True})

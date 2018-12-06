@@ -8,12 +8,13 @@ from django.contrib.auth import get_user_model
 import pytz
 from datetime import timedelta, datetime
 from recommendation.models import Video
+from contact.models import Notification
 
 User = get_user_model()
 class DashboardView(LoginRequiredMixin,ListView):
     model = Order
     page_title = 'Dashboard'
-    template_name = 'dashboard/dashboard.html'
+    template_name = 'dashboard.html'
 
 
     def get_context_data(self, **kwargs):
@@ -38,6 +39,7 @@ class DashboardView(LoginRequiredMixin,ListView):
             'profile' : profile,
             'membership_list' : Membership.objects.all(),
             'video' : Video.objects.all(),
+            'notifications' : Notification.objects.filter(receiver_id__in=[0,self.request.user.id]).order_by('-created_on')
 
 
 

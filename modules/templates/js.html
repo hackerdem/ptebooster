@@ -529,3 +529,20 @@ $('#message').show().text($("input:radio[name=optradio]:checked").val());
     }
    
   </script>
+  <script>
+  function readNotification(id){
+    
+   
+   var section ='#'+"message-"+id;
+   if ($(section).css('display')!=='none') {
+    $('#'+id).text('Read')
+     $(section).hide();
+   } else {
+    $('#'+id).text('Close')
+     $(section).show("slow");
+     
+   }
+
+    
+    }
+  </script>
