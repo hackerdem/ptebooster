@@ -15,7 +15,7 @@ class QuestionSection(models.Model):
     module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
 
 class Module(models.Model):
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     module_name = models.CharField(max_length=80)
     question_type = models.ForeignKey(QuestionSection, on_delete=models.PROTECT,null=True,blank=True,related_name='modules')
     module_image=models.ImageField(upload_to='ptebooster/media/icons',default='ptebooster/media/icons/module_default.png')
@@ -65,9 +65,16 @@ class Dictation(StatusAbstract):
     audio = models.FileField(upload_to='ptebooster/media/dictation')
 
 class AcademicVocabulary(StatusAbstract):
-    word = models.CharField(max_length=150, blank=False)
-    academic_in_sentence = models.CharField(max_length=300, blank=False)
-
+    component_1 = models.CharField(max_length=150, blank=False)
+    component_2 = models.CharField(max_length=150, blank=False)
+    addition_1 = models.CharField(max_length=80, null=True, blank=True)
+    addition_2 = models.CharField(max_length=80, null=True, blank=True)
+    pos_1 = models.CharField(max_length=80, null=True, blank=True)
+    pos_2 = models.CharField(max_length=80, null=True, blank=True)
+    academic_in_sentence = models.CharField(max_length=300, null=True, blank=True)
+    class Meta:
+        ordering = ['component_1']
+        unique_together = ('component_1', 'component_2',)
 class HighlightWords(StatusAbstract):
     paragraph = models.TextField(max_length=800,blank=False)
     audio = models.FileField(upload_to='ptebooster/media/highlight-incorrect-words')
@@ -114,7 +121,7 @@ class FillInBlanks(StatusAbstract):
 
 class AnswerShortQuestions(StatusAbstract):
     audio = models.FileField(upload_to='ptebooster/media/answer-short-question',blank=False)
-    item = models.CharField(max_length=90,blank=False)
+    item = models.CharField(max_length=90, unique=True, blank=False)
 
 class ReorderParagraph(AbstractChoices):
     option_5 = models.TextField(max_length=500,blank=False)

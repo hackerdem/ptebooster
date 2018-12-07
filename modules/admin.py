@@ -54,7 +54,7 @@ class DictationAdmin(ModelAdmin):
 
 @admin.register(AcademicVocabulary)
 class AcademicVocabularyAdmin(ModelAdmin):
-    list_display = ['related_module','word','academic_in_sentence']
+    list_display = ['related_module','component_1','component_2','addition_1','addition_2','pos_1','pos_2','academic_in_sentence']
 
 
 @admin.register(HighlightWords)

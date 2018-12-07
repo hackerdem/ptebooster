@@ -18,7 +18,7 @@ class DashboardView(LoginRequiredMixin,ListView):
 
 
     def get_context_data(self, **kwargs):
-        user = User.objects.get(email__iexact=self.request.user)
+        user = User.objects.get(email__exact=self.request.user)
         utc = pytz.UTC
         time_1 = user.membership_end_date
         time_2 = utc.localize(datetime.now())
