@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="get-started" class="padd-section text-center">
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong> You will hear a question. Please give a simple and short answer. Often just one or a few words is enough.</strong></p>   
+                        </div>
+        
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='5' hidden>
+                                          <p> Playing in <span id="countdowntimer">5 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      <h4 class="card-header">Answer</h4>
+                                      <div class="card-body">
+                                            
+                                        <p id="answer" class="card-text text-danger" style=" visibility:hidden"><strong>{{ object.answer}}</strong></p>
+                                      
+                                        <button type="button" onclick="showAnswer()" class="btn btn-success btn-sm">Show Answer</button>
+                                    </div>
+                                     
+                                    </div>
+                                  </div>
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
+      {% block pagination %}
+      {% include "pagination.html" %}
+      {% endblock %}
+
+
+</div></section>
+      {% block essay-js %}
+      {% include "scripts/answer-short-questions.html" %}
+      {% endblock %}
+      {% endblock %}
+    
+
+
+

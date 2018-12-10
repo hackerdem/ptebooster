@@ -1485,3 +1485,7 @@ footer a:hover, footer a:focus { color: #fff; border: 0; }
   height: 30px;
   border-radius: 50%;
 }
+
+.centered{
+  margin: 0 auto;
+}

@@ -1,73 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-2 sidenav">
-            
-          </div>
-          <div class="col-sm-8 text-center"> 
-              <h4 class="card-title">Question</h4>
-              <p class="text-justify" ><strong> You will have 20 minutes to plan, write and revise an essay about the topic below. Your response will be judged on how well you develop a position, organize your ideas, present supporting details,
-                 and control the elements of standard written English. You should write 200-300 words.</strong></p>
-              <table class="table table-hover">
-                  <thead>
-                        {% for object in object_list %}
-                    <tr>
-                     
-                            <p c> {{ object.topic}}</p>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                        <div float="right" class="text-center col-sm-2 border border-secondary"><span id="time">20:00</span></div>
-                      </tr>
-                    <tr>
-                      
-                    
-                      <td>
-                        
-                            <textarea id="word_count" class="essayArea" style="width:700px; height:200px" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea> <br>
-                            Total word count: <span id="display_count">0</span> words
-                            <button onclick="cut()">Cut</button>
-                            <button onclick="copy()">Copy</button>
-                            <button onclick="paste()">Paste</button>
-                            
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                     
-                        <th scope="col text-right"></th>
-                        <th scope="col"></th>
-                        <th scope="col"><button type="button" class="btn btn-success spellCheck">Check my Answers</button></th>
-                      </tr>
-                  </tbody>
-                  
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-12 text-right">
+                    <!--<p style="float:left"><a class="badge badge-success text-white">Sample Answer</a>  </p>-->
+                    <p>Time Remaining: <span  class="badge badge-danger" id="time" >20:00</span>  </p>
+                </div>
 
-                </table>
-                
-          
-          
-      
-          
-      
-          </div>
-          <div class="col-sm-2 sidenav">
-          
+              </div>
+
+              
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 ">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <br>
+                                <p class="text-justify"><strong>
+                                  You will have 20 minutes to plan, write and revise an essay about the topic below. Your response will be judged on how well you develop a position, organize your ideas, present supporting details,
+                                  and control the elements of standard written English. You should write 200-300 words.
+
+                                </strong></p>   
+                        </div>
         
-            </div>
-          </div>
-        </div>
-      </div>
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            
+                                
+                                <p class="text-justify">
+                                  {{ object.topic}}
+                                </p>   
+                        </div>
         
+                      </div>
+                      <br>
+                     
+                      <div class="essayArea row">
+                            <div class="col-lg-12 mb-12 centered">
+                              <textarea id="word_count" class=" essaytextarea border border-secondary" style="width:100%; height:300px" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea> <br>
+                              
+                                  </div>
+                      </div>
+                      {% if object.model_answer %}
+                      <div class="sampleArea row" style="display:none">
+                          <div class="col-lg-12 mb-12 centered">
+                            <textarea id="modelanswer" class=" border border-secondary" oncopy="return false" onpaste="return false" style="width:100%; height:300px" readonly>{{ object.model_answer }}</textarea> <br>
+                            
+                                </div>
+                    </div>
+                    {% endif %}
+                      <br>
+                      <div class="row">
+                        <div class="col-lg-12 mb-12 centered">
+                    
+                         <!--<button onclick="cut()" class="btn btn-success btn-sm pull-left" >Cut</button>-->
+                          <button id="essaybutton" onclick="showSampleEssay()" class="btn btn-success btn-sm">Show Sample Answer</button>
+                         <!-- <button onclick="paste()" class="btn btn-success btn-sm pull-right" >Paste</button>-->
+                              </div>
+                  </div>
+                  <br>
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-left">
+                            
+                               
+                                <p ><strong>
+                                  Total word count: <span id="display_count">0</span> words
+                                </strong></p>   
+                        </div>
+        
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
 </div></section>
+      
       {% endblock %}
     
 

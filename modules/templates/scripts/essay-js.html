@@ -1,0 +1,36 @@
+
+<script>
+    function showSampleEssay() {
+      if ($('.essayArea').value===''){
+        $('.essayArea').addClass('alert alert-danger');
+      }
+      else if ($('.essayArea').is(':hidden')){
+        $('.essayArea').show();
+        $('.sampleArea').hide();
+        $('#essaybutton').text('Show Sample Answer');
+      }
+      else{
+        $('.essayArea').hide();
+        $('.sampleArea').show();
+        $('#essaybutton').text('Show My Answer');
+      }
+    }
+    $(document).ready(function() {
+      $("#word_count").on('keyup', function() {
+          var words = this.value.match(/\S+/g).length;
+          if (words > 300) {
+              // Split the string on first 300 words and rejoin on spaces
+              var trimmed = $(this).val().split(/\s+/, 300).join(" ");
+              // Add a space at the end to keep new typing making new words
+              $(this).val(trimmed + " ");
+          }
+          else {
+              $('#display_count').text(words);
+              
+          }
+      });
+   }); 
+
+  </script>
+  
+  

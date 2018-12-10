@@ -1,0 +1,25 @@
+<!-- Fill in the blanks reading starts -->
+<script>
+        $(".fillReading").click(function(){
+          var answers = new Array();
+          $(".lanswer").each(function(){
+            
+            answers.push($(this).val().trim());
+          })
+          
+          
+          $(".introleadin").each(function(){
+            var a = $(this).find("option:selected").text();
+           
+            if (jQuery.inArray(a,answers) == -1){
+        
+            
+              $(this).addClass('border border-danger');
+            }else{
+              $(this).addClass('border border-success');
+            }
+          });
+          $('.answerlist').show();
+        });
+        </script>
+      <!-- Fill in the blanks ends-->

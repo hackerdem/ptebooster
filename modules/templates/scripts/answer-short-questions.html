@@ -1,0 +1,27 @@
+ <!--answer short questions section -->
+ <script>
+   
+
+    function showAnswer(){
+      
+      var answer = $('#answer').val().toLowerCase().trim();
+      var useranswer = $('#useranswer').val().toLowerCase().trim();
+      if (useranswer===""){
+        $('#useranswer').addClass('alert-danger');
+      }
+      else if (answer !==useranswer){
+        $('#useranswer').addClass('alert-danger');
+        $('#answer').addClass('alert-danger');
+        $('#answer').css('visibility','visible');
+      }
+      else{
+        $('#useranswer').addClass('alert-success');
+        $('#answer').css('visibility','visible');
+      }
+  
+    }
+    function playAnswer(){
+      showAnswer();
+      document.getElementById('answer').play();
+    }
+    </script>

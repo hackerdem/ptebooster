@@ -108,7 +108,7 @@ class ImagesListView(AbstractListView):
 class SpellingListView(AbstractListView):
     model = Spelling
     template_name = 'questions/spelling.html'
-    paginate_by = 10
+    paginate_by = 1
 
 class RepeatListView(AbstractListView):
     model = RepeatSentence
@@ -123,7 +123,7 @@ class AcademicVocabularyListView(AbstractListView):
 class DictationListView(AbstractListView):
     model = Dictation
     template_name = 'questions/write-from-dictation.html'
-    paginate_by = 2
+    paginate_by = 1
 
 class HighlightListView(AbstractListView):
     model = HighlightWords
@@ -180,8 +180,8 @@ class FillInBlanksView(AbstractListView):
         return queryset
 class AnswerShortQuestionsView(AbstractListView):
     model = AnswerShortQuestions
-    template_name = 'questions/spelling.html'
-    paginate_by = 10
+    template_name = 'questions/short-question.html'
+    paginate_by = 1
 
 class ReorderParagraphView(AbstractListView):
     model = ReorderParagraph

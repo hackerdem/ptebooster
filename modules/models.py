@@ -112,7 +112,8 @@ class RetellLecture(StatusAbstract):
     image = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
 
 class Essay(StatusAbstract):
-    topic = models.TextField(max_length=1000,blank=False)
+    topic = models.TextField(max_length=250,blank=False)
+    model_answer = models.TextField(max_length=2000,blank=False)
     
 class FillInBlanks(StatusAbstract):
     paragraph = models.TextField(max_length=1000,blank=False)
@@ -121,7 +122,8 @@ class FillInBlanks(StatusAbstract):
 
 class AnswerShortQuestions(StatusAbstract):
     audio = models.FileField(upload_to='ptebooster/media/answer-short-question',blank=False)
-    item = models.CharField(max_length=90, unique=True, blank=False)
+    question = models.CharField(max_length=90, unique=True, blank=False)
+    answer = models.CharField(max_length=90)
 
 class ReorderParagraph(AbstractChoices):
     option_5 = models.TextField(max_length=500,blank=False)

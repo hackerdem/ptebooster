@@ -1,62 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-<br>
-<br>
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-         
-          <div class="col-sm-12 text-center"> 
-              <h4 class="card-title">Write From Dictation</h4>
-              <p ><strong> You will hear a sentence. Please write down as you hear.</strong></p>
-              <table class="table table-striped">
-                  <thead class="thead-dark">
-                    <tr>
-                     
-                      <th scope="col">Listen</th>
-                      <th scope="col">Your Answer</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {% for object in object_list %}
-                    <tr>
-                      
-                      <td><audio controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></td>
-                      <td ><input id="object{{ forloop.counter0 }}" size="35" type="text" class="foo form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
-                      
-                    </tr>
-                    <tr>
-                      <td class="text-right" colspan="12">
-                     <div class="demo-container text-right alert col-sm-12" id="hidden{{ forloop.counter0 }}" style="display:none;">{{object.item}} </div>
-                    </td>
-                    {% endfor %}
-                    <tr>
-                      <td></td>
-                        <td class="text-right">
-                        <button type="button" class="btn btn-success"  onclick="checkWords()">Check my Answers</button></td>
-                      </tr>
-                  </tbody>
-                  
-                </table>
-                
-          
-          
-      
-          
-      
-          </div>
-          
-          </div>
-        </div>
-      </div>
+<section id="get-started" class="padd-section text-center">
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong> You will hear a question. Please give a simple and short answer. Often just one or a few words is enough.</strong></p>   
+                        </div>
         
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='5' hidden>
+                                          <p> Playing in <span id="countdowntimer">5 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-8 mb-8 centered">
+                                    <div class="card h-100">
+                                      <h4 class="card-header">Answer</h4>
+                                      <div class="card-body">
+                                          <input id="useranswer" type="text" style="font-size:20px;text-align:center;" class="form-control" value="" >  
+                                          <input id="answer" type="text" style="font-size:20px;text-align:center;visibility:hidden" class="form-control text-success" value='{{object.item}}' readonly> 
+                                          <p  class="card-text text-danger" style=" visibility:hidden"><strong></strong></p>
+                                      
+                                        <button type="button" onclick="showAnswer()" class="btn btn-success btn-sm">Show Answer</button>
+                                    </div>
+                                     
+                                    </div>
+                                  </div>
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
+</div></section>
       {% endblock %}
     
 

@@ -2,57 +2,59 @@
 {% block content %}
 <section id="get-started" class="padd-section text-center">
 <div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-2 sidenav">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
             
-          </div>
-          <div class="col-sm-8 text-center"> 
-                {% for object in object_list %}
-              <h4 class="card-title">Question</h4>
-              
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     <p class="text-justify" ><strong> Look at the text below. In 40 seconds, you must read this text aloud as naturally and
-                         clearly as possible. You have 40 seconds to read aloud. </strong></p>
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                   
-                      <tr>
-                            
-                      </tr>
-                      
-                      <br>
-                      <br>
-                    <tr><p class="text-justify"> {{ object.paragraph}}</p></tr>
-                    <br>
-                    {% if object.audio %}<tr><audio controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>{% endif %}
-                    {% endfor %}
-                    <tr>
-                     
-                        
-                        <th scope="col" class="text-right"><button type="button" class="btn btn-success getvalue">Check my Answers</button></th>
-                      </tr>
-                      <tr>
-                         
-                        </tr>
-                  </tbody>
+                
+                <p ><strong>Look at the text below. In 40 seconds, you must read this text aloud as naturally and
+                    clearly as possible. You have 40 seconds to read aloud. 
                   
+                  </div>
 
-                </table>
-              
-          </div>
-          <div class="col-sm-2 sidenav">
-          
-        
-            </div>
-          </div>
-        </div>
       </div>
+      {% for object in object_list %}
+      
+        <div class="row">
+            <div class="col-lg-4 mb-4 centered">
+                    <div class="card h-100">
+                      
+                      <h4 class="card-header">Audio</h4>
+                      <div class="card-body">
+                          <input id='preparation' value='25' hidden>
+                          <p id="messageMain" class="text-danger" > <span id="message">Recording in </span><strong><span id="countdown" value="25"></span></strong> Seconds</p>
+                         
+                          <progress value="0" max="25" id="progress"></progress>
+                          <br>
+                          </div>
+                      
+                    </div>
+                  </div>
+      </div>
+      <br>
+      <div class="row">
+            <div class="col-lg-4 mb-4 centered">
+                    <div class="card h-100">
+                      <h4 class="card-header">Answer</h4>
+                      <div class="card-body">
+                        <audio id="answer" style="visibility:hidden" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                       
+                       
+                      
+                        <button type="button" onclick="playAnswer()" class="btn btn-success btn-sm">Listen Answer</button>
+                    </div>
+                     
+                    </div>
+                  </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-12 text-justify">
+              
+                 
+                  <p><h3>{{ object.paragraph}}</h3></p>
+                    </div>
+  
+        </div>
+    {% endfor %}
         
       {% block pagination %}
       {% include "pagination.html" %}

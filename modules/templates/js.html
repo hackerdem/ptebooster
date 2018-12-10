@@ -126,15 +126,53 @@ $(".contactForm").on('submit',function(event){
 })
 </script>
  <!-- Script for contact form ends -->
+ <!-- Script for read aloud  starts hear-->
+ <script>
+    var timeleft = document.getElementById("preparation").value;
+    var startpoint = timeleft;
+    var flipflop = 0;
+    console.log(timeleft)
+    var downloadTimer = setInterval(function(){
+      document.getElementById("progress").value = startpoint - --timeleft;
+      document.getElementById("countdown").textContent = timeleft;
+      if (timeleft===0 && flipflop===0){
+        timeleft = 40;
+        startpoint = 40;
+        flipflop = 1;
+        document.getElementById("progress").max = '40';
+        document.getElementById("message").innerHTML = ' Recording ';
+        
+         }
+         if (timeleft===0 && flipflop===1){
+        var messageMain = document.getElementById("messageMain");
+       
+        messageMain.innerHTML = ' Done! ';
+        
+         }
+      if(timeleft <= 0)
+        clearInterval(downloadTimer);
+        
+    },1000);
+    
+    
+</script>
+ <!-- Script for read aloud  ends hear-->
 <script>
-    var timeleft = 8;
+    var timeleft = document.getElementById("seconds").value;
+    console.log(timeleft)
     var downloadTimer = setInterval(function(){
       document.getElementById("progressBar").value = 8 - --timeleft;
       document.getElementById("countdowntimer").textContent = timeleft;
+      if (timeleft===0){
+        document.getElementById("audioContent").play();
+        
+         }
       if(timeleft <= 0)
         clearInterval(downloadTimer);
+        
     },1000);
-    document.getElementById("audioContent").autoplay;
+    
+    
 </script>
 <script>
    function checkWords(){
@@ -166,41 +204,7 @@ $(".contactForm").on('submit',function(event){
 
 
 </script>
-<script>
-  function copy() {
-    var VAL = $("#selection").select();
-    var DTA = $(this).text();
-    document.execCommand("copy");
-  
-}
-function cut() {
-  var VAL = $("#selection").select();
-  var DTA = $(this).text();
-  document.execCommand("copy");
-  document.execCommand("delete");
-}
-function cut() {
-var VAL = $("#selection").select();
-var DTA = $(this).text();
-document.execCommand("copy");
-document.execCommand("paste");
-}
-  $(document).ready(function() {
-    $("#word_count").on('keyup', function() {
-        var words = this.value.match(/\S+/g).length;
-        if (words > 300) {
-            // Split the string on first 200 words and rejoin on spaces
-            var trimmed = $(this).val().split(/\s+/, 300).join(" ");
-            // Add a space at the end to keep new typing making new words
-            $(this).val(trimmed + " ");
-        }
-        else {
-            $('#display_count').text(words);
-            
-        }
-    });
- }); 
-</script>
+
 
 <script>
   $(".checkParagraph").click(function(){
@@ -271,11 +275,10 @@ alert(vid.duration);
 }
 </script>
 <!-- spelling section ends-->
-<!--$(".essayArea").attr('readonly','readonly');-->
  <script>
     function startTimer(duration, display) {
       var timer = duration, minutes, seconds;
-      setInterval(function () {
+      var timerId = setInterval(function () {
           minutes = parseInt(timer / 60, 10)
           seconds = parseInt(timer % 60, 10);
   
@@ -285,48 +288,27 @@ alert(vid.duration);
           display.text(minutes + ":" + seconds);
   
           if (--timer < 0) {
-              timer = duration;
-              $(".essayArea").attr('readonly','readonly');
+             clearInterval(timerId);
+              $(".essaytextarea").attr('readonly',true);
           }
          
       }, 1000);
   }
   
-  jQuery(function ($) {
-    
-      var givenMinutes = 60 * 1,
+  $( document ).ready(function () {
+    var flipflop = 0;
+      var minutes = parseInt($('#time').text().substr(0, 2));
+      
+      var givenMinutes = 60 * minutes,
           display = $('#time');
+          
       startTimer(givenMinutes, display);
   });
    </script>
 
 
  <!-- Fill in the blanks listening ends -->
-<!-- Fill in the blanks reading starts -->
-<script>
-  $(".fillReading").click(function(){
-    var answers = new Array();
-    $(".lanswer").each(function(){
-      
-      answers.push($(this).val().trim());
-    })
-    console.log(answers);
-    
-    $(".introleadin").each(function(){
-      var a = $(this).find("option:selected").text();
-     
-      if (jQuery.inArray(a,answers) == -1){
-  
-      
-        $(this).addClass('border border-danger');
-      }else{
-        $(this).addClass('border border-success');
-      }
-    });
-    $('.answerlist').show();
-  });
-  </script>
-<!-- Fill in the blanks ends-->
+
 <!-- Listening mutiple selection start-->
 <script>
 $(".multipleCheck").click(function(){
@@ -546,3 +528,12 @@ $('#message').show().text($("input:radio[name=optradio]:checked").val());
     
     }
   </script>
+
+  <script>
+  
+  
+  </script>
+
+{% block essay-js %}
+{% include "scripts/essay-js.html" %}
+{% endblock %}

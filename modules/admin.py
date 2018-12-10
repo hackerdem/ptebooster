@@ -79,7 +79,7 @@ class RetellLectureAdmin(ModelAdmin):
     
 @admin.register(Essay)
 class EssayAdmin(ModelAdmin):
-    list_display = ['related_module','topic']
+    list_display = ['related_module','topic','model_answer']
 
 @admin.register(FillInBlanks)
 class FillinBlanksAdmin(ModelAdmin):
@@ -87,7 +87,7 @@ class FillinBlanksAdmin(ModelAdmin):
 
 @admin.register(AnswerShortQuestions)
 class AnswerShortQuestions(ModelAdmin):
-    list_display = ['related_module','audio','item']
+    list_display = ['related_module','audio','question','answer']
 
 @admin.register(ReorderParagraph)
 class ReorderParagraphAdmin(ModelAdmin):
