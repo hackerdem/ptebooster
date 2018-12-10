@@ -126,37 +126,10 @@ $(".contactForm").on('submit',function(event){
 })
 </script>
  <!-- Script for contact form ends -->
- <!-- Script for read aloud  starts hear-->
- <script>
-    var timeleft = document.getElementById("preparation").value;
-    var startpoint = timeleft;
-    var flipflop = 0;
-    console.log(timeleft)
-    var downloadTimer = setInterval(function(){
-      document.getElementById("progress").value = startpoint - --timeleft;
-      document.getElementById("countdown").textContent = timeleft;
-      if (timeleft===0 && flipflop===0){
-        timeleft = 40;
-        startpoint = 40;
-        flipflop = 1;
-        document.getElementById("progress").max = '40';
-        document.getElementById("message").innerHTML = ' Recording ';
-        
-         }
-         if (timeleft===0 && flipflop===1){
-        var messageMain = document.getElementById("messageMain");
-       
-        messageMain.innerHTML = ' Done! ';
-        
-         }
-      if(timeleft <= 0)
-        clearInterval(downloadTimer);
-        
-    },1000);
-    
-    
-</script>
- <!-- Script for read aloud  ends hear-->
+ {% block read-aloud-js %}
+{% include "scripts/read-aloud.html" %}
+{% endblock %}
+ 
 <script>
     var timeleft = document.getElementById("seconds").value;
     console.log(timeleft)
@@ -330,62 +303,23 @@ $(".multipleCheck").click(function(){
 });
 </script>
 <!-- Listening mutiple selection ends-->
-<!--highligh incorrect words section start-->
-<script>
-  $(".checkhighlight").click(function() {
-    
-    $(".clickable").each(function(){
-      if ($(this).hasClass('crr')){
-        $(this).css('background-color',"rgb(51, 153, 0)");
-
-      }else{
-       
-        if($(this).css('background-color') == 'rgb(255, 255, 0)'){
-          $(this).css('background-color',"rgb(204, 51, 0)");
-        }
-      }
-      $(this).off('click');
-    });
-
-  });
-  
-</script>
-<script>
-    $(".clickable").click(function() {
-      
-      var $el = $(this);
-
-      
-
-      if ( $el.data('highlight') ) {
-        $el.css('background-color', "");
-        $el.data('highlight', false);
-      }
-      else {
-        $el.css('background-color', "yellow");
-        $el.data('highlight', true);
-      }
-
-      
-    
-  });
-    
-  </script>
-
-<!--highligh incorrect words section end-->   
+{% block highligh-incorrect-words %}
+{% include "scripts/highligh-incorrect-words.html" %}
+{% endblock %}
 
 <script> 
     
 $(document).ready(function(){
 
 jQuery('.getvalue').on('click', function(e) {
-$('#message').hide();
-$('#answer').hide();
+$('.message').css('visibility','visible');
+$('.message').show().text($("input:radio[name=optradio]:checked").val());
 if ($('#answer').text()==$("input:radio[name=optradio]:checked").val()){
-  $('#answer').show();
+  $('.message').removeClass('alert-danger').addClass('alert-success');
+  
 }else{
-
-$('#message').show().text($("input:radio[name=optradio]:checked").val());
+$('.message').removeClass('alert-success').addClass('alert-danger');
+$('.message').show().text($("input:radio[name=optradio]:checked").val());
 }
 });
 });

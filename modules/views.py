@@ -136,6 +136,7 @@ class HighlightListView(AbstractListView):
                 item.paragraph = paragraph.split()
                 answers = item.answers
                 item.answers = [ i.strip() for i in answers.split(',')]
+                item.correct_words = [ i.strip() for i in (item.correct_words).split(',')]
             return queryset
 class SelectMissingWordView(AbstractListView):
     model = SelectMissingWord

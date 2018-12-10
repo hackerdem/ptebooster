@@ -1,0 +1,30 @@
+<!-- Script for read aloud  starts hear-->
+<script>
+        var timeleft = document.getElementById("preparation").value;
+        var startpoint = timeleft;
+        var flipflop = 0;
+        var downloadTimer = setInterval(function(){
+          document.getElementById("progress").value = startpoint - --timeleft;
+          document.getElementById("countdown").textContent = timeleft;
+          if (timeleft===0 && flipflop===0){
+            timeleft = 40;
+            startpoint = 40;
+            flipflop = 1;
+            document.getElementById("progress").max = '40';
+            document.getElementById("message").innerHTML = ' Recording ';
+            
+             }
+             if (timeleft===0 && flipflop===1){
+            var messageMain = document.getElementById("messageMain");
+           
+            messageMain.innerHTML = ' Done! ';
+            
+             }
+          if(timeleft <= 0)
+            clearInterval(downloadTimer);
+            
+        },1000);
+        
+        
+    </script>
+     <!-- Script for read aloud  ends hear-->

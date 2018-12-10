@@ -1,85 +1,85 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-1 sidenav">
-            
-          </div>
-          <div class="col-sm-10 text-center"> 
-                {% for object in object_list %}
-              <h4 class="card-title">Question</h4>
-              
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     <p class="text-justify" ><strong> Look at the text below. In 40 seconds, you must read this text aloud as naturally and
-                         clearly as possible. You have 40 seconds to read aloud. </strong></p>
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong>
+                                    You will hear a recording. Type the missing words in each blank.
 
-                   
-                      <tr>
-                          
-                          {% block timer %}
-                          {% include "timer.html" %}
-                          {% endblock %}
-                         
-                      </tr>
-                      
-                      {% if object.audio %}<tr><audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls="false" controlsList="nodownload" ><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>{% endif %}
-                    <tr><p id="replacewords" class="text-justify"> 
-                        {% for word in object.paragraph %}
-                        {% ifequal word "XXXX" %}<input size="10" name="answer"  class="userData" data-step='3'   spellcheck="false" value="" type="text"> {% else %}{{ word }}{% endifequal %}
 
-                        {% endfor %}
-                    </p></tr>
-                    {% for item in object.answers %}
-                    <input class="lanswer" style="display:none" value="{{item}}">
-                    {% endfor %}
-                    <tr class="answerlist" style="display:none">
-                        <td>
-                          <div class="well answerlist" >
-                          {% for answer in object.answers %}
-                          <label type="text" class="btn btn-info">{{answer}}</label>
-                          
-                         
-                         {% endfor %}
-                         </div>
-                        </td>
-                        </tr>
-                    <tr>
-                     
-                        {% endfor %}
-                        <th scope="col" class="text-right"><button type="button" class="btn btn-success checkButton">Check my Answers</button></th>
-                      </tr>
-                      <tr>
-                         
-                        </tr>
-                  </tbody>
-                  
-
-                </table>
-              
-          </div>
-          <div class="col-sm-1 sidenav">
-          
+                                </strong></p>   
+                        </div>
         
-            </div>
-          </div>
-        </div>
-      </div>
-      
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='8' hidden>
+                                          <p> Playing in <span id="countdowntimer">8 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                      </div>
+                      <br>
+                      
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-12 mb-12 centered">
+                                <p id="replacewords" class="text-justify"> 
+                                    {% for word in object.paragraph %}
+                                    {% ifequal word "XXXX" %}<input size="10" name="answer"  class="userData" data-step='3'   spellcheck="false" value="" type="text"> {% else %}{{ word }}{% endifequal %}
+            
+                                    {% endfor %}
+                                </p>
+                                  </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6 mb-6 centered">
+                                  <div class="card h-100">
+                                    <h4 class="card-header">Answer</h4>
+                                    {% for item in object.answers %}
+                                    <input class="lanswer" style="display:none" value="{{item}}">
+                                    {% endfor %}
+                                    <div class="card-body  centered">
+                                        <div class=" answerlist row" style="display:none"> 
+                                        {% for answer in object.answers %}
+                                        <span class="alert alert-success spanfillblanks"> {{answer}} </span>
+                                        
+                                       
+                                       {% endfor %}
+                                        </div>
+                                    
+                                      <button type="button"  class="btn btn-success btn-sm checkButton">Check My Answer</button>
+                                  </div>
+                                   
+                                  </div>
+                                </div>
+                    </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
-</section>
+</div></section>
+      {% block essay-js %}
+      {% include "scripts/answer-short-questions.html" %}
+      {% endblock %}
       {% endblock %}
     
 

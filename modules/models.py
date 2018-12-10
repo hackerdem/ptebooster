@@ -76,10 +76,10 @@ class AcademicVocabulary(StatusAbstract):
         ordering = ['component_1']
         unique_together = ('component_1', 'component_2',)
 class HighlightWords(StatusAbstract):
-    paragraph = models.TextField(max_length=800,blank=False)
+    paragraph = models.TextField(max_length=800,blank=False, help_text='In the paragrapgh write incorrect words and correct spelling side by side, incorrect first coreect second.')
     audio = models.FileField(upload_to='ptebooster/media/highlight-incorrect-words')
-    answers = models.CharField(max_length=300, blank=False)
-    correct_words = models.CharField(max_length=300, blank=True)
+    answers = models.CharField(max_length=300, blank=False, help_text='Make sure incorrect word has only one instance in the paragraph. Add all answers comma seperated in this field.')
+    correct_words = models.CharField(max_length=300, blank=True, help_text='Make sure correct word has only one instance in the paragraph.Add all correct words comma seperated in this field.')
 
 class AbstractChoices(StatusAbstract):
     option_1 = models.TextField(max_length=500, blank=False)
@@ -116,9 +116,9 @@ class Essay(StatusAbstract):
     model_answer = models.TextField(max_length=2000,blank=False)
     
 class FillInBlanks(StatusAbstract):
-    paragraph = models.TextField(max_length=1000,blank=False)
+    paragraph = models.TextField(max_length=1000,blank=False, help_text='Copy and paste full paragraph.')
     audio = models.FileField(upload_to='ptebooster/media/fill-in-blanks',blank=False)
-    answers = models.CharField(max_length=300,blank=False)
+    answers = models.CharField(max_length=300,blank=False, help_text='Enter answers comma seperated.')
 
 class AnswerShortQuestions(StatusAbstract):
     audio = models.FileField(upload_to='ptebooster/media/answer-short-question',blank=False)

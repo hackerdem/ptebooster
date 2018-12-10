@@ -1,82 +1,84 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-2 sidenav">
-            
-          </div>
-          <div class="col-sm-8 text-center"> 
-                {% for object in object_list %}
-              <h4 class="card-title">Question</h4>
-              
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     <p class="text-justify" ><strong> You will hear a recording about {{object.audio_topic}}. At the end of the recording the last word or 
-                         group of words has been replaced by a beep. Select the correct option to complete the recording. </strong></p>
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong>
+                                    You will hear a recording about {{object.audio_topic}}. At the end of the recording the last word or 
+                                    group of words has been replaced by a beep. Select the correct option to complete the recording.
 
-                   
-                      <tr>
-                          {% block timer %}
-                          {% include "timer.html" %}
-                          {% endblock %}
-                      </tr>
-                      
-                      <tr><audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>
-                    <tr>
-                        <div class="alert alert-danger" id="message" style="display:none"></div>
-                        <div class="alert alert-success" id="answer" style="display:none" value="{{object.answer}}">{{object.answer}}</div>
-                            <div id="radiogroup" class="radio text-left">
-                                    <label><input type="radio" name="optradio" value="{{object.option_1}}" > {{object.option_1}}</label>
-                                  </div>
-                                  <div class="radio text-left">
-                                    <label><input type="radio" name="optradio" value="{{object.option_2}}"> {{object.option_2}}</label>
-                                  </div>
-                                  <div class="radio text-left">
-                                    <label><input type="radio" name="optradio" value="{{object.option_3}}"> {{object.option_3}}</label>
-                                  </div>
-                                  <div class="radio text-left">
-                                        <label><input type="radio" name="optradio" value="{{object.option_4}}"> {{object.option_4}}</label>
+
+                                </strong></p>   
+                        </div>
+        
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='8' hidden>
+                                          <p> Playing in <span id="countdowntimer">8 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
                                       </div>
                                       
-                    </tr>
-                    
-                    {% endfor %}
-                    <tr>
-                     
-                        
-                        <th scope="col" class="text-right"><button type="button" class="btn btn-success getvalue">Check my Answers</button></th>
-                      </tr>
-                      <tr>
-                         
-                        </tr>
-                  </tbody>
-                  
-
-                </table>
-              
-          </div>
-          <div class="col-sm-2 sidenav">
-          
-        
-            </div>
-          </div>
-        </div>
-      </div>
-        
+                                    </div>
+                                  </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                          
+                      </div>
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-6 mb-6 centered">
+                                    <div class="card h-100">
+                                      <h4 class="card-header">Answer</h4>
+                                 
+                              <div class="alert alert-success message" style="visibility: hidden;" value="{{object.answer}}">{{object.answer}}</div>
+                              <div id="radiogroup" class="radio text-left selectradio" >
+                                      <label><input type="radio" name="optradio" value="{{object.option_1}}" > {{object.option_1}}</label>
+                                    </div>
+                                    <div class="radio text-left selectradio">
+                                      <label><input type="radio" name="optradio" value="{{object.option_2}}"> {{object.option_2}}</label>
+                                    </div>
+                                    <div class="radio text-left selectradio">
+                                      <label><input type="radio" name="optradio" value="{{object.option_3}}"> {{object.option_3}}</label>
+                                    </div>
+                                    <div class="radio text-left selectradio">
+                                          <label><input type="radio" name="optradio" value="{{object.option_4}}"> {{object.option_4}}</label>
+                                        </div>
+                                      <div class="card-body">
+                                            
+                                        <p id="answer"  style=" display:none;"><strong>{{ object.answer}}</strong></p>
+                                      
+                                        <button type="button"  class="btn btn-success btn-sm getvalue">Check My Answer</button>
+                                    </div>
+                                     
+                                    </div>
+                                  </div>
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
-</section>
+</div></section>
+      {% block essay-js %}
+      {% include "scripts/answer-short-questions.html" %}
+      {% endblock %}
       {% endblock %}
     
 

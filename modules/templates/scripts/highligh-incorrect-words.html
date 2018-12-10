@@ -1,0 +1,43 @@
+<!--highligh incorrect words section start-->
+<script>
+        $(".checkhighlight").click(function() {
+          $(".actual").show();
+          $(".clickable").each(function(){
+            if ($(this).hasClass('crr')){
+              $(this).addClass('alert alert-success');
+      
+            }else{
+             
+              if($(this).hasClass('alert alert-success')){
+                $(this).addClass('alert alert-danger');
+              }
+            }
+            $(this).off('click');
+          });
+      
+        });
+        
+      </script>
+      <script>
+          $(".clickable").click(function() {
+            
+            var $el = $(this);
+      
+            
+      
+            if ( $el.hasClass('alert alert-success') ) {
+              $el.removeClass('alert alert-success');
+              
+            }
+            else {
+              $el.addClass('alert alert-success');
+         
+            }
+      
+            
+          
+        });
+          
+        </script>
+      
+      <!--highligh incorrect words section end-->  
