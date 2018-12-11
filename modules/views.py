@@ -38,6 +38,7 @@ class HomePageListView(ListView,FormView):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
+            print('ajax')
             try:
                 is_registered = False
                 is_paid_member = False

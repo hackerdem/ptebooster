@@ -10,13 +10,17 @@
           
           $(".introleadin").each(function(){
             var a = $(this).find("option:selected").text();
+            var correctWord = $(this).closest('.correctword');
+            $('.correctword').show();
            
             if (jQuery.inArray(a,answers) == -1){
         
-            
-              $(this).addClass('border border-danger');
+           
+              $(this).addClass('alert alert-danger');
             }else{
-              $(this).addClass('border border-success');
+              
+              $(this).addClass('alert alert-success ');
+              
             }
           });
           $('.answerlist').show();

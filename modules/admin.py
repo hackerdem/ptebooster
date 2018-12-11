@@ -95,7 +95,7 @@ class ReorderParagraphAdmin(ModelAdmin):
 
 @admin.register(MultipleSelection)
 class MultipleSelectionAdmin(ModelAdmin):
-    list_display = ['related_module','audio','option_1','option_2','option_3','option_4','option_5','option_6','answers']
+    list_display = ['related_module','question','audio','option_1','option_2','option_3','option_4','option_5','option_6','answers']
 
 @admin.register(MultipleSelectionReading)
 class MultipleSelectionReadingAdmin(ModelAdmin):

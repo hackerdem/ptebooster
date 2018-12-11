@@ -1,0 +1,48 @@
+<!-- Script for contact form starts -->
+
+<script>
+
+        $(".contactForm").on('submit',function(event){
+         event.preventDefault();
+         function getCookie(name)
+        {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+               var cookies = document.cookie.split(';');
+               for (var i = 0; i < cookies.length; i++) {
+                   var cookie = jQuery.trim(cookies[i]);
+                   // Does this cookie string begin with the name we want?
+        
+                   if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                   }
+               }
+           }
+           return cookieValue;
+        }
+         var name = $("#id_name").val();
+         var email = $("#id_email").val();
+         var subject = $("#id_subject").val();
+         var message = $("#id_message").val();
+         if ([name,email,subject,message].every(x => x.length>0)){
+         $.ajax({
+                 type : "POST",
+                 url : '{% url "home" %}',
+                 data : {
+                   csrfmiddlewaretoken : getCookie('csrftoken'),
+                   'name' : name,
+                   'email' : email,
+                   'subject' : subject, 
+                   'message' : message,
+                 },
+                 success : function(){
+                   $(".contactformalert").show();
+                   $(".contactForm").hide();
+                 }
+         })}
+        
+        
+        })
+        </script>
+         <!-- Script for contact form ends -->

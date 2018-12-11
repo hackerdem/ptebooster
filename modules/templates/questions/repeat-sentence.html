@@ -1,65 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-2 sidenav">
-            
-          </div>
-          <div class="col-sm-8 text-center"> 
-              <h4 class="card-title">Question</h4>
-              <p ><strong> You will hear a word. Please write down as you hear.</strong></p>
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     
-                      <th scope="col">Listen</th>
-                      <th scope="col">Your Answer</th>
-                      <th scope="col">The Word</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {% for word in object_list %}
-                    <tr>
-                      
-                      <td><audio controls controlsList="nodownload"><source src="{{ word.audio.url }}" type="audio/mpeg"></audio></td>
-                      <td><input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
-                      <td><h4 class="card-title"></h4></td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                     
-                        <th scope="col text-right"></th>
-                        <th scope="col"></th>
-                        <th scope="col"><button type="button" class="btn btn-success">Check my Answers</button></th>
-                      </tr>
-                  </tbody>
-                  
-
-                </table>
-                
-          
-          
-      
-          
-      
-          </div>
-          <div class="col-sm-2 sidenav">
-          
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong> You will hear a question. Please give a simple and short answer. Often just one or a few words is enough.</strong></p>   
+                        </div>
         
-            </div>
-          </div>
-        </div>
-      </div>
-        
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
+                                      
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='5' hidden>
+                                          <p> Playing in <span id="countdowntimer">5 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-10 mb-10 centered">
+                                    <div class="card h-100">
+                                      <h4 class="card-header">Answer</h4>
+                                      <div class="card-body">
+                                            
+                                        <p id="answer" class="card-text text-danger" style=" visibility:hidden"><strong>{{ object.item}}</strong></p>
+                                      
+                                        <button type="button" onclick="displayAnswer()" class="btn btn-success btn-sm">Show Answer</button>
+                                    </div>
+                                     
+                                    </div>
+                                  </div>
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
-</section>
+</div></section>
+      
       {% endblock %}
     
 

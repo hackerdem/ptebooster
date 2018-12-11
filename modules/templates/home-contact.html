@@ -54,11 +54,11 @@
             <form  method="post" role="form" class="contactForm">
                 {% csrf_token %} 
               <div class="form-group">
-                <input type="text" name="{{form.name.name}}" class="form-control" id="{{form.name.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.first_name}}{% else %}Your Name{% endif %}" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                <input type="text" name="{{form.name.name}}" class="form-control" id="{{form.name.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.first_name}}{% else %}Your Name{% endif %}" value="{% if request.user.is_authenticated %}{{request.user.first_name}} {% endif %}" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                 <div class="validation"></div>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" name="{{form.email.name}}" id="{{form.email.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.email}}{% else %}Your Email{% endif %}" data-rule="email" data-msg="Please enter a valid email" />
+                <input type="email" class="form-control" name="{{form.email.name}}" id="{{form.email.id_for_label}}" placeholder="{% if request.user.is_authenticated %}{{request.user.email}}{% else %}Your Email{% endif %}" value="{% if request.user.is_authenticated %}{{request.user.email}} {% endif %}" data-rule="email" data-msg="Please enter a valid email" />
                 <div class="validation"></div>
               </div>
               <div class="form-group">
@@ -76,3 +76,4 @@
       </div>
     </div>
   </section><!-- #contact -->
+  

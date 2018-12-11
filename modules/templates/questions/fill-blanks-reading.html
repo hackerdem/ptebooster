@@ -1,94 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-1 sidenav">
-            
-          </div>
-          <div class="col-sm-10 text-center"> 
-                {% for object in object_list %}
-              <h4 class="card-title">Question</h4>
-              
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     <p class="text-justify" ><strong> Look at the text below. In 40 seconds, you must read this text aloud as naturally and
-                         clearly as possible. You have 40 seconds to read aloud. </strong></p>
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for item in object.answers %}
-                    <input class="lanswer" style="display:none" value="{{item}}">
-                    {% endfor %}
-                    <tr><p id="replacewords" class="text-justify"> 
-                        {% for word in object.paragraph %}
-                        {% if word|lower in object.answers %}
-                        <select id="introleadin" name="answer" class="introleadin" data-step='2'>
-                        
-                            <option value="-----"> </option>
-                            {% if word|lower in object.option_1 %}{% for option in object.option_1 %}<option value="{{option}}">{{option}}</option>{% endfor %}
-                            {% elif word|lower in object.option_2 %}{% for option in object.option_2 %}<option value="{{option}}">{{option}}</option>{% endfor %}
-                            {% elif word|lower in object.option_3 %}{% for option in object.option_3 %}<option value="{{option}}">{{option}}</option>{% endfor %}
-                            {% elif word|lower in object.option_4 %}{% for option in object.option_4 %}<option value="{{option}}">{{option}}</option>{% endfor %}
-                            {% elif word|lower in object.option_5 %}{% for option in object.option_5 %}<option value="{{option}}">{{option}}</option>{% endfor %}
-                            {% endif %}
-                          </select>
-                        
-                        
-                        
-                          The health benefits of the Cinchona tree bark were first discerned by South American indians who used it to cure the pernicious disease malaria. When the low temperature in the body caused shivers, the drug was used to cure those shivers by relaxing the muscles. The taste is highly on the bitter side; hence, it is used to make medicine by summating a sweet liquid. This miracle drug made it in the news after the Spaniards went to Peru and then used it in Rome to cure the malaria pandemic in the year 1631. The priests became the prime importers and exporters of this magic potion. In the 17th century, King Charles was cured by quinine and then this drug became famous in Britain as well.                  {% else %}{{ word }}{% endif %}
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong>
+                             Below is a text with blanks. Click on each blank, a list of choices will appear. Select the appropriate answer choice for each blank.
 
-                        {% endfor %}
-                    </p></tr>
-                    <tr class="answerlist" style="display:none">
-                      <td>
-                        <div class="well answerlist" >
-                        {% for answer in object.answers %}
-                        <label type="text" class="btn btn-info">{{answer}}</label>
-                        
-                       
-                       {% endfor %}
-                       </div>
-                      </td>
-                      </tr>
-                  <tr>
-                    {% endfor %}
-                    <tr>
-                     
-                        
-                        <th scope="col" class="text-right"><button type="button" class="btn btn-success fillReading">Check my Answers</button></th>
-                      </tr>
-                      <tr>
-                         
-                        </tr>
-                  </tbody>
-                  
 
-                </table>
-              
-          </div>
-          <div class="col-sm-1 sidenav">
-          
+                                </strong></p>   
+                        </div>
         
-            </div>
-          </div>
-        </div>
-      </div>
-      
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                        <div class="col-lg-12 mb-12 centered">
+                        {% for item in object.answers %}
+                        <input class="lanswer" style="display:none" value="{{item}}">
+                        {% endfor %} 
+                        <p id="replacewords" class="text-justify"> 
+                          {% for word in object.paragraph %}
+                          {% if word|lower in object.answers %}
+                          <select id="introleadin" name="answer" class="introleadin" data-step='2'>
+                          
+                              <option value="-----"> </option>
+                              {% if word|lower in object.option_1 %} {% for option in object.option_1 %}<option value="{{option}}">{{option}}</option>{% endfor %}
+                             
+                              {% elif word|lower in object.option_2 %}{% for option in object.option_2 %}<option value="{{option}}">{{option}}</option>{% endfor %}
+                              {% elif word|lower in object.option_3 %}{% for option in object.option_3 %}<option value="{{option}}">{{option}}</option>{% endfor %}
+                              {% elif word|lower in object.option_4 %}{% for option in object.option_4 %}<option value="{{option}}">{{option}}</option>{% endfor %}
+                              {% elif word|lower in object.option_5 %}{% for option in object.option_5 %}<option value="{{option}}">{{option}}</option>{% endfor %}
+                              {% endif %}
+                            </select>
+                            <span class=" alert alert-warning correctword" style="display:none" >{{ word|lower }}</span>
+                          
+                          
+                          
+                            
+                            
+                            {% else %}{{ word }}{% endif %}
+  
+                          {% endfor %}
+                      </p></div>
+                      </div>
+                      <br>
+                      
+                      <br>
+                      
+                      <div class="row">
+                          <div class="col-lg-6 mb-6 centered">
+                            <button type="button" class="btn btn-success fillReading">Check my Answers</button>
+                                </div>
+                    </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
-</section>
-      {% block essay-js %}
-      {% include "scripts/fill-blanks-reading.html" %}
-      {% endblock %}
-      {% endblock %}
+</div></section>
+      
       {% endblock %}
     
 

@@ -1,100 +1,79 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="get-started" class="padd-section text-center">
-<div class="container">
-    <div class="container-fluid text-center">    
-        <div class="row content">
-          <div class="col-sm-2 sidenav">
-            
-          </div>
-          <div class="col-sm-8 text-center"> 
-                {% for object in object_list %}
-              <h4 class="card-title">Question</h4>
-              
-              <table class="table table-hover">
-                  <thead>
-                    <tr>
-                     <p class="text-justify" ><strong> You will hear a recording about {{object.audio_topic}}. At the end of the recording the last word or 
-                         group of words has been replaced by a beep. Select the correct option to complete the recording. </strong></p>
-                    
-                    </tr>
-                  </thead>
-                  <tbody>
+        <div class="container">
+                <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-12 text-center">
+                            
+                                <h4 class="card-title">Question</h4>
+                                <p ><strong>
+                                    Listen to the question and answer the question by selecting all the correct responses. You will need to select more than one response.
 
-                   
-                      <tr>
-                          {% block timer %}
-                          {% include "timer.html" %}
-                          {% endblock %}
-                           
-                      </tr>
-                      
-                      <tr>{% if object.audio %}<audio onloadeddata="var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 8000)" id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio></tr>
-                            {% else %}<p class="text-justify"> {{ object.paragraph}}</p>
-                            {% endif %}
-                        <tr>
-                        <td>
-                        <input class="answers alert" id="answer" style="display:none" value="{{object.answers}}">
-                      </td></tr>
-                      <tr>
-                        <div class="form-check text-left">
-                     <input class="form-check-input" type="checkbox" value="{{object.option_1}}" id="defaultCheck1">
-                            {{object.option_1}}
-                          
-                        </div> 
-                        <div class="form-check text-left ans">
-                           <input class="form-check-input" type="checkbox" value="{{object.option_2}}" id="defaultCheck1">
-                            {{object.option_2}}
-                          
+                                </strong></p>   
                         </div>
-                        <div class="form-check text-left">
-                          <input class="form-check-input" type="checkbox" value="{{object.option_3}}" id="defaultCheck1">
-                            {{object.option_3}}
-                        
-                        </div>
-                        <div class="form-check text-left">
-                          <input class="form-check-input" type="checkbox" value="{{object.option_4}}" id="defaultCheck1">
-                            {{object.option_4}}
-              
-                        </div>
-                        <div class="form-check text-left">
-                          <input class="form-check-input" type="checkbox" value="{{object.option_5}}" id="defaultCheck1">
-                            {{object.option_5}}
-                        
-                        </div>
+        
+                      </div>
+                      <br>
+                      {% for object in object_list %}
+                      <div class="row">
+                          {% if object.audio %}
+                            <div class="col-lg-4 mb-4 centered">
+                                    <div class="card h-100">
                                       
-                    </tr>
-                    
-                    {% endfor %}
-                    <tr>
-                     
-                        
-                        <th scope="col" class="text-right"><button type="button" class="btn btn-success multipleCheck">Check my Answers</button></th>
-                      </tr>
-                      <tr>
-                         
-                        </tr>
-                  </tbody>
-                  
+                                      <h4 class="card-header">Audio</h4>
+                                      <div class="card-body">
+                                          <input id='seconds' value='8' hidden>
+                                          <p> Playing in <span id="countdowntimer">8 </span> Seconds</p>
+                                          <progress value="0" max="8" id="progressBar"></progress>
+                                          <br>
+                                          <audio id="audioContent" controls controlsList="nodownload"><source src="{{ object.audio.url }}" type="audio/mpeg"></audio>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                                  {% else %}<p class="text-justify"> {{ object.paragraph}}</p>
+                                  {% endif %}
 
-                </table>
-              
-          </div>
-          <div class="col-sm-2 sidenav">
-          
-        
-            </div>
-          </div>
-        </div>
-      </div>
-        
+                      </div>
+                      
+                      <br>
+                      <div class="row">
+                            <div class="col-lg-8 mb-8 centered">
+                                    <div class="card h-100">
+                                      <h4 class="card-header">Answer</h4>
+                              {% if object.question %} <p style="font-size: 20px">{{object.question}}</p> {% endif %}
+                                    <div class="checkboxes selectradio  text-left">
+                                     
+                              <div class="checkbox"><label class="hu"><input  name="checkbox1" type="checkbox" value="{{object.option_1}}" id="defaultCheck1"> {{object.option_1}}</label></div>
+                              <div class="checkbox"><label class="hu"><input  name="checkbox2" type="checkbox" value="{{object.option_2}}" id="defaultCheck1"> {{object.option_2}}</label>  </div>  
+                              <div class="checkbox"><label class="hu"><input  name="checkbox3" type="checkbox" value="{{object.option_3}}" id="defaultCheck1"> {{object.option_3}}</label>   </div>
+                              <div class="checkbox"><label class="hu"><input  name="checkbox4" type="checkbox" value="{{object.option_4}}" id="defaultCheck1"> {{object.option_4}}</label></div>
+                              {% if object.option_5 %}
+                              <div class="checkbox5"><label><input name="checkbox4" type="checkbox" value="" id="defaultCheck1"> {{object.option_5}}</label></div>
+                              {% endif %}
+                                     
+                                    </div>
+                                      <div class="card-body">
+                                            
+                                        <input class="answers"  style=" display:none;" value="{{object.answers}}">
+                                      
+                                        <button type="button"  class="btn btn-success btn-sm multipleCheck">Check My Answer</button>
+                                    </div>
+                                  </div>
+                                    </div>
+                                  </div>
+                      </div>
+                      {% endfor %}
+              </div>
+        <br>
+        <br>
       {% block pagination %}
       {% include "pagination.html" %}
       {% endblock %}
 
 
-</div>
-</section>
+</div></section>
+      
       {% endblock %}
     
 

@@ -37,7 +37,7 @@
                                             
                                         <p id="answer" class="card-text text-danger" style=" visibility:hidden"><strong>{{ object.answer}}</strong></p>
                                       
-                                        <button type="button" onclick="showAnswer()" class="btn btn-success btn-sm">Show Answer</button>
+                                        <button type="button" onclick="displayAnswer()" class="btn btn-success btn-sm">Show Answer</button>
                                     </div>
                                      
                                     </div>
@@ -53,9 +53,7 @@
 
 
 </div></section>
-      {% block essay-js %}
-      {% include "scripts/answer-short-questions.html" %}
-      {% endblock %}
+    
       {% endblock %}
     
 

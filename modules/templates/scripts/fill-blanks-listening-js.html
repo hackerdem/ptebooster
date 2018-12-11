@@ -1,0 +1,25 @@
+<!-- Fill in the blanks listening starts -->
+<script>
+        $(".checkButton").click(function(){
+          var answers = new Array();
+          $(".answerlist").show();
+          $(".lanswer").each(function(){
+            
+            answers.push($(this).val().trim());
+          })
+          console.log(answers);
+         $(".userData").each(function(){
+            console.log($(this).val().trim())
+            if (jQuery.inArray($(this).val().trim(),answers)>-1){
+        
+              $(this).addClass('alert-success');
+            }else{
+              $(this).addClass('alert-danger');;
+            }
+           
+        }) 
+        
+        
+        });
+      
+      </script>

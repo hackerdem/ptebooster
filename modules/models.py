@@ -86,7 +86,7 @@ class AbstractChoices(StatusAbstract):
     option_2 = models.TextField(max_length=500, blank=False)
     option_3 = models.TextField(max_length=500, blank=False)
     option_4 = models.TextField(max_length=500, blank=False)
-    answer = models.TextField(max_length=500, blank=False)
+    answer = models.TextField(max_length=500, blank=False,help_text="Enter answers with numbers separated with comman such as 1,2,3")
 
     class Meta:
         abstract = True
@@ -144,7 +144,7 @@ class AbstractSelection(StatusAbstract):
 
 class MultipleSelection(AbstractSelection):
     audio = models.FileField(upload_to='ptebooster/media/multiple-selection-listening',blank=False)
-    
+    question = models.CharField(max_length=300, blank=True, null=True)
 
 class MultipleSelectionReading(AbstractSelection):
     paragraph = models.TextField(max_length=1000,blank=False)

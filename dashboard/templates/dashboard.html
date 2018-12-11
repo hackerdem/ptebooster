@@ -15,7 +15,15 @@
        {% block membership %}
        {% include "membership.html" %}
        {% endblock %}
+        
+       {% block notifications %}      
+       {% include "notifications.html" %}  
+       {% endblock %}  
 
+       {% block recommendations %}      
+       {% include "recommendations.html" %}  
+       {% endblock %}  
+       
        {% block statistics %}
        {% include "statistics.html" %}
        {% endblock %}
@@ -24,13 +32,9 @@
        {% include "modules.html" %}  
        {% endblock %}  
  
-       {% block notifications %}      
-       {% include "notifications.html" %}  
-       {% endblock %}   
+         
        
-       {% block recommendations %}      
-       {% include "recommendations.html" %}  
-       {% endblock %} 
+       
        
   
   {% endblock %}

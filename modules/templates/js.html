@@ -77,59 +77,17 @@ $(document).ready(
    </script>
    
       <!--Payment scripts ends here -->
-
- <!-- Script for contact form starts -->
-
-<script>
-
-$(".contactForm").on('submit',function(event){
- event.preventDefault();
- function getCookie(name)
-{
-   var cookieValue = null;
-   if (document.cookie && document.cookie != '') {
-       var cookies = document.cookie.split(';');
-       for (var i = 0; i < cookies.length; i++) {
-           var cookie = jQuery.trim(cookies[i]);
-           // Does this cookie string begin with the name we want?
-
-           if (cookie.substring(0, name.length + 1) == (name + '=')) {
-               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-               break;
-           }
-       }
-   }
-   return cookieValue;
-}
- var name = $("#id_name").val();
- var email = $("#id_email").val();
- var subject = $("#id_subject").val();
- var message = $("#id_message").val();
- if ([name,email,subject,message].every(x => x.length>0)){
- $.ajax({
-         type : "POST",
-         url : '{% url "home" %}',
-         data : {
-           csrfmiddlewaretoken : getCookie('csrftoken'),
-           'name' : name,
-           'email' : email,
-           'subject' : subject, 
-           'message' : message,
-         },
-         success : function(){
-           $(".contactformalert").show();
-           $(".contactForm").hide();
-         }
- })}
-
-
-})
-</script>
- <!-- Script for contact form ends -->
- {% block read-aloud-js %}
-{% include "scripts/read-aloud.html" %}
-{% endblock %}
+  {% block contact-form-js %}
+  {% include "scripts/contact-form-js.html" %}
+  {% endblock %}
  
+  {% block read-aloud-js %}
+  {% include "scripts/read-aloud.html" %}
+  {% endblock %}
+ 
+  {% block fill-blanks-reading %}
+  {% include "scripts/fill-blanks-reading.html" %}
+  {% endblock %}
 <script>
     var timeleft = document.getElementById("seconds").value;
     console.log(timeleft)
@@ -207,31 +165,7 @@ var vid = document.getElementById("audioContent");
 alert(vid.duration);
 });
 </script>
-<!-- Fill in the blanks listening starts -->
-<script>
-  $(".checkButton").click(function(){
-    var answers = new Array();
-    $(".answerlist").show();
-    $(".lanswer").each(function(){
-      
-      answers.push($(this).val().trim());
-    })
-    console.log(answers);
-   $(".userData").each(function(){
-      console.log($(this).val().trim())
-      if (jQuery.inArray($(this).val().trim(),answers)>-1){
-  
-        $(this).addClass('alert-success');
-      }else{
-        $(this).addClass('alert-danger');;
-      }
-     
-  }) 
-  
-  
-  });
 
-</script>
 <!-- spelling section starts-->
 <script>
   function checkSentences(){
@@ -247,6 +181,9 @@ alert(vid.duration);
 
 }
 </script>
+{% block fill-blanks-listening-js %}
+{% include "scripts/fill-blanks-listening-js.html" %}
+{% endblock %}
 <!-- spelling section ends-->
  <script>
     function startTimer(duration, display) {
@@ -288,24 +225,28 @@ $(".multipleCheck").click(function(){
   var answers= new Array;
   answers = $(".answers").val().split(',');
   
-  $("input:checked").each(function(){
-    var p = $(this).css('background-color');
+
+  $(".checkboxes input:checked").each(function(){
+    var closediv = $(this).closest('.checkbox');
     
     if (jQuery.inArray($(this).val(),answers) == -1){
   
+      closediv.addClass('bg-danger');
       
-      $('.answers').addClass('alert-danger');
     }else{
-      $('.answers').addClass('alert-success');
+      
+      closediv.addClass('bg-success'); 
     }
   });
-  $('.answers').show();
+ 
 });
 </script>
 <!-- Listening mutiple selection ends-->
 {% block highligh-incorrect-words %}
 {% include "scripts/highligh-incorrect-words.html" %}
 {% endblock %}
+
+
 
 <script> 
     
@@ -421,30 +362,7 @@ $('.message').show().text($("input:radio[name=optradio]:checked").val());
             });
           });
 </script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-     function initiateChart(){
-      
-      id = Document.getElementById(pie).value
-      console.log(id);
-      drawChart(id);
-    }
-    function drawChart(arr) {
-     console.log(arr);
-      var data = google.visualization.arrayToDataTable(arr);
-     
-      var options = {
-        title: 'Listening Section'
-      };
-
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-      chart.draw(data, options);
-    }
-   
-  </script>
+ 
   <script>
   function readNotification(id){
     
@@ -464,9 +382,13 @@ $('.message').show().text($("input:radio[name=optradio]:checked").val());
   </script>
 
   <script>
-  
-  
+  function displayAnswer(){
+    $('#answer').css('visibility','visible');
+  }
   </script>
+{% block answer-short-questions %}
+{% include "scripts/answer-short-questions.html" %}
+{% endblock %}
 
 {% block essay-js %}
 {% include "scripts/essay-js.html" %}
