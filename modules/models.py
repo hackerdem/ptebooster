@@ -47,8 +47,9 @@ class StatusAbstract(models.Model):
 
 
 class Images(StatusAbstract):
-    image_question=models.ImageField(upload_to='ptebooster/media/images',verbose_name='Image')
-
+    image = models.ImageField(upload_to='ptebooster/media/images',verbose_name='Image')
+    model_answer_text = models.CharField(max_length=400,blank=True, null=True)
+    model_answer_audio = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
     class Meta:
         ordering = ['-id']
 
@@ -107,10 +108,10 @@ class  ReadTAloud(StatusAbstract):
     
 class RetellLecture(StatusAbstract):
     lecture = models.TextField(max_length=1000,blank=True)
-    audio = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
+    audio = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=False, null=False)
     video = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
     image = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
-
+    model_answer = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
 class Essay(StatusAbstract):
     topic = models.TextField(max_length=250,blank=False)
     model_answer = models.TextField(max_length=2000,blank=False)

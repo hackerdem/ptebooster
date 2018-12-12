@@ -37,7 +37,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
 @admin.register(Images)
 class ImagesAdmin(ModelAdmin):
-    list_display = ['related_module','id','image_question']
+    list_display = ['related_module','id','image','model_answer_text','model_answer_audio']
 
 
 @admin.register(Spelling)
@@ -75,7 +75,7 @@ class ReadAloudAdmin(ModelAdmin):
 
 @admin.register(RetellLecture)
 class RetellLectureAdmin(ModelAdmin):
-    list_display = ['related_module','lecture','audio','video','image']
+    list_display = ['related_module','lecture','audio','model_answer','video','image']
     
 @admin.register(Essay)
 class EssayAdmin(ModelAdmin):

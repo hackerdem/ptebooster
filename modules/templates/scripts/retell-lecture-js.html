@@ -1,0 +1,79 @@
+<script>
+  var timeleft = document.getElementById("intro").value;
+  var prog = document.getElementById("prog");
+  var display = document.getElementById("display");
+  var messageMain = document.getElementById("messageMain");
+  var startpoint = timeleft;
+  var flipflop = 0;
+  var audioElement = document.getElementById('question');
+  var downloadTimer = setInterval(function(){
+  document.getElementById("prog").value = startpoint - --timeleft;
+  document.getElementById("countdowntimer").textContent = timeleft;
+    if (timeleft===0 && flipflop===0){
+                        var duration = Math.round(audioElement.duration)
+                        timeleft = duration;
+                        startpoint = duration;
+                        prog.max = duration;
+                        display.innerHTML = 'Playing...';
+                        audioElement.play();
+                        flipflop = 1;
+       }
+    if (timeleft===0 && flipflop===1){
+                        timeleft = 10;
+                        startpoint = 10;
+                        flipflop = 2;
+                        prog.max = '10';
+                        display.innerHTML = 'Recording in ';
+     
+      
+       }
+    if (timeleft===0 && flipflop===2){
+                        duration = 40;
+                        timeleft = duration;
+                        startpoint = duration;
+                        flipflop = 3;
+                        prog.max = duration;
+                        display.innerHTML = 'Recording...';
+     
+      
+       }
+    if (timeleft===0 && flipflop===3){
+                        
+                        messageMain.innerHTML = ' Done! ';
+                        var button = document.getElementById('button_play');
+                       
+                        button.removeAttribute('disabled');
+            
+             }
+    if(timeleft <= 0)
+                        clearInterval(downloadTimer);
+      
+  },1000);
+  
+
+  function playModelAnswer(){
+    var answer = document.getElementById('modelanswer')
+    answer.play();
+
+  }
+  function StopModelAnswer(){
+    var answer = document.getElementById('modelanswer')
+    answer.pause();
+
+  }
+  $(function() {
+  $('#showlecture').click(function(){
+    alert('h');
+    if ($('.lecturerow').is(":hidden")){
+      $('.lecturerow').css('display','inline');
+      $('.lecturebadge').text('Hide Text');
+    }else{
+      $('.lecturerow').hide();
+      $('.lecturebadge').text('Show Text');
+    }
+  })
+  
+  })
+
+  
+</script>

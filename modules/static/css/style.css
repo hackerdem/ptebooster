@@ -1502,3 +1502,9 @@ footer a:hover, footer a:focus { color: #fff; border: 0; }
 .spanfillblanks{
   margin-right: 10px;
 }
+
+
+.retellimage{
+  max-height: 350px;
+  max-width: 500px;
+}
