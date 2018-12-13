@@ -13,7 +13,10 @@ class QuestionSection(models.Model):
 
     question_type = models.CharField(primary_key=True, choices=SECTIONS ,max_length=15)
     module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
-
+    class Meta:
+        indexes = [
+            models.Index(fields=['question_type'],name='section_type_idx')
+        ]
 class Module(models.Model):
     active = models.BooleanField(default=True)
     module_name = models.CharField(max_length=80)
@@ -28,7 +31,10 @@ class Module(models.Model):
         return reverse(url)
 
     class Meta:
-        ordering = ["-created",]
+        ordering = ["-module_name",]
+        indexes = [
+            models.Index(fields=['active','module_name','question_type'], name='module_idx')
+        ]
 
     def __str__(self):
         return self.module_name
@@ -52,11 +58,17 @@ class Images(StatusAbstract):
     model_answer_audio = models.FileField(upload_to='ptebooster/media/retell-lecture',blank=True)
     class Meta:
         ordering = ['-id']
+        indexes = [
+            models.Index(fields=['id','related_module','active','question_group'], name='images_idx')
+        ]
 
 class Spelling(StatusAbstract):
     item = models.CharField(max_length=100, blank=False)
     audio = models.FileField(upload_to='ptebooster/media/spelling-audio')
-
+    class Meta:
+        indexes = [
+            models.Index(fields=['item','audio'], name='spelling_idx')
+        ]
 class RepeatSentence(StatusAbstract):
     item = models.CharField(max_length=300, blank=False)
     audio = models.FileField(upload_to='ptebooster/media/sentences')
@@ -64,7 +76,10 @@ class RepeatSentence(StatusAbstract):
 class Dictation(StatusAbstract):   
     item = models.CharField(max_length=300, blank=False)
     audio = models.FileField(upload_to='ptebooster/media/dictation')
-
+    class Meta:
+        indexes = [
+            models.Index(fields=['item','audio'], name='dictation_idx')
+        ]
 class AcademicVocabulary(StatusAbstract):
     component_1 = models.CharField(max_length=150, blank=False)
     component_2 = models.CharField(max_length=150, blank=False)

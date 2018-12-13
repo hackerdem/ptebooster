@@ -56,6 +56,9 @@ class AbstractUser(_AbstractUser):
 
     class Meta:
         abstract = True
+        indexes = [
+            models.Index(fields=['email','user_type','is_active'], name='user_idx')
+        ]
 
     @classmethod
     def get_by_username(cls, username):

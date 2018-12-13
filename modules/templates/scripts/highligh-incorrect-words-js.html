@@ -41,3 +41,22 @@
         </script>
       
       <!--highligh incorrect words section end-->  
+
+      <script> 
+        /* this script is used by select missing word as well*/
+          $(document).ready(function(){
+          
+          jQuery('.getvalue').on('click', function(e) {
+          $('.message').css('visibility','visible');
+          $('.message').show().text($("input:radio[name=optradio]:checked").val());
+          if ($('#answer').text()==$("input:radio[name=optradio]:checked").val()){
+            $('.message').removeClass('alert-danger').addClass('alert-success');
+            
+          }else{
+          $('.message').removeClass('alert-success').addClass('alert-danger');
+          $('.message').show().text($("input:radio[name=optradio]:checked").val());
+          }
+          });
+          });
+          
+          </script>

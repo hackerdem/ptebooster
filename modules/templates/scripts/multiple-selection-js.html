@@ -1,0 +1,23 @@
+<!-- Listening mutiple selection start-->
+<script>
+        $(".multipleCheck").click(function(){
+          var answers= new Array;
+          answers = $(".answers").val().split(',');
+          
+        
+          $(".checkboxes input:checked").each(function(){
+            var closediv = $(this).closest('.checkbox');
+            
+            if (jQuery.inArray($(this).val(),answers) == -1){
+          
+              closediv.addClass('bg-danger');
+              
+            }else{
+              
+              closediv.addClass('bg-success'); 
+            }
+          });
+         
+        });
+        </script>
+        <!-- Listening mutiple selection ends-->

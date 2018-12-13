@@ -9,291 +9,71 @@
   <script src="{% static "lib/modal-video/js/modal-video.js"  %}" ></script>
   <script src="{% static "lib/owlcarousel/owl.carousel.min.js"  %}" ></script>
   <script src="{% static "lib/wow/wow.min.js"  %}" ></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
- <!-- Template Main Javascript File -->
+  <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+  <!-- Template Main Javascript File -->
   <script src="{% static "js/main.js"  %}" ></script>
-<!-- Bootstrap core JavaScript -->
-   
-<script src="{% static "vendor/jquery/jquery.min.js" %}" ></script>
-<script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
- <!--Dashborad scripts starts here -->
- <script>
-$(document).ready(
-       function () {
-           $('.hidden').hide();
-       });
+  <!-- Bootstrap core JavaScript -->
+    
+  <script src="{% static "vendor/jquery/jquery.min.js" %}" ></script>
+  <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
- function myFunction(section) {
-   var id = "#"+section;
-   if ($(id).is(":visible")) {
-     $(id).hide("slow");
-   } else {
-     $(id).show("slow");
-   }
-}
- 
- 
- </script>
+  {% block dashboard %}
+  {% include "scripts/dashboard-js.html" %}
+  {% endblock %}
 
-  <!--Dashborad scripts ends here -->
-<!--Payment scripts starts here -->
+  {% block timing-all %}
+  {% include "scripts/timing-all-js.html" %}
+  {% endblock %}
 
-<script>
+  {% block payment %}
+  {% include "scripts/payment-js.html" %}
+  {% endblock %}
 
-   $("#paymentCreate").on('submit',function(event){
-     event.preventDefault();
-     function getCookie(name)
-   {
-       var cookieValue = null;
-       if (document.cookie && document.cookie != '') {
-           var cookies = document.cookie.split(';');
-           for (var i = 0; i < cookies.length; i++) {
-               var cookie = jQuery.trim(cookies[i]);
-               // Does this cookie string begin with the name we want?
-   
-               if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                   break;
-               }
-           }
-       }
-       return cookieValue;
-   }
-     
-     $.ajax({
-             type : "POST",
-             url : '{% url "process_payment" %}',
-             data : {
-               csrfmiddlewaretoken : getCookie('csrftoken'),
-             },
-             success : function(){
-               $('.paymentCr').hide();
-               $('.paymentEx').show();
-             }
-     })
-   
-   
-   })
-   </script>
-   
-      <!--Payment scripts ends here -->
-  {% block contact-form-js %}
+  {% block contact-form %}
   {% include "scripts/contact-form-js.html" %}
   {% endblock %}
- 
-  {% block read-aloud-js %}
-  {% include "scripts/read-aloud.html" %}
+
+  {% block read-aloud %}
+  {% include "scripts/read-aloud-js.html" %}
   {% endblock %}
- 
+
   {% block fill-blanks-reading %}
-  {% include "scripts/fill-blanks-reading.html" %}
+  {% include "scripts/fill-blanks-reading-js.html" %}
   {% endblock %}
-<script>
-    var timeleft = document.getElementById("seconds").value;
-    console.log(timeleft)
-    var downloadTimer = setInterval(function(){
-      document.getElementById("progressBar").value = 8 - --timeleft;
-      document.getElementById("countdowntimer").textContent = timeleft;
-      if (timeleft===0){
-        document.getElementById("audioContent").play();
-        
-         }
-      if(timeleft <= 0)
-        clearInterval(downloadTimer);
-        
-    },1000);
+
+  {% block fill-blanks-listening %}
+  {% include "scripts/fill-blanks-listening-js.html" %}
+  {% endblock %}
+
+  {% block multiple-selection %}
+  {% include "scripts/multiple-selection-js.html" %}
+  {% endblock %}
+
+  {% block highligh-incorrect-words %}
+  {% include "scripts/highligh-incorrect-words-js.html" %}
+  {% endblock %}
+
+  {% block reorder-paragraph %}
+  {% include "scripts/reorder-paragraph-js.html" %}
+  {% endblock %}
+  
+  {% block notifications %}
+  {% include "scripts/notifications-js.html" %}
+  {% endblock %}
     
-    
-</script>
-<script>
-   function checkWords(){
-     
-     for (var i=0; i < 10;i++){
-       var userInput = document.getElementById('object'+i).value;
-       var word = document.getElementById('hidden'+i).innerHTML;
-       
-       document.getElementById('hidden'+i).style.display = 'inline'
-       var hiddenclass = document.getElementById('hidden'+i)
-       if (userInput===""){
-        hiddenclass.classList.add("alert-warning")
-       }
-       else if ($.trim(word)!==$.trim(userInput)) {
-        alert(userInput,word);
-        hiddenclass.classList.add("alert-danger")
-       }
-       else{
-        hiddenclass.classList.add("alert-success")
-       }
-     }
-   }
-</script>
-<script>
-  $('#replacewords').each(function() {
-    var text = $(this).text();
-    $(this).text(text.replaceWith('XXXX', '<div class="col-xs-2"><input class="form-control" id="ex1" type="text"></div>')); 
-});
+  {% block describe-image %}
+  {% include "scripts/describe-image-js.html" %}
+  {% endblock %}
 
+  {% block answer-short-questions %}
+  {% include "scripts/answer-short-questions-js.html" %}
+  {% endblock %}
 
-</script>
+  {% block essay %}
+  {% include "scripts/essay-js.html" %}
+  {% endblock %}
 
-
-<script>
-  $(".checkParagraph").click(function(){
-    var answers = new Array();
-    $(".answerlist").each(function(){
-      
-      answers.push($(this).val());
-    })
-   
-    $("#list2 li").each(function(i){
-      
-      if ($(this).attr('value')===answers[i]){
-        
-        $(this).css('background-color','green');
-      }else{
-        $(this).css('background-color','red');
-      }
-      i+=1
-    });
-    
-  });
-
-</script>
-<script>
-$(".checkRecord").click(function(){
-var vid = document.getElementById("audioContent");
-alert(vid.duration);
-});
-</script>
-
-<!-- spelling section starts-->
-<script>
-  function checkSentences(){
-    var InputId = $("#object0").val();
-    var Answer = $( "div.demo-container" ).text();
-    if(InputId.is(Answer)){
-      
-    }else{
-      $( "div.demo-container" ).show();
-    }
-    
-    
-
-}
-</script>
-{% block fill-blanks-listening-js %}
-{% include "scripts/fill-blanks-listening-js.html" %}
-{% endblock %}
-<!-- spelling section ends-->
- <script>
-    function startTimer(duration, display) {
-      var timer = duration, minutes, seconds;
-      var timerId = setInterval(function () {
-          minutes = parseInt(timer / 60, 10)
-          seconds = parseInt(timer % 60, 10);
-  
-          minutes = minutes < 10 ? "0" + minutes : minutes;
-          seconds = seconds < 10 ? "0" + seconds : seconds;
-  
-          display.text(minutes + ":" + seconds);
-  
-          if (--timer < 0) {
-             clearInterval(timerId);
-              $(".essaytextarea").attr('readonly',true);
-          }
-         
-      }, 1000);
-  }
-  
-  $( document ).ready(function () {
-    var flipflop = 0;
-      var minutes = parseInt($('#time').text().substr(0, 2));
-      
-      var givenMinutes = 60 * minutes,
-          display = $('#time');
-          
-      startTimer(givenMinutes, display);
-  });
-   </script>
-
-
- <!-- Fill in the blanks listening ends -->
-
-<!-- Listening mutiple selection start-->
-<script>
-$(".multipleCheck").click(function(){
-  var answers= new Array;
-  answers = $(".answers").val().split(',');
-  
-
-  $(".checkboxes input:checked").each(function(){
-    var closediv = $(this).closest('.checkbox');
-    
-    if (jQuery.inArray($(this).val(),answers) == -1){
-  
-      closediv.addClass('bg-danger');
-      
-    }else{
-      
-      closediv.addClass('bg-success'); 
-    }
-  });
- 
-});
-</script>
-<!-- Listening mutiple selection ends-->
-{% block highligh-incorrect-words %}
-{% include "scripts/highligh-incorrect-words.html" %}
-{% endblock %}
-
-
-
-<script> 
-    
-$(document).ready(function(){
-
-jQuery('.getvalue').on('click', function(e) {
-$('.message').css('visibility','visible');
-$('.message').show().text($("input:radio[name=optradio]:checked").val());
-if ($('#answer').text()==$("input:radio[name=optradio]:checked").val()){
-  $('.message').removeClass('alert-danger').addClass('alert-success');
-  
-}else{
-$('.message').removeClass('alert-success').addClass('alert-danger');
-$('.message').show().text($("input:radio[name=optradio]:checked").val());
-}
-});
-});
-
-</script>
-{% block reorder-paragraph %}
-{% include "scripts/reorder-paragraph-js.html" %}
-{% endblock %}
- 
-{% block notifications %}
-{% include "scripts/notifications-js.html" %}
-{% endblock %}
-  
-
-  <script>
-  function displayAnswer(){
-    $('#answer').css('visibility','visible');
-  }
-
-</script>
-{% block describe-image %}
-{% include "scripts/describe-image-js.html" %}
-{% endblock %}
-
-{% block answer-short-questions %}
-{% include "scripts/answer-short-questions-js.html" %}
-{% endblock %}
-
-{% block essay-js %}
-{% include "scripts/essay-js.html" %}
-{% endblock %}
-
-{% block retell-lecture-js %}
-{% include "scripts/retell-lecture-js.html" %}
-{% endblock %}
+  {% block retell-lecture %}
+  {% include "scripts/retell-lecture-js.html" %}
+  {% endblock %}
 

@@ -1,0 +1,20 @@
+ <!--Dashborad scripts starts here -->
+ <script>
+    $(document).ready(
+           function () {
+               $('.hidden').hide();
+           });
+    
+     function myFunction(section) {
+       var id = "#"+section;
+       if ($(id).is(":visible")) {
+         $(id).hide("slow");
+       } else {
+         $(id).show("slow");
+       }
+    }
+     
+     
+     </script>
+    
+      <!--Dashborad scripts ends here -->

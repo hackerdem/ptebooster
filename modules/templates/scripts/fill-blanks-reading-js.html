@@ -27,3 +27,13 @@
         });
         </script>
       <!-- Fill in the blanks ends-->
+
+      <script>
+        /* this scripts is used by listening and reading */
+        $('#replacewords').each(function() {
+          var text = $(this).text();
+          $(this).text(text.replaceWith('XXXX', '<div class="col-xs-2"><input class="form-control" id="ex1" type="text"></div>')); 
+      });
+      
+      
+      </script>

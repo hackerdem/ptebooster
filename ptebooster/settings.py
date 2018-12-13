@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'dashboard',
     'stats',
     'recommendation',
-    #'memcache_status',
+    'memcache_status',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -114,7 +115,10 @@ DATABASES = {
 CACHES={
     'default':{
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211'
+        'LOCATION': '127.0.0.1:11211',
+        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        # 'LOCATION': 'keypte_cache_table',
+        
     }
 }
 

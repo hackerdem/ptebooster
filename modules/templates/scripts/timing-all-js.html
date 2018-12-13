@@ -1,0 +1,51 @@
+<script>
+        var timeleft = document.getElementById("seconds").value;
+        console.log(timeleft)
+        var downloadTimer = setInterval(function(){
+          document.getElementById("progressBar").value = 8 - --timeleft;
+          document.getElementById("countdowntimer").textContent = timeleft;
+          if (timeleft===0){
+            document.getElementById("audioContent").play();
+            
+             }
+          if(timeleft <= 0)
+            clearInterval(downloadTimer);
+            
+        },1000);
+        
+        
+    </script>
+    
+    <script>
+            function startTimer(duration, display) {
+              var timer = duration, minutes, seconds;
+              var timerId = setInterval(function () {
+                  minutes = parseInt(timer / 60, 10)
+                  seconds = parseInt(timer % 60, 10);
+          
+                  minutes = minutes < 10 ? "0" + minutes : minutes;
+                  seconds = seconds < 10 ? "0" + seconds : seconds;
+          
+                  display.text(minutes + ":" + seconds);
+          
+                  if (--timer < 0) {
+                     clearInterval(timerId);
+                      $(".essaytextarea").attr('readonly',true);
+                  }
+                 
+              }, 1000);
+          }
+          
+          $( document ).ready(function () {
+            var flipflop = 0;
+              var minutes = parseInt($('#time').text().substr(0, 2));
+              
+              var givenMinutes = 60 * minutes,
+                  display = $('#time');
+                  
+              startTimer(givenMinutes, display);
+          });
+           </script>
+        
+        
+    
