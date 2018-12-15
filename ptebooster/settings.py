@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import re
 import os
 from .settings_data import SECRET,EMAIL_USER,EMAIL_PORT_NUMBER,EMAIL_PASSWORD, \
-                            DATABASE_NAME, USER, PASSWORD, HOST, PORT
+                            DATABASE_NAME, USER, PASSWORD, HOST, PORT, MANAGERS_LIST
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -153,6 +154,16 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Error logging ##################
+IGNORABLE_404_URLS = [
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+]
+
+# Managers for broken link email
+MANAGERS = MANAGERS_LIST
 
 
 # Static files (CSS, JavaScript, Images)
