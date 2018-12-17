@@ -9,5 +9,10 @@ class QuestionStatistics(models.Model):
     related_module = models.ForeignKey(Module, on_delete=models.CASCADE)
     is_active = models.BooleanField()
 
+    objects = models.Manager()
     class Meta:
         unique_together = ("question_id","related_module","question_section")
+        indexes = [
+            models.Index(fields=['membership_type','question_section','is_active'], name='statistics_idx'),
+            
+        ]

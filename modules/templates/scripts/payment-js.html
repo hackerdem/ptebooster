@@ -1,11 +1,13 @@
 <!--Payment scripts starts here -->
 
 <script>
-
-    $("#paymentCreate").on('submit',function(event){
-      event.preventDefault();
-      function getCookie(name)
-    {
+$(document).ready(function(){
+    $("#paymentCreate").click(function (){
+      var modal = document.getElementById("myModal");
+      modal.style.display="block";
+        var radiovalue = $("input[name='optradio']:checked").val();
+    
+      function getCookie(name){
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
             var cookies = document.cookie.split(';');
@@ -24,18 +26,21 @@
       
       $.ajax({
               type : "POST",
-              url : '{% url "process_payment" %}',
+              url : '{% url "process_payment"  %}',
               data : {
                 csrfmiddlewaretoken : getCookie('csrftoken'),
+                payment_gateway : radiovalue,
               },
-              success : function(){
+              success : function(response){
+                window.location.href = response;
+                
                 $('.paymentCr').hide();
                 $('.paymentEx').show();
               }
       })
     
     
-    })
+    });});
     </script>
     
        <!--Payment scripts ends here -->

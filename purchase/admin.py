@@ -3,7 +3,7 @@ from .models import Gateway,GatewayParameters,Transaction, TransactionParam
 
 @admin.register(Gateway)
 class GatewayAdmin(admin.ModelAdmin):
-    list_display = ('name', 'account', 'is_active',)
+    list_display = ('name', 'account', 'is_active','logo')
     list_filter = ('account',)
     search_fields = ('name', 'account',)
     

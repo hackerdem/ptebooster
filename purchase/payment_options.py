@@ -11,6 +11,8 @@ from .models import GatewayParameters,Transaction
 from order.models import Order
 from membership.models import Membership
 from datetime import datetime, timedelta
+
+
 logger = logging.getLogger('django.request')
 
 class Paypal:

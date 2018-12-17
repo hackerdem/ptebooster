@@ -6,7 +6,10 @@ from django.utils.html import format_html
 
 
 User = get_user_model()
-
+class LoginForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username','password')
 
 class RegisterForm(forms.ModelForm):
     

@@ -15,6 +15,7 @@ from django.contrib.auth import get_user_model
 from .forms import BuyForm
 from .models import QuestionSection
 from stats.models import QuestionStatistics
+from contact.notification_texts import CONTACT_FORM_ERROR
 User = get_user_model()
 
 class HomePageListView(ListView,FormView):
@@ -38,7 +39,8 @@ class HomePageListView(ListView,FormView):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            print('ajax')
+            error = None
+            success = None
             try:
                 is_registered = False
                 is_paid_member = False
@@ -61,20 +63,14 @@ class HomePageListView(ListView,FormView):
                                                                 request.POST['subject'],
                                                                 request.POST['message'])
                 new_request.save()
+                success = 'Your message has been received, we will respond as soon as possible.'
             except Exception as e:
-                print(e)
-
-            return HttpResponse('ok')
-        else:
-            return HttpResponse('ko')
-        """error = None
-        success =None
-        form = ContactDataForm(request.POST)
-        if form.is_valid():
-            a='Form is valid'
-
-        else:
-            a='haydeee'"""
+                error = CONTACT_FORM_ERROR
+                
+            if error : 
+                return HttpResponse(error)
+            else:
+                return HttpResponse(success)
         
 class AbstractListView(LoginRequiredMixin,ListView):
     

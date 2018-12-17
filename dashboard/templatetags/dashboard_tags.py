@@ -14,5 +14,5 @@ def pie():
          
        ]
     img = '<input id="pie" onload="initiateChart()" value="{}" >'.format(str(data))
-    print(img)
+    
    

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+	
+<section id="about-us" class="about-us padd-section">
+
+<main role="main" class="container text-center" >
+  
+   <h2>{% if success %}<span class="glyphicon glyphicon-ok fa-2x text-success "> Success</span> {% else %}<span class=" label label-danger glyphicon glyphicon-exclamation-sign fa-2x text-danger "> Error</span>{% endif %}</h2>
+   <br>
+   <p class="lead">{{ user.first_name | capfirst }}, {% if success %} {{success}}. Now you can start to practice. Please, click to 
+        <a href="{% url 'account_login' %}" class="card-link link-color" data-toggle="tooltip" title="Request new password">Login</a> button.</p>
+      {% else %}
+      {{error}} You can try to resend a new activation key by clicking the 
+      <a href="{% url 'account_forgot_password' %}" class="card-link link-color" data-toggle="tooltip" title="Request new password">Resent</a> button.</p>
+    {% endif %}
+  </main>
+
+  {% endblock %}

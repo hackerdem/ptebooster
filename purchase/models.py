@@ -16,7 +16,10 @@ class Gateway(models.Model):
     account = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
     is_sandbox = models.BooleanField(default=False)
+    logo = models.ImageField(upload_to='ptebooster/media/icons')
 
+    objects = models.Manager()
+    
     def __str__(self):
         return '{} -- {}'.format(self.get_name_display(),self.account)
 
@@ -62,6 +65,8 @@ class Transaction(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
+    objects = models.Manager()
+    
     def __str__(self):
         return str(self.id)
 
@@ -79,6 +84,8 @@ class TransactionParam(models.Model):
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=250)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
 
     class Meta:
         

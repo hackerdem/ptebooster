@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from membership.models import Membership
 from django.urls import reverse
 from django.utils.html import format_html
-
+from django.utils import timezone
 class UserManager(_UserManager):
 
 
@@ -22,7 +22,8 @@ class UserManager(_UserManager):
                                         last_name=last_name,
                                         verify_code=verify_code,
                                         verify_time_limit=verify_time_limit,
-                                        user_type=user_type)
+                                        user_type=user_type,
+                                        is_active=True)
 
         else:
             user = self.create_user(membership_start_date=membership_start_date,
@@ -40,11 +41,11 @@ class UserManager(_UserManager):
 
 class AbstractUser(_AbstractUser):
     user_type = models.ForeignKey(Membership,default='Basic',on_delete=models.PROTECT)
-    membership_start_date = models.DateTimeField(blank=True, null=True,)
-    membership_end_date = models.DateTimeField(blank=True, null=True,)
+    membership_start_date = models.DateTimeField(blank=True, null=True)
+    membership_end_date = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
     verify_code = models.CharField(max_length=512, blank=True, null=True, help_text='Account verification code', editable=False)
-    verify_time_limit = models.DateTimeField(blank=True, null=True, editable=False)
+    verify_time_limit = models.DateTimeField(blank=True, null=True, editable=True) # change this to false later
     reset_code = models.CharField(max_length=512, blank=True, null=True, help_text='Account verification code', editable=False)
     reset_time_limit = models.DateTimeField(blank=True, null=True, editable=False)
     created_on = models.DateTimeField(auto_now=True)
@@ -57,7 +58,8 @@ class AbstractUser(_AbstractUser):
     class Meta:
         abstract = True
         indexes = [
-            models.Index(fields=['email','user_type','is_active'], name='user_idx')
+            models.Index(fields=['email','user_type','is_active'], name='user_idx'),
+            models.Index(fields=['email'],name='user_email_idx')
         ]
 
     @classmethod

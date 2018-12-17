@@ -50,7 +50,11 @@ class Order(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     objects = OrderManager()
-
+    class Meta:
+        indexes = [
+            models.Index(fields=['customer'], name='order_idx'),
+            models.Index(fields=['created_on'], name='order_created_on_idx'),
+        ]
     def __str__(self):
         return self.order_number
     

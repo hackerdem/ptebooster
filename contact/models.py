@@ -26,6 +26,7 @@ class ContactData(models.Model):
 
     objects = ContactDataManager()
 
+    
     def __str__(self):
         return self.request_number
 
@@ -37,3 +38,15 @@ class Notification(models.Model):
     receiver_id = models.IntegerField(null=True, default=0,validators=[MinValueValidator(0)],help_text="Enter user ID for a specific user. For bulk notification leave as it is.")
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User,on_delete=models.PROTECT ,limit_choices_to={'is_staff':True})
+
+    objects = models.Manager() 
+    @classmethod
+    def create(cls,subject,body,receiver_id,created_by):
+        notification = cls(subject=subject, body=body, receiver_id=receiver_id, created_by=created_by)
+        notification.save()
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['receiver_id'], name='receiver_id_idx'),
+            models.Index(fields=['created_on'],name='created_on_idx')
+        ]

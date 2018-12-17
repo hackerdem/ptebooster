@@ -13,6 +13,9 @@ class QuestionSection(models.Model):
 
     question_type = models.CharField(primary_key=True, choices=SECTIONS ,max_length=15)
     module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
+
+    objects = models.Manager()
+
     class Meta:
         indexes = [
             models.Index(fields=['question_type'],name='section_type_idx')
@@ -26,6 +29,8 @@ class Module(models.Model):
     description = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
+    objects = models.Manager()
+
     def get_absolute_url(self):
         url= str(self.slug)
         return reverse(url)
@@ -33,7 +38,7 @@ class Module(models.Model):
     class Meta:
         ordering = ["-module_name",]
         indexes = [
-            models.Index(fields=['active','module_name','question_type'], name='module_idx')
+            models.Index(fields=['active','question_type'], name='module_idx')
         ]
 
     def __str__(self):

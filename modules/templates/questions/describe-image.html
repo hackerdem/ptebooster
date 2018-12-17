@@ -19,8 +19,8 @@
       <br>
       <div class="row">
                 <div class="retellimage col-lg-8 mb-8 centered">
-                                <div class="card h-100">
-                                 {% if object.image %} <img src="{{object.image.url}}" alt="image">{% endif %}
+                                <div class="card h-100 ">
+                                 {% if object.image %} <img style="max-height: 100%;max-width: 100%" src="{{object.image.url}}" alt="image">{% endif %}
                                   <div class="card-body">
                                    
                                 </div>
@@ -80,14 +80,16 @@
            
     {% endfor %}
         
-      {% block pagination %}
-      {% include "pagination.html" %}
-      {% endblock %}
+     
 
 </div>
 
+{% block pagination %}
+{% include "pagination.html" %}
+{% endblock %}
+
       {% endblock %}
     
-
+    </div>
     </section>
 

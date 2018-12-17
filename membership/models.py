@@ -21,9 +21,13 @@ class Membership(models.Model):
     total_speaking_question = models.IntegerField(default=50)
     total_writing_question = models.IntegerField(default=50)
 
+    objects = models.Manager()
     
     class Meta:
         ordering = ('price',)
+        indexes = [
+            models.Index(fields=['presedence'],name='membership_presendence_idx'),
+        ]
 
     def __str__(self):
         return self.member_type

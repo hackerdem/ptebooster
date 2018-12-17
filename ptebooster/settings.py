@@ -30,9 +30,23 @@ DEBUG = True
 ALLOWED_HOSTS = ['192.168.0.16','127.0.0.1']
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
+# server error messages will be sent from this email to admins in manager list defined below
+SERVER_EMAIL = EMAIL_USER
+
+# Error logging ##################
+IGNORABLE_404_URLS = [
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+]
+
+# Managers for broken link email
+MANAGERS = MANAGERS_LIST
+ 
 # Application definition
 
 INSTALLED_APPS = [
+    'import_export',
     'account',
     'modules',
     'order',
@@ -155,15 +169,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Error logging ##################
-IGNORABLE_404_URLS = [
-    re.compile(r'^/apple-touch-icon.*\.png$'),
-    re.compile(r'^/favicon\.ico$'),
-    re.compile(r'^/robots\.txt$'),
-]
-
-# Managers for broken link email
-MANAGERS = MANAGERS_LIST
 
 
 # Static files (CSS, JavaScript, Images)
