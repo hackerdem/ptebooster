@@ -1,0 +1,52 @@
+<!-- Script for contact form starts -->
+
+<script>
+
+        $(document).ready(function(){
+            $("#cardPayment").click(function (){
+         function getCookie(name)
+        {
+           var cookieValue = null;
+           if (document.cookie && document.cookie != '') {
+               var cookies = document.cookie.split(';');
+               for (var i = 0; i < cookies.length; i++) {
+                   var cookie = jQuery.trim(cookies[i]);
+                   // Does this cookie string begin with the name we want?
+        
+                   if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                       break;
+                   }
+               }
+           }
+           return cookieValue;
+        }
+         var fullname = $("#id_fullname").val();
+         var cardnum = $("#id_cardnumber").val();
+         var mm = $("#id_mm").val();
+         var yy = $("#id_yy").val();
+         var cvv = $("#id_cvv").val();
+        //  alert('h')
+         if ([fullname,cardnum,mm,yy,cvv].every(x => x.length>0)){
+         $.ajax({
+                 type : "POST",
+                 url : '{% url "process_payment" %}',
+                 data : {
+                   csrfmiddlewaretoken : getCookie('csrftoken'),
+                   'fullname' : fullname,
+                   'cardnum' : cardnum,
+                   'Exp_MM' : mm, 
+                   'Exp_YY' : yy,
+                   'cvv':cvv,
+                   'payment_gateway':'ST',
+                 },
+                 success : function(){
+                   $(".contactformalert").show();
+                   $(".contactForm").hide();
+                 }
+         })}
+        
+        
+        });});
+        </script>
+         <!-- Script for contact form ends -->

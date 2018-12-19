@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from membership.models import Membership
 from contact.models import Notification
 import pytz
+from django.core.exceptions import ObjectDoesNotExist
 from contact.notification_texts import MEMBERSHIP_ACNOWLEGEMENT, MEMBERSHIP_EXPIRED
 utc = pytz.UTC
 User = get_user_model()
@@ -163,9 +164,8 @@ class ResendActivationView(FormView):
         success = None
         form = ResendActivationForm(request.POST)
         if  form.is_valid():
-            
+            data = form.cleaned_data
             try:
-                data = form.cleaned_data
                 user = User.objects.get(email=data['email'])
                 data['first_name'] = user.first_name
                 
@@ -197,7 +197,9 @@ class ResendActivationView(FormView):
                 
             except ValidationError as e:
                 error = e.message
-
+                pass
+            except ObjectDoesNotExist:
+                pass
         return super(ResendActivationView, self).get(request, form=form, error=error, success=success)
 
 class ActivationView(CreateView):

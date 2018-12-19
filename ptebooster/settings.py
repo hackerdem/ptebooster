@@ -46,6 +46,7 @@ MANAGERS = MANAGERS_LIST
 # Application definition
 
 INSTALLED_APPS = [
+    'stripe',
     'import_export',
     'account',
     'modules',

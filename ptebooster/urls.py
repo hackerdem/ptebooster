@@ -33,9 +33,9 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     #path('contact/', include('contact.urls')),
 
-]+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
-
+]
 handler404 = PageNotFoundView.as_view()
 
 if settings.DEBUG is True:
+    urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

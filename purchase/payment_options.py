@@ -11,7 +11,8 @@ from .models import GatewayParameters,Transaction
 from order.models import Order
 from membership.models import Membership
 from datetime import datetime, timedelta
-
+from django.core.exceptions import ObjectDoesNotExist
+import stripe
 
 logger = logging.getLogger('django.request')
 
@@ -156,3 +157,97 @@ class Paypal:
             payment_txn.error_message = payment.error['message']
             payment_txn.save()
     
+class Stripe:
+
+    def __init__(self,gateway):
+        self.gateway = gateway
+        try:
+            api_key = gateway.params.get(name='api_key')
+        except ObjectDoesNotExist :
+            raise ImproperlyConfigured('api_key parameter should be configured for Stripe gateway.')
+        
+        self.api_key = api_key.value
+
+        if gateway.is_sandbox:
+            if self.api_key.startswith('sk_live'):
+                raise ImproperlyConfigured('{} is configured for sandbox mode but uses live api_key.'.format(self.api_key))
+        else:
+            if self.api_key.startswith('sk_test'):
+                raise ImproperlyConfigured('{} is configured for live but uses test api_key.'.format(self.api_key))
+
+        stripe.api_key = self.api_key
+
+    def create_payment(self,user,name,number,exp_month,exp_year,cvv):
+        access_token = get_random_string(20)
+    
+        order = Order.objects.filter(customer=user).order_by('-created_on')[0]
+
+        payment_txn = Transaction.objects.create(gateway=self.gateway,
+                                                    order=order,
+                                                    description='Transaction for order {}'.format(order.id),
+                                                    amount=order.total,
+                                                    status=Transaction.STATUS_PROCESSING
+                                                    )
+        payment_txn.add_param('access_token',access_token)
+        payment_txn.save()
+        try:
+
+
+            token = stripe.Token.create(
+            card={
+                    'number':int(number),
+                    'name':name,
+                    'exp_month':int(exp_month),
+                    'exp_year':int(exp_year),
+                    'cvc':int(cvv)
+                }
+            )
+            charge = stripe.Charge.create(
+                amount = int(order.total)*100,
+                currency = 'AUD',
+                description = 'Payment for order #{}'.format(order.id),
+                source = token,
+                idempotency_key = access_token,
+            )
+            order.order_status = order.ORDER_COMPLETE
+            order.payment_status = Order.PAYMENT_PAID
+            order.save()
+        except stripe.error.CardError as e:
+  # Since it's a decline, stripe.error.CardError will be caught
+            body = e.json_body
+            err  = body.get('error', {})
+
+            print ("Status is: {}".format(e.http_status))
+            print ("Type is: {}".format(err.get('type')))
+            print ("Code is: {}".format(err.get('code')))
+            # param is '' in this case
+            print ("Param is: {}".format(err.get('param')))
+            print ("Message is: {}".format(err.get('message')))
+        except stripe.error.RateLimitError as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            print(e)
+            pass
+        except stripe.error.InvalidRequestError as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            pass
+        except stripe.error.AuthenticationError as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            pass
+        except stripe.error.APIConnectionError as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            pass
+        except stripe.error.StripeError as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            pass
+        except Exception as e:
+            logger.error('Failed the process transaction: {}'.format(e))
+            payment_txn.status = Transaction.STATUS_FAILED
+            pass
+            
+
+        return  'ok'

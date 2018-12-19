@@ -12,8 +12,12 @@
   <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
   <!-- Template Main Javascript File -->
   <script src="{% static "js/main.js"  %}" ></script>
+  
   <!-- Bootstrap core JavaScript -->
-    
+  <script src="{% static "js/index.js"  %}" ></script>
+  
+  <script src="{% static "js/example3.js"  %}" ></script>
+  
   <script src="{% static "vendor/jquery/jquery.min.js" %}" ></script>
   <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
@@ -27,6 +31,10 @@
 
   {% block payment %}
   {% include "scripts/payment-js.html" %}
+  {% endblock %}
+
+  {% block card-payment %}
+  {% include "scripts/card-payment-js.html" %}
   {% endblock %}
 
   {% block contact-form %}

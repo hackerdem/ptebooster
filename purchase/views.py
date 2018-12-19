@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .payment_options import Paypal
+from .payment_options import Paypal, Stripe
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from purchase.models import Gateway, Transaction, TransactionParam
 from django.urls import reverse
@@ -10,10 +10,22 @@ def process_payment(request):
         selected_gateway = request.POST['payment_gateway']
         gateway_name=selected_gateway
         gateway = Gateway.objects.get(name=gateway_name)
+       
         try:
-            processor = Paypal(gateway)
-            url = processor.create_account_payment(request.user)
-            return HttpResponse(url)
+            if selected_gateway == 'PP':
+                processor = Paypal(gateway)
+                url = processor.create_account_payment(request.user)
+                return HttpResponse(url)
+            elif selected_gateway == 'ST':
+                print(selected_gateway)
+                name = request.POST['fullname']
+                number = request.POST['cardnum']
+                mm = request.POST['Exp_MM']
+                yy = request.POST['Exp_YY']
+                cvv = request.POST['cvv']
+                processor = Stripe(gateway)
+                res = processor.create_payment(request.user, name, number, mm, yy, cvv )
+                return HttpResponse(res)
         except Exception:
             return HttpResponse('error')
     
