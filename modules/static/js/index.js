@@ -1,7 +1,23 @@
 'use strict';
 
-var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-
+var stripe = Stripe('pk_test_6Pn1XaddG4xaDJYETAkJQBOi');
+function stripeTokenHandler(generated_token) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', generated_token);
+  form.appendChild(hiddenInput);
+  var hiddenStripe = document.createElement('input');
+  hiddenStripe.setAttribute('type', 'hidden');
+  hiddenStripe.setAttribute('name', 'gateway');
+  hiddenStripe.setAttribute('value', 'ST');
+  form.appendChild(hiddenStripe);
+ 
+  // Submit the form
+  form.submit();
+}
 function registerElements(elements, exampleName) {
   var formClass = '.' + exampleName;
   var example = document.querySelector(formClass);
@@ -123,7 +139,9 @@ function registerElements(elements, exampleName) {
       if (result.token) {
         // If we received a token, show the token ID.
         example.querySelector('.token').innerText = result.token.id;
+        
         example.classList.add('submitted');
+        stripeTokenHandler(result.token.id);
       } else {
         // Otherwise, un-disable inputs.
         enableInputs();
@@ -150,3 +168,18 @@ function registerElements(elements, exampleName) {
     example.classList.remove('submitted');
   });
 }
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createToken(card).then(function(result) {
+    if (result.error) {
+      // Inform the customer that there was an error.
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the token to your server.
+      stripeTokenHandler(result.token);
+    }
+  });
+});

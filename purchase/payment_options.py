@@ -110,7 +110,6 @@ class Paypal:
                 # Convert to str to avoid Google App Engine Unicode issue
                 # https://github.com/paypal/rest-api-sdk-python/pull/58
                     approval_url = str(link.href)
-                    print("Redirect for approval: %s" % (approval_url))
             try:
                 order.order_status = Order.ORDER_COMPLETE
                 order.payment_status = Order.PAYMENT_AUTHORIZED
@@ -140,11 +139,11 @@ class Paypal:
             order.payment_status = Order.PAYMENT_PAID
             order.save()
             User = get_user_model()
-            user = User.objects.get(email__iexact=user)
+            user = User.objects.get(email__exact=user)
             
             if user.user_type == order.membership_type:
                 user.membership_end_date+=timedelta(days=90)
-                print(user.membership_end_date)
+
             else:
                 user.membership_start_date = datetime.now()
                 user.membership_end_date=datetime.now()+timedelta(days=91)
@@ -177,7 +176,7 @@ class Stripe:
 
         stripe.api_key = self.api_key
 
-    def create_payment(self,user,name,number,exp_month,exp_year,cvv):
+    def create_payment(self,user,token):
         access_token = get_random_string(20)
     
         order = Order.objects.filter(customer=user).order_by('-created_on')[0]
@@ -191,27 +190,30 @@ class Stripe:
         payment_txn.add_param('access_token',access_token)
         payment_txn.save()
         try:
-
-
-            token = stripe.Token.create(
-            card={
-                    'number':int(number),
-                    'name':name,
-                    'exp_month':int(exp_month),
-                    'exp_year':int(exp_year),
-                    'cvc':int(cvv)
-                }
-            )
+    
             charge = stripe.Charge.create(
-                amount = int(order.total)*100,
-                currency = 'AUD',
-                description = 'Payment for order #{}'.format(order.id),
-                source = token,
-                idempotency_key = access_token,
-            )
+                                        amount=int(order.total)*100,
+                                        currency = 'AUD',
+                                        description = 'Payment for order #{}'.format(order.id),
+                                        source = token,
+                                        statement_descriptor = 'Custom descriptor',
+                                        )
+           
             order.order_status = order.ORDER_COMPLETE
             order.payment_status = Order.PAYMENT_PAID
             order.save()
+            User = get_user_model()
+            user = User.objects.get(email__exact=user.email)
+            
+            if user.user_type == order.membership_type:
+                user.membership_end_date+=timedelta(days=90)
+
+            else:
+                user.membership_start_date = datetime.now()
+                user.membership_end_date=datetime.now()+timedelta(days=91)
+            user.user_type = Membership.objects.get(member_type=order.membership_type)
+            user.save()
+            return 'success'
         except stripe.error.CardError as e:
   # Since it's a decline, stripe.error.CardError will be caught
             body = e.json_body
@@ -226,7 +228,6 @@ class Stripe:
         except stripe.error.RateLimitError as e:
             logger.error('Failed the process transaction: {}'.format(e))
             payment_txn.status = Transaction.STATUS_FAILED
-            print(e)
             pass
         except stripe.error.InvalidRequestError as e:
             logger.error('Failed the process transaction: {}'.format(e))
@@ -248,6 +249,6 @@ class Stripe:
             logger.error('Failed the process transaction: {}'.format(e))
             payment_txn.status = Transaction.STATUS_FAILED
             pass
-            
+        return 'error'   
 
-        return  'ok'
+        

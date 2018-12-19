@@ -14,7 +14,7 @@
           <div class="feature-block">
             <img src="{{ item.module_image.url }}" alt="img" class="img-fluid">
             <h4>{{item.question_type}}</h4>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+            <p class="text-justify">{% if item.description %} {{ item.description }} {% else %}Lorem Ipsum is simply dummy text of the printing and typesetting industry {% endif %}</p>
           </div>
         </div>
 {% endfor %}

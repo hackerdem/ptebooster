@@ -15,7 +15,35 @@
      <h1> <strong>Checkout</strong> </h1>
      
     </div>
-
+    {% if success %}
+    <div style="font-size:20px;color:#5C5C5C;" class="row text-center">
+        <div class="col-sm-6 col-sm-offset-3 centered">
+        <br><br> <h2 style="color:#0fad00">Success</h2>
+        <span class="glyphicon glyphicon-ok fa-4x text-success"></span>
+        <h2>Dear, {{ request.user.first_name|capfirst }}</h2>
+        <br>
+        <p>{{ success}} Now it is time ot practice. Please click the button below to access your Dashboard.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-success">     Dashboard      </a>
+    <br><br>
+        </div>
+        
+	</div>
+    {% elif error %}
+    <div style="font-size:20px;color:#5C5C5C;" class="row text-center">
+        <div class="col-sm-6 col-sm-offset-3 centered">
+        <br><br> <h2 style="color:#0fad00">Success</h2>
+        <span class="glyphicon glyphicon-ban-circle fa-5x text-danger"></span>
+        <h2>Dear, {{ request.user.first_name|capfirst }}</h2>
+        <br>
+        <p>{{error}}. Please click the bouttons below to access dashboard or contact with us.</p>
+        <a href="{% url 'home' %}#contact" class="btn btn-warning">     Contact     </a>
+    <a href="{% url 'dashboard' %}" class="btn btn-success">     Dashboard      </a>
+    <br><br>
+        </div>
+        
+  </div>
+  {% else %}
+ 
     <div class="row">
         <aside class="col-sm-6 centered" style="display:flex;">
             <div class="card">  
@@ -51,10 +79,10 @@
             <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
-                <i class="fa fa-credit-card"></i> Credit Card</a></li>
+                <i class="fa fa-credit-card-alt"></i> Credit Card</a></li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
-                <i class="fab fa-paypal"></i>  Paypal</a></li>
+                <i class="fa fa-paypal"></i>  Paypal</a></li>
               <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#nav-tab-bank">
                 <i class="fa fa-university"></i>  Amazon Pay</a></li> -->
@@ -68,11 +96,13 @@
                 <section class="container-lg">
                   <!--Example 3-->
                   <div class="cell example example3" id="example-3">
-                    <form>
+                    <form id="payment-form" action="{% url 'process_payment' %}" method="POST">
+                      {% csrf_token %}
                       <div hidden class="fieldset">
                         <input id="example3-name" value="{{ request.user.first_name }}" data-tid="elements_examples.form.name_label" class="field" type="text" placeholder="Name" required="" autocomplete="name">
                         <input id="example3-email" value="{{ request.user.email }}" data-tid="elements_examples.form.email_label" class="field half-width" type="email" placeholder="Email" required="" autocomplete="email">
                         <input id="example3-phone" value="12345" data-tid="elements_examples.form.phone_label" class="field half-width" type="tel" placeholder="Phone" required="" autocomplete="tel">
+                        <input name="gateway" type="text" hidden value="ST">
                       </div>
                       <div class="fieldset">
                         <div id="example3-card-number" class="field empty"></div>
@@ -105,12 +135,19 @@
               </form>
             </div> <!-- tab-pane.// -->
             <div class="tab-pane fade" id="nav-tab-paypal">
-            <p>Paypal is easiest way to pay online</p>
-            <p>
-            <button id="paymentCreate" type="button" class="btn btn-success"> <i class="fab fa-paypal"></i> Pay via my Paypal </button>
-            </p>
-            <p class="text-justify"><strong>Note:</strong> You will be directed to Paypal to confirm payment. </p>
-            </div>
+                <maino>
+                
+                    <section class="container-lg">
+                      <!--Example 3-->
+                      <br>
+                      <div class="cell example example3" id="example-3">
+                        <p class="text-white">You you will directed to the PAYPAL to confirm payment.</p>
+                        <br>
+                    <div class="fieldset" style="width:100%;"><button id="paymentCreate" style="width:100%;" type="submit" data-tid="elements_examples.form.pay_button">Pay {{order.total}} AUD</button></div>
+                    <br>
+                  </section>
+                  </maino>
+                </div>
             <div class="tab-pane fade" id="nav-tab-bank">
             <p>Bank accaunt details</p>
             <dl class="param">
@@ -137,6 +174,6 @@
       
     </div>
 
-  
+  {% endif %}
   </div>
 {% endblock %}

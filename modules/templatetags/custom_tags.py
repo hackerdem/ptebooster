@@ -23,9 +23,9 @@ def to_int(value):
 
 @register.filter
 def id_check(user):
-    current_user = User.objects.get(email__iexact=user)
+    current_user = User.objects.get(email__exact=user.email)
     user_type = current_user.user_type
-    user_membership = Membership.objects.get(member_type__iexact=user_type)
+    user_membership = Membership.objects.get(member_type__exact=user_type)
     return int(user_membership.presedence)
 
 @register.simple_tag

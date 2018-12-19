@@ -28,7 +28,7 @@ class ModelAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionSection)
 class QuestionSectionAdmin(admin.ModelAdmin):
-    list_display = ['question_type']
+    list_display = ['question_type','description']
     
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):

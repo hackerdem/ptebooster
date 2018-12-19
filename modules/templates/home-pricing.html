@@ -4,8 +4,10 @@
     <div class="container">
       <div class="section-title text-center">
 
-        <h2>Meet With Price</h2>
-        <p class="separator">Integer cursus bibendum augue ac cursus .</p>
+        <h2>Membership Options</h2>
+        <!--  class separator to make all first letters capitalize-->
+        <p class=" text-justify">PteKEY has a variety of membership options for you. The best way is to sign up 
+          with a free account and give it a try. If you like it and if you need to practice more, then you can try other membership options.</p>
 
       </div>
     </div>
@@ -41,7 +43,7 @@
                 {% endif %}
                 {% else %}
                 {% if request.user.is_authenticated %}
-                {% if request.user|id_check > membership_type.presedence%}
+                {% if request.user|id_check > membership_type.presedence %}
                 <button href="#prising" class="btn btn-danger"><i class="fa fa-window-close-o"></i> Nop!</button>
                 {% elif request.user|id_check == membership_type.presedence %}
                 <form  action="{% url 'new_order' %}" method="get" >

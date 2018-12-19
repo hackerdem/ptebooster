@@ -11,3 +11,14 @@ ORDER_ERROR_1 = 'An error has been detected when processing your order summary. 
 
 CONTACT_FORM_ERROR = 'There has been an error when processing your message. Please try it later, if problem persists, please email us directly.'
 
+PAYMENT_SUCCESS = 'Payment has been processed successfully.'
+
+PAYMENT_ERROR_1 = 'There has been an error while processing your payment order, please try to make your payment later \
+                    If problem persists please contact with us.'
+
+
+STRIPE_CODE_ERROR_1 = 'There has been an error while processing your payment order, please try to make your payment later \
+                    If problem persists please contact with us.'
+
+PAYPAL_GATEWAY_ERROR_1 = 'There has been an error while processing your payment order, please try to make your payment later \
+                    If problem persists please contact with us.'

@@ -13,7 +13,7 @@ class QuestionSection(models.Model):
 
     question_type = models.CharField(primary_key=True, choices=SECTIONS ,max_length=15)
     module_image = models.ImageField(upload_to='ptebooster/media/section/images',default='ptebooster/media/images/module_default.png')
-
+    description = models.TextField(max_length=300,blank=True,null=True)
     objects = models.Manager()
 
     class Meta:
